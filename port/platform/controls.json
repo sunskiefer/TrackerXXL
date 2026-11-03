@@ -1,0 +1,84 @@
+{
+  "_doc": "TrackerXXL control set: the single source of the plugin's host-visible parameters (tools/gen_controls.py writes params.json and build/ctl_table.h from this file). Order = VST parameter index: APPEND ONLY, never reorder. 'fw' names the firmware button enum in core/interface/core/interfaceDefs.h (mtInterfaceButtonsFunctions); the index is the value of that enum. A 'trigger' is a tap (press, auto-release after tap_ms); a 'latch' stays pressed while the host value is above 0.5 (modifiers such as SHIFT).",
+  "tap_ms": 60,
+  "pad_note_base": 36,
+  "pad_note_count": 16,
+  "sections": [
+    {"label": "DATA WHEEL", "controls": [
+      {"key": "wheel", "name": "DATA WHEEL", "type": "relative", "clicks_per_unit": 100,
+       "doc": "MPC data wheel on this control -> firmware encoder (onPotChange(0, clicks)): scrolls the selected row/list and changes the selected value. Endless: the value re-centres to 0.5 when it reaches an end."},
+      {"key": "wheel_up", "name": "WHEEL +1", "type": "clicks", "clicks": 1, "doc": "one encoder click forward (always works, no end stop)"},
+      {"key": "wheel_down", "name": "WHEEL -1", "type": "clicks", "clicks": -1, "doc": "one encoder click back"}
+    ]},
+    {"label": "Q-LINKS", "controls": [
+      {"key": "ql1", "name": "QL1 VALUE", "type": "relative", "clicks_per_unit": 128, "role": "value_fine",
+       "doc": "Q-Link 1: changes the focused (selected) value, one encoder click per Q-Link event"},
+      {"key": "ql2", "name": "QL2 COARSE", "type": "relative", "clicks_per_unit": 512, "role": "value_coarse",
+       "doc": "Q-Link 2: changes the focused value 4 clicks per Q-Link event (the firmware's encoder acceleration makes this a coarse sweep)"},
+      {"key": "ql3", "name": "QL3 FOCUS H", "type": "relative", "clicks_per_unit": 24, "role": "focus_h", "pos_button": "cur_right", "neg_button": "cur_left",
+       "doc": "Q-Link 3: moves the focus horizontally (cursor right / left)"},
+      {"key": "ql4", "name": "QL4 FOCUS V", "type": "relative", "clicks_per_unit": 24, "role": "focus_v", "pos_button": "cur_down", "neg_button": "cur_up",
+       "doc": "Q-Link 4: moves the focus vertically (cursor down / up)"}
+    ]},
+    {"label": "BOTTOM BUTTONS", "controls": [
+      {"key": "btn1", "name": "BTN 1", "type": "button", "kind": "trigger", "fw": "interfaceButton0", "index": 0},
+      {"key": "btn2", "name": "BTN 2", "type": "button", "kind": "trigger", "fw": "interfaceButton1", "index": 1},
+      {"key": "btn3", "name": "BTN 3", "type": "button", "kind": "trigger", "fw": "interfaceButton2", "index": 2},
+      {"key": "btn4", "name": "BTN 4", "type": "button", "kind": "trigger", "fw": "interfaceButton3", "index": 3},
+      {"key": "btn5", "name": "BTN 5", "type": "button", "kind": "trigger", "fw": "interfaceButton4", "index": 4},
+      {"key": "btn6", "name": "BTN 6", "type": "button", "kind": "trigger", "fw": "interfaceButton5", "index": 5},
+      {"key": "btn7", "name": "BTN 7", "type": "button", "kind": "trigger", "fw": "interfaceButton6", "index": 6},
+      {"key": "btn8", "name": "BTN 8", "type": "button", "kind": "trigger", "fw": "interfaceButton7", "index": 7}
+    ]},
+    {"label": "CURSOR + TRANSPORT", "controls": [
+      {"key": "cur_up", "name": "UP", "type": "button", "kind": "trigger", "fw": "interfaceButtonUp", "index": 26},
+      {"key": "cur_down", "name": "DOWN", "type": "button", "kind": "trigger", "fw": "interfaceButtonDown", "index": 31},
+      {"key": "cur_left", "name": "LEFT", "type": "button", "kind": "trigger", "fw": "interfaceButtonLeft", "index": 30},
+      {"key": "cur_right", "name": "RIGHT", "type": "button", "kind": "trigger", "fw": "interfaceButtonRight", "index": 32},
+      {"key": "play", "name": "PLAY", "type": "button", "kind": "trigger", "fw": "interfaceButtonPlay", "index": 23,
+       "doc": "firmware PLAY: toggles play/stop of the pattern (functPlayAction)"},
+      {"key": "stop", "name": "STOP", "type": "virtual", "action": "stop",
+       "doc": "the firmware has no STOP key: this presses PLAY only while the sequencer is playing"},
+      {"key": "shift", "name": "SHIFT", "type": "button", "kind": "latch", "fw": "interfaceButtonShift", "index": 29,
+       "doc": "held while the host value is on (modifier)"},
+      {"key": "edit", "name": "EDIT", "type": "button", "kind": "trigger", "fw": "interfaceButtonRec", "index": 28,
+       "doc": "the firmware's REC key = edit/record mode"},
+      {"key": "copy", "name": "COPY", "type": "button", "kind": "trigger", "fw": "interfaceButtonCopy", "index": 24},
+      {"key": "insert", "name": "INSERT", "type": "button", "kind": "trigger", "fw": "interfaceButtonInsert", "index": 25},
+      {"key": "delete", "name": "DELETE", "type": "button", "kind": "trigger", "fw": "interfaceButtonDelete", "index": 27}
+    ]},
+    {"label": "SCREENS", "controls": [
+      {"key": "scr_params", "name": "PARAMS", "type": "button", "kind": "trigger", "fw": "interfaceButtonParams", "index": 8},
+      {"key": "scr_perf", "name": "PERFORM", "type": "button", "kind": "trigger", "fw": "interfaceButtonPerformance", "index": 9},
+      {"key": "scr_file", "name": "FILE", "type": "button", "kind": "trigger", "fw": "interfaceButtonFile", "index": 10},
+      {"key": "scr_config", "name": "CONFIG", "type": "button", "kind": "trigger", "fw": "interfaceButtonConfig", "index": 11},
+      {"key": "scr_master", "name": "MASTER", "type": "button", "kind": "trigger", "fw": "interfaceButtonMaster", "index": 12},
+      {"key": "scr_sload", "name": "SAMPLE LOAD", "type": "button", "kind": "trigger", "fw": "interfaceButtonSampleLoad", "index": 13},
+      {"key": "scr_splay", "name": "SAMPLE PLAY", "type": "button", "kind": "trigger", "fw": "interfaceButtonSamplePlay", "index": 14},
+      {"key": "scr_sedit", "name": "SAMPLE EDIT", "type": "button", "kind": "trigger", "fw": "interfaceButtonSampleEdit", "index": 15},
+      {"key": "scr_srec", "name": "SAMPLE REC", "type": "button", "kind": "trigger", "fw": "interfaceButtonSampleRec", "index": 16},
+      {"key": "scr_song", "name": "SONG", "type": "button", "kind": "trigger", "fw": "interfaceButtonSong", "index": 17},
+      {"key": "scr_note", "name": "NOTE", "type": "button", "kind": "trigger", "fw": "interfaceButtonNote", "index": 18},
+      {"key": "scr_instr", "name": "INSTRUMENT", "type": "button", "kind": "trigger", "fw": "interfaceButtonInstr", "index": 19},
+      {"key": "scr_vol", "name": "VOLUME", "type": "button", "kind": "trigger", "fw": "interfaceButtonVol", "index": 20},
+      {"key": "scr_fx", "name": "FX", "type": "button", "kind": "trigger", "fw": "interfaceButtonFx", "index": 21},
+      {"key": "scr_pattern", "name": "PATTERN", "type": "button", "kind": "trigger", "fw": "interfaceButtonPattern", "index": 22}
+    ]},
+    {"label": "PADS", "controls": [
+      {"key": "pad1", "name": "PAD 1", "type": "pad", "n": 0}, {"key": "pad2", "name": "PAD 2", "type": "pad", "n": 1},
+      {"key": "pad3", "name": "PAD 3", "type": "pad", "n": 2}, {"key": "pad4", "name": "PAD 4", "type": "pad", "n": 3},
+      {"key": "pad5", "name": "PAD 5", "type": "pad", "n": 4}, {"key": "pad6", "name": "PAD 6", "type": "pad", "n": 5},
+      {"key": "pad7", "name": "PAD 7", "type": "pad", "n": 6}, {"key": "pad8", "name": "PAD 8", "type": "pad", "n": 7},
+      {"key": "pad9", "name": "PAD 9", "type": "pad", "n": 8}, {"key": "pad10", "name": "PAD 10", "type": "pad", "n": 9},
+      {"key": "pad11", "name": "PAD 11", "type": "pad", "n": 10}, {"key": "pad12", "name": "PAD 12", "type": "pad", "n": 11},
+      {"key": "pad13", "name": "PAD 13", "type": "pad", "n": 12}, {"key": "pad14", "name": "PAD 14", "type": "pad", "n": 13},
+      {"key": "pad15", "name": "PAD 15", "type": "pad", "n": 14}, {"key": "pad16", "name": "PAD 16", "type": "pad", "n": 15}
+    ]},
+    {"label": "OPTIONS", "controls": [
+      {"key": "pad_cols", "name": "PAD COLUMNS", "type": "option", "action": "pad_cols", "options": ["1-4", "5-8", "9-12"], "default": 0,
+       "doc": "the 16 host pads are a 4x4 window of the firmware's 4x12 pad grid: which 4 columns. MPC pad k (0 = bottom-left) -> firmware row 3-(k/4), column PAD COLUMNS*4 + k%4"},
+      {"key": "host_sync", "name": "HOST SYNC", "type": "option", "action": "host_sync", "options": ["OFF", "ON"], "default": 1,
+       "doc": "ON: the firmware sequencer follows MPC's transport, tempo and song position (MIDI-clock path, config clock/transport input forced to USB). OFF: the firmware's own clock and PLAY."}
+    ]}
+  ]
+}

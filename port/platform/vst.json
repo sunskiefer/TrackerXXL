@@ -1,0 +1,15 @@
+{
+  "name": "TrackerXXL",
+  "vendor": "L'Cronx",
+  "uid": "TrXL",
+  "version": 1000,
+  "so": "trackerxxl.so",
+  "params": "params.json",
+  "cc": false,
+  "nrpn": false,
+  "defines": {
+    "HAS_SONG_POS": 1,
+    "MODULE_DIR": "\"/sdcard/TrackerXXL\"",
+    "MODULE_SUBDIR": "\"TrackerXXL\""
+  }
+}

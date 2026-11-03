@@ -1,0 +1,5 @@
+TrackerXXL is distributed under the LXR02 Open-Source licence (full text: licenses/LXR02-Open-Source.txt):
+free to use, NOT for sale or commercial use, and every binary distribution must come with its complete source.
+
+Components keep their own licences, listed in NOTICE.md and stored in licenses/.
+Polyend core: MIT plus Polyend's Part 2 clone restriction (licenses/POLYEND-LICENSE.txt).

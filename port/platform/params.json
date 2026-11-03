@@ -1,0 +1,569 @@
+{
+ "params": [
+  {
+   "key": "wheel",
+   "name": "DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "wheel_up",
+   "name": "WHEEL +1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wheel_down",
+   "name": "WHEEL -1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "ql1",
+   "name": "QL1 VALUE",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "ql2",
+   "name": "QL2 COARSE",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "ql3",
+   "name": "QL3 FOCUS H",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "ql4",
+   "name": "QL4 FOCUS V",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "btn1",
+   "name": "BTN 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn2",
+   "name": "BTN 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn3",
+   "name": "BTN 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn4",
+   "name": "BTN 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn5",
+   "name": "BTN 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn6",
+   "name": "BTN 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn7",
+   "name": "BTN 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "btn8",
+   "name": "BTN 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "cur_up",
+   "name": "UP",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "cur_down",
+   "name": "DOWN",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "cur_left",
+   "name": "LEFT",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "cur_right",
+   "name": "RIGHT",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "play",
+   "name": "PLAY",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "stop",
+   "name": "STOP",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "shift",
+   "name": "SHIFT",
+   "min": 0,
+   "max": 1,
+   "default": 0
+  },
+  {
+   "key": "edit",
+   "name": "EDIT",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "copy",
+   "name": "COPY",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "insert",
+   "name": "INSERT",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "delete",
+   "name": "DELETE",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_params",
+   "name": "PARAMS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_perf",
+   "name": "PERFORM",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_file",
+   "name": "FILE",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_config",
+   "name": "CONFIG",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_master",
+   "name": "MASTER",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_sload",
+   "name": "SAMPLE LOAD",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_splay",
+   "name": "SAMPLE PLAY",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_sedit",
+   "name": "SAMPLE EDIT",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_srec",
+   "name": "SAMPLE REC",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_song",
+   "name": "SONG",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_note",
+   "name": "NOTE",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_instr",
+   "name": "INSTRUMENT",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_vol",
+   "name": "VOLUME",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_fx",
+   "name": "FX",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "scr_pattern",
+   "name": "PATTERN",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad1",
+   "name": "PAD 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad2",
+   "name": "PAD 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad3",
+   "name": "PAD 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad4",
+   "name": "PAD 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad5",
+   "name": "PAD 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad6",
+   "name": "PAD 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad7",
+   "name": "PAD 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad8",
+   "name": "PAD 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad9",
+   "name": "PAD 9",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad10",
+   "name": "PAD 10",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad11",
+   "name": "PAD 11",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad12",
+   "name": "PAD 12",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad13",
+   "name": "PAD 13",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad14",
+   "name": "PAD 14",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad15",
+   "name": "PAD 15",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad16",
+   "name": "PAD 16",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "pad_cols",
+   "name": "PAD COLUMNS",
+   "options": [
+    "1-4",
+    "5-8",
+    "9-12"
+   ],
+   "default": 0
+  },
+  {
+   "key": "host_sync",
+   "name": "HOST SYNC",
+   "options": [
+    "OFF",
+    "ON"
+   ],
+   "default": 1
+  }
+ ],
+ "sections": [
+  {
+   "label": "DATA WHEEL",
+   "keys": [
+    "wheel",
+    "wheel_up",
+    "wheel_down"
+   ]
+  },
+  {
+   "label": "Q-LINKS",
+   "keys": [
+    "ql1",
+    "ql2",
+    "ql3",
+    "ql4"
+   ]
+  },
+  {
+   "label": "BOTTOM BUTTONS",
+   "keys": [
+    "btn1",
+    "btn2",
+    "btn3",
+    "btn4",
+    "btn5",
+    "btn6",
+    "btn7",
+    "btn8"
+   ]
+  },
+  {
+   "label": "CURSOR + TRANSPORT",
+   "keys": [
+    "cur_up",
+    "cur_down",
+    "cur_left",
+    "cur_right",
+    "play",
+    "stop",
+    "shift",
+    "edit",
+    "copy",
+    "insert",
+    "delete"
+   ]
+  },
+  {
+   "label": "SCREENS",
+   "keys": [
+    "scr_params",
+    "scr_perf",
+    "scr_file",
+    "scr_config",
+    "scr_master",
+    "scr_sload",
+    "scr_splay",
+    "scr_sedit",
+    "scr_srec",
+    "scr_song",
+    "scr_note",
+    "scr_instr",
+    "scr_vol",
+    "scr_fx",
+    "scr_pattern"
+   ]
+  },
+  {
+   "label": "PADS",
+   "keys": [
+    "pad1",
+    "pad2",
+    "pad3",
+    "pad4",
+    "pad5",
+    "pad6",
+    "pad7",
+    "pad8",
+    "pad9",
+    "pad10",
+    "pad11",
+    "pad12",
+    "pad13",
+    "pad14",
+    "pad15",
+    "pad16"
+   ]
+  },
+  {
+   "label": "OPTIONS",
+   "keys": [
+    "pad_cols",
+    "host_sync"
+   ]
+  }
+ ]
+}
