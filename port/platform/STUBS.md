@@ -42,7 +42,7 @@ no-op/constant. Nothing here has run on a Force yet.
 
 ## Firmware-level deviations (all in generated/adjusted copies, core/ itself is untouched by the platform work)
 * `source/Tracker.cpp` is used as a generated copy (`build/gen/Tracker.cpp`, sed in build.sh): the four external-RAM arrays (sample 11.25 MB, delay, reverb, scratch) are pinned to `.bss.xxl_*` instead of MCU linker sections (they would be PROGBITS and add 13.6 MB to the .so), and `kAudioSampleRate` is 44100 instead of the MK66's 44117.647 (the host runs 44.1 kHz exactly).
-* Built as the original **Tracker (MK66-class) configuration**: no `PLATFORM_IMX`, no `FEATURE_SYNTH` (the Tracker+ synth engine is the proprietary prebuilt `libPolySynth.a` for Cortex-M7: it cannot run on ARMv7-A), no `KINETISK` (the DSP inline-asm paths are Cortex-M; the portable C paths are used). Sample memory is therefore the MK66's 11.25 MB, mono. The Tracker+ configuration (60 MB, stereo samples) needs everything under `#ifdef PLATFORM_IMX` to compile and is a follow-up.
+* Built as the **Tracker+ configuration** (`PLATFORM_IMX` + `FEATURE_SYNTH`). The Tracker+ synth engine of the real hardware is Polyend's proprietary prebuilt `libPolySynth.a` (Cortex-M7); it is **not** in this repository and **not** linked, see the next point.
 
 ## Tracker+ configuration (port/synth) -- supersedes the "Built as the original Tracker" bullet above
 * Built as **Tracker+**: `-DPLATFORM_IMX -DFEATURE_SYNTH -DFMT_HEADER_ONLY`, `-std=gnu++20` (16 tracks, 60 MB stereo sample memory in `.bss`, synth parts). No i.MX hardware code runs: everything under `PLATFORM_IMX` compiles and links against this Platform; hardware-only drivers are the same stubs as before.
