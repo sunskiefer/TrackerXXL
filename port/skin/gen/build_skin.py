@@ -78,7 +78,7 @@ for r, row in enumerate(CTRL_ROWS):
         S.button(key, x, y, cw, chh, name="ctl %s" % key)
         controls.append(model.Widget(id="controls.%s" % key, screen="controls", type="button", x=x, y=y, w=cw, h=chh, label=label.replace("\n", " "), live="", px=36, parameter=key))
 page2 = S.kids
-S.pages = [page1, page2]
+S.pages = [page1, page2] if os.environ.get('TXL_CONTROLS_PAGE', '0') == '1' else [page1]   # 0.1.4: off until a Force confirms a second tab loads
 S.kids = page1
 for q in range(1, 5): S.qlink_anchor("ql%d" % q, 4 + (q - 1) * 300, 2, 290, 32)   # Q-Links 1-4 carry the focused parameter
 nbytes = S.write(["ql1", "ql2", "ql3", "ql4"])

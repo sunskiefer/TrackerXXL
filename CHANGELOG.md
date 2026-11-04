@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.4 (2026-11-04) - pre-release
+- 0.1.2/0.1.3 took the whole Force down when the plugin loaded. The two things added since the version that loaded (0.1.1) are switched off again: the second skin page (CONTROLS) and the never-unload link flag. Build switches: `TXL_CONTROLS_PAGE=1` for the page, `NODELETE=1` for the link flag. The Play/Stop fallback and the pad modes stay.
+- Back again: deleting a track that holds TrackerXXL crashed the Force in 0.1.1; that is not fixed in this build.
+
 ## 0.1.3 (2026-11-04) - pre-release
 - Deleting a track that holds TrackerXXL took the whole MPC down ("recovered from internal error"). Likely cause: MPC unloads the plugin library while the firmware's threads still run inside it. The library is now linked so it is never unloaded (`-z nodelete`). Not yet confirmed on a Force.
 
