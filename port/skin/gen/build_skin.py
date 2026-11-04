@@ -49,6 +49,37 @@ for i in range(8):
     S.button("btn%d" % (i + 1), i * bw, C.CANVAS_H - 44, bw, 44, name="bottom %d" % (i + 1))
     controls.append(model.Widget(id="bottom.%d" % i, screen="all", type="button", x=i * bw, y=C.CANVAS_H - 44, w=bw, h=44,
                                  label="F%d" % (i + 1), live="", px=26, parameter="btn%d" % (i + 1)))
+
+# ---- page 2: CONTROLS (touch buttons for everything the Tracker's panel has and the skin did not draw; placement = layout.csv, screen "controls")
+from PIL import Image, ImageDraw, ImageFont
+page1 = S.kids
+S.kids = []
+FONT = os.path.join(C.PORT, "platform", "third_party", "mpc-vst-plugins", "tools", "html_art", "fonts", "TitilliumWeb-SemiBold.ttf")
+CTRL_ROWS = [
+    [("btn%d" % k, "BTN %d" % k) for k in range(1, 9)],
+    [("scr_params", "PARAMS"), ("scr_perf", "PERFORM"), ("scr_file", "FILE"), ("scr_config", "CONFIG"), ("scr_master", "MASTER"), ("scr_sload", "SAMPLE\nLOAD"), ("scr_splay", "SAMPLE\nPLAY"), ("scr_sedit", "SAMPLE\nEDIT")],
+    [("scr_srec", "SAMPLE\nREC"), ("scr_song", "SONG"), ("scr_note", "NOTE"), ("scr_instr", "INSTR"), ("scr_vol", "VOLUME"), ("scr_fx", "FX"), ("scr_pattern", "PATTERN"), ("pad_mode_btn", "")],
+    [("cur_up", "UP"), ("cur_down", "DOWN"), ("cur_left", "LEFT"), ("cur_right", "RIGHT"), ("play", "PLAY"), ("stop", "STOP"), ("shift", "SHIFT"), ("edit", "EDIT")],
+    [("copy", "COPY"), ("insert", "INSERT"), ("delete", "DELETE"), ("wheel_down", "WHEEL -"), ("wheel_up", "WHEEL +"), ("", ""), ("", ""), ("", "")],
+]
+cw, chh, gap = 154, 112, 6
+for r, row in enumerate(CTRL_ROWS):
+    for c, (key, label) in enumerate(row):
+        if not key or key not in P.index:
+            continue
+        x, y = 4 + c * (cw + gap), 4 + r * (chh + gap)
+        im = Image.new("RGBA", (cw, chh), (22, 22, 22, 255))
+        d = ImageDraw.Draw(im)
+        d.rectangle((0, 0, cw - 1, chh - 1), outline=(96, 96, 96, 255), width=2)
+        f = ImageFont.truetype(FONT, 36)
+        d.multiline_text((cw // 2, chh // 2), label, font=f, fill=(235, 235, 235, 255), anchor="mm", align="center", spacing=2)
+        png = S.save_png("ctl_%s.png" % key, im)
+        S.image(png, x, y, cw, chh, name="ctl plate %s" % key)
+        S.button(key, x, y, cw, chh, name="ctl %s" % key)
+        controls.append(model.Widget(id="controls.%s" % key, screen="controls", type="button", x=x, y=y, w=cw, h=chh, label=label.replace("\n", " "), live="", px=36, parameter=key))
+page2 = S.kids
+S.pages = [page1, page2]
+S.kids = page1
 for q in range(1, 5): S.qlink_anchor("ql%d" % q, 4 + (q - 1) * 300, 2, 290, 32)   # Q-Links 1-4 carry the focused parameter
 nbytes = S.write(["ql1", "ql2", "ql3", "ql4"])
 

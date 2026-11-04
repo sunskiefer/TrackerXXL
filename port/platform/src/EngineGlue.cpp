@@ -30,6 +30,7 @@ struct Inst
     int nRecentre = 0;
     int padCols = 0;
     int hostSync = 1;
+    double lastBpm = 0, fbPulse = 0;   /* play/stop fallback when the host gives no position */
     bool wasPlaying = false;
     double expectedPpq = 0;
     int64_t nextPulse = 0;
@@ -287,7 +288,21 @@ void eng_song_pos(void* p, double ppq, double bpm, int playing, int frames)
 {
     Inst* in = (Inst*)p;
     if (!in->owner || !xxl::ready()) return;
-    if (!in->hostSync || ppq < 0.0) { in->wasPlaying = false; return; }
+    if (bpm > 0.0) in->lastBpm = bpm;
+    if (!in->hostSync) { in->wasPlaying = false; return; }
+    if (ppq < 0.0)   /* the host gave no position or tempo: follow its play flag alone (Start / Stop) and make the clock at the last known tempo (120 until one is seen) */
+    {
+        const double bp = in->lastBpm > 0.0 ? in->lastBpm : 120.0;
+        if (playing)
+        {
+            if (!in->wasPlaying) { xxl::midiToFirmware(0xFA, 0, 0); in->fbPulse = 0; in->wasPlaying = true; }
+            in->fbPulse += (double)frames * bp / 60.0 / 44100.0 * 24.0;
+            int guard = 0;
+            while (in->fbPulse >= 1.0 && guard++ < 16) { xxl::midiToFirmware(0xF8, 0, 0); in->fbPulse -= 1.0; }
+        }
+        else if (in->wasPlaying) { xxl::midiToFirmware(0xFC, 0, 0); in->wasPlaying = false; }
+        return;
+    }
     if (playing)
     {
         const double end = ppq + (double)frames * bpm / 60.0 / 44100.0;

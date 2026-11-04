@@ -4,7 +4,7 @@ only the way they are assembled differs (no layout.conf / art renderer: every im
 All coordinates are canvas pixels (1280 x 628), y from the top of the plugin area."""
 import os, sys, json
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "..", "..", "zynth", "third_party", "mpc-vst-plugins", "tools"))
-sys.path.insert(0, os.path.join(os.environ.get("MPC_VST", os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "platform", "third_party", "mpc-vst-plugins")), "tools"))
+sys.path.insert(0, "/root/work/zynth/third_party/mpc-vst-plugins/tools")
 import shadow_skin as SS
 from PIL import Image
 
@@ -140,6 +140,17 @@ class Skin:
         self.defs[comp] = page
         tabs = [{"version": 3, "tabName": "TRACKER", "fnKeyIndex": 0, "fnKeySubIndex": 0, "qlinkBoundsData": ["0 0 0 0"],
                  "componentName": comp, "initialSize": "0 0 %d %d" % (1280, 628), "scale": 1.0}]
+        pages = getattr(self, "pages", None)
+        if pages and len(pages) > 1:      # page 2: CONTROLS (touch buttons); page 1 keeps the Q-Link anchors added after this was set up
+            comp2 = "TrackerXXL|CONTROLS"
+            page2 = {"key": comp2, "value": {
+                "version": 4, "actions": [],
+                "backgroundData": {"version": 1, "focussed": clear, "unfocussed": dict(clear)},
+                "ignoreMousePresses": False, "disableCoarseDataWheel": False, "repeats": 1, "hideQLinkBounds": True,
+                "componentsData": pages[1]}}
+            self.defs[comp2] = page2
+            tabs.append({"version": 3, "tabName": "CONTROLS", "fnKeyIndex": 1, "fnKeySubIndex": 0, "qlinkBoundsData": ["0 0 0 0"],
+                         "componentName": comp2, "initialSize": "0 0 %d %d" % (1280, 628), "scale": 1.0})
         comps = list(self.defs.values())   # SS._local() entries are already {"key":..,"value":..}
         tui = {"pageData": {"version": 1,
                             "componentDefinitions": {"version": 2, "importFiles": [AKAI + "Generic/Generic Knob Overlay.json",
@@ -150,6 +161,8 @@ class Skin:
         for s, k in enumerate(qlinks):
             ql["Q-Link %d" % SS.qlink_for_slot(s)] = self.P.index[k]
         qmap = [{"Tab": 1, "SubTab": 1, "Bank Direction": "Column", "Q-Links": ql}]
+        if pages and len(pages) > 1:
+            qmap.append({"Tab": 2, "SubTab": 1, "Bank Direction": "Column", "Q-Links": {"Q-Link %d" % (q + 1): -1 for q in range(16)}})
         qj = {"version": 4, "info": {"version": 1, "type": "CompleteDescription"},
               "Screen Mode Q-Links": {"version": 4, "map": qmap}, "Program Mode Q-Links": dict(qmap[0]["Q-Links"])}
         text = json.dumps(tui, separators=(",", ":"))
