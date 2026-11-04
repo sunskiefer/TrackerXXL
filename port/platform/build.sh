@@ -83,7 +83,7 @@ $ZIG cc $TGT -O2 -fPIC -fvisibility=hidden -ffunction-sections -fdata-sections -
 # 4. link: only VSTPluginMain is exported; every symbol must resolve
 printf '{\n  global: VSTPluginMain;\n  local: *;\n};\n' > build/arm/exports.map
 STRIP_FLAG="-Wl,-s"; [ "${NOSTRIP:-0}" = 1 ] && STRIP_FLAG=""
-$ZIG c++ $TGT -shared -fPIC -Wl,--no-undefined -Wl,--version-script=build/arm/exports.map -Wl,--gc-sections $STRIP_FLAG \
+$ZIG c++ $TGT -shared -fPIC -Wl,--no-undefined -Wl,-z,nodelete -Wl,--version-script=build/arm/exports.map -Wl,--gc-sections $STRIP_FLAG \
     "${OBJS[@]}" "$WRAP_O" "$VOICES_A" -lm -ldl -lpthread -o build/arm/trackerxxl.so
 ls -l build/arm/trackerxxl.so
 echo "OK: build/arm/trackerxxl.so  (package folder name: $NAME)"

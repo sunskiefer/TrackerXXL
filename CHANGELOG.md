@@ -1,5 +1,8 @@
 # Changelog
 
+## 0.1.3 (2026-11-04) - pre-release
+- Deleting a track that holds TrackerXXL took the whole MPC down ("recovered from internal error"). Likely cause: MPC unloads the plugin library while the firmware's threads still run inside it. The library is now linked so it is never unloaded (`-z nodelete`). Not yet confirmed on a Force.
+
 ## 0.1.2 (2026-11-04) - pre-release, first look at a Force screen
 - New CONTROLS page (second skin tab): touch buttons for BTN 1-8, the 15 screen buttons, cursor, play/stop, shift, edit, copy, insert, delete and wheel +/-. Switch pages with the Force's page buttons, so Song, Sample, Instrument, File and the other screens can be reached.
 - Play/Stop: when the host gives no valid song position or tempo, HOST SYNC now follows the host's play flag alone (MIDI Start/Stop plus a clock at the last known tempo, 120 until one is seen). Not yet confirmed on a Force.
