@@ -32,3 +32,7 @@ Partial / not done: cMultiLabel (performance mode), cHorizontalBar, cHorizontalT
 Untested: whether MPC refreshes label text on Automate alone (fallback: drop DISPLAY_REV_NO_UPDATE), the 7.5k-widget budget on a Force, key-emulated touch, rate limiting (33 ms), the handle mapping on real firmware. DRM overlay stays the last-resort fallback.
 - PL9: port/platform/src/EngineGlue.cpp: eng_set_param/eng_get_param call xxl_scene::set/get first (screen bridge hook).
 - PL10 (synth): Tracker+ configuration enabled (PLATFORM_IMX + FEATURE_SYNTH, gnu++20). Open polysynth implementation in port/synth backed by port/voices; the proprietary libPolySynth.a/libPolyDSP.a are never linked. 26 instrument types (19 synth voices, 6 drum voices, CHIP). Linked trackerxxl.so: 0 unresolved symbols, exports only VSTPluginMain. Not run anywhere (no emulator/Force); see port/synth/README.md and port/platform/STUBS.md.
+
+
+## PL10 - Force 64-pad modes (0.1.1)
+EngineGlue.cpp: MIDI notes 36-99 are the Force pads (layout assumed, unverified on a Force). `pad_mode` option (PLAY/CONTROL); pad note 43 toggles it. PLAY maps to firmware pad index `(3-row)*12+col` (rows 0-3 columns 0-7, rows 4-7 columns 4-11). CONTROL uses the fixed table `kCtlPad` (buttons, screens, cursor, transport, shift as hold, wheel +/-1). Held pads are released on a mode change. Pad lights are not driven.

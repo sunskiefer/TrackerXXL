@@ -75,7 +75,7 @@ Files
 | `copy`, `insert`, `delete` | 24, 25, 27 |
 | `scr_*` (15) | the screen buttons 8..22: PARAMS, PERFORM, FILE, CONFIG, MASTER, SAMPLE LOAD/PLAY/EDIT/REC, SONG, NOTE, INSTRUMENT, VOLUME, FX, PATTERN |
 | `pad1`..`pad16` + `pad_cols` | 16 pad triggers = a 4x4 window of the firmware's 4x12 grid (pad k, 0 = bottom-left: row `3-k/4`, column `pad_cols*4 + k%4`, row 0 top). Triggers press for 60 ms |
-| MIDI notes 36..51 | the same 16 pads with real press/release (note on / note off); every other note and CC goes to the firmware's MIDI input (`handleUsbNoteOn/Off/ControlChange`, so the firmware's own Config -> MIDI "notes in" / channel / CC settings apply) |
+| MIDI notes 36..99 | the Force's 64 pads (assumed note layout, row by row from the bottom-left), in two fixed modes with real press/release: PLAY = pad grid (bottom 4 rows = columns 1-8, top 4 rows = columns 5-12), CONTROL = one Tracker button per pad (table in docs/USER_GUIDE.md section 2a). Pad 8 (note 43) toggles the mode; it is also the `pad_mode` option. Every other note and CC goes to the firmware's MIDI input (`handleUsbNoteOn/Off/ControlChange`, so the firmware's own Config -> MIDI "notes in" / channel / CC settings apply) |
 | `host_sync` (default ON) | `song_pos()` -> MIDI Start / Song Position + Continue / Stop / 24 ppqn Clock into the firmware's USB MIDI input, and `mtConfig.midi.clkIn/transportIn` are set to USB (user values saved and restored on OFF). The sequencer then follows MPC's play/stop/position and derives tempo from the clock, through the firmware's own external-clock code. OFF = firmware's own clock and PLAY. |
 
 Buttons are *triggers* (`momentary`): press, auto-release after 60 ms, so button *hold* callbacks (`kHold`, 500 ms) only occur for
