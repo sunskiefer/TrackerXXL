@@ -1,11 +1,11 @@
-# TrackerXXL v0.1.0
+# TrackerXXL v0.1.1
 
 **The Polyend Tracker+ on the Akai Force and MPC (MPC OS 3.x), as a VST2 plugin.** The Tracker's own sequencer, sample engine and screens, with the synth voices of
 [LXRXXL ZYNTH](https://github.com/sunskiefer/LXRXXL-ZYNTH), the bass sounds of [LXRXXL BAZZLINE](https://github.com/sunskiefer/LXRXXL-BAZZLINE) and the drums of
 [LXRXXL](https://github.com/sunskiefer/LXR02XXL) (0.5.10) in place of Polyend's closed synth engines.
 
 > [!IMPORTANT]
-> **Status: built, not yet tested on a Force.** 0.1.0 compiles and links for the Force (ARMv7, glibc 2.31), passes the catalog check and the installer
+> **Status: built, not yet tested on a Force.** 0.1.1 compiles and links for the Force (ARMv7, glibc 2.31), passes the catalog check and the installer
 > syntax checks, but **nothing has been run on a real Force yet**: no audio, no screen, no touch. It is released so it can be tried on the Force at once.
 > Please report what you see under Issues. There is no `tested.json` yet; it will be added after a device test. See [Known limits](#known-limits).
 
@@ -24,7 +24,7 @@
   - **26 instrument types:** all **19 ZYNTH voices** (ANALOG, TRIO, FM6, FM4, PHASE, WAVE, CHIP, MACRO, WHEEL, VOICE, PHYS, GRAIN, NOISE, LXR TONE,
     LXR METAL, BAZZ, DRONE, TEXTURE, FX), the **6 LXRXXL 0.5.10 drum voices** (DRUM1, DRUM2, DRUM3, SNARE, CLAP/CYMBAL, HIHAT) and Polyend's open CHIP synth.
     Each ZYNTH voice has 20 controls and starter sounds (152), plus the BAZZLINE bass bank (8) and the LXRXXL kits.
-- **Controls:** the Force's **Q-Links 1-4**, **data wheel** and **touch**, the host transport (play, stop, tempo, song position) and the 16 pads. See the
+- **Controls:** the Force's **Q-Links 1-4**, **data wheel** and **touch**, the host transport (play, stop, tempo, song position) and the Force's 64 pads in two fixed modes (play the grid / press the Tracker's buttons). See the
   [user guide](docs/USER_GUIDE.md).
 
 **The Polyend closed synth engines (ACD, FAT, VAP, WTFM, PERC, DIRT) are not in TrackerXXL**: they live in proprietary Cortex-M libraries that cannot run on the
@@ -33,7 +33,7 @@ combined with the licences below), so the drums are LXRXXL 0.5.10's.
 
 ## Install
 
-Download `TrackerXXL-0.1.0-mpc-armv7.zip` from [Releases](https://github.com/sunskiefer/TrackerXXL/releases), unzip it, and follow `INSTALL.md` inside (run
+Download `TrackerXXL-0.1.1-mpc-armv7.zip` from [Releases](https://github.com/sunskiefer/TrackerXXL/releases), unzip it, and follow `INSTALL.md` inside (run
 `install.sh` on the device as root, or copy `portable/L'Cronx - VST - TrackerXXL/` into a Synths folder yourself). Load **TrackerXXL** (L'Cronx) on a plugin
 track. Your data (projects, samples, themes, fonts) lives in the plugin folder's `TrackerXXL/` folder, which the installer keeps on upgrade.
 
@@ -86,7 +86,7 @@ ARMv7 only (the Force); there is no desktop build. Needs Zig (`pip install zigla
 ```
 python3 -I port/skin/gen/build_skin.py --views core --detail low    # skin + parameter table
 port/platform/build.sh                                              # build/arm/trackerxxl.so
-MPC_RELEASE_TOOLS=<mpc-vst-plugins @ 3845bea>/tools port/package_release.sh 0.1.0
+MPC_RELEASE_TOOLS=<mpc-vst-plugins @ 3845bea>/tools port/package_release.sh 0.1.1
 ```
 
 Support: [ko-fi.com/lcronx](https://ko-fi.com/lcronx). L'Cronx, Croydon, UK.

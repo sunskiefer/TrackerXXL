@@ -1,7 +1,7 @@
 /* TrackerXXL: the mpc_engine_t the VST2 wrapper (wrapper/vst2_wrap.c) drives. Host -> firmware mapping lives here:
  *   set_param  -> controls.json table (build/ctl_table.h): data wheel / Q-Links -> encoder clicks or cursor taps, buttons, pads,
  *                 STOP, options (PAD COLUMNS, HOST SYNC);
- *   midi       -> notes CTL_PAD_NOTE_BASE.. (16 pads) -> firmware pad grid; other notes/CC -> the firmware's MIDI input;
+ *   midi       -> notes CTL_PAD_NOTE_BASE.. (64 pads, PAD MODE PLAY/CONTROL) -> firmware pad grid / buttons; other notes/CC -> the firmware's MIDI input;
  *   song_pos   -> MIDI start / continue / stop / song position / 24 ppqn clock into the firmware's MIDI input;
  *   render     -> one Tracker::updateAudioBuffers block.
  * Threads: the wrapper serializes all of these per instance; none of them blocks on the UI thread (events go through a ring). */
@@ -33,7 +33,9 @@ struct Inst
     bool wasPlaying = false;
     double expectedPpq = 0;
     int64_t nextPulse = 0;
-    uint8_t noteDown[16] = {};
+    int padMode = 0;            /* 0 PLAY, 1 CONTROL */
+    int16_t dnKind[64] = {};    /* per held pad note: 0 none, 1 firmware pad (arg = pad index), 2 latched button (arg = control index) */
+    int16_t dnArg[64] = {};
 };
 
 int findCtl(const char* key)
@@ -44,6 +46,35 @@ int findCtl(const char* key)
 }
 
 int padIndex(int k, int cols) { return (3 - k / 4) * 12 + cols * 4 + (k & 3); }
+
+
+/* Fixed CONTROL layout of the Force's 8x8 pads: row 0 = bottom, row 7 = top; note = CTL_PAD_NOTE_BASE + row*8 + col. Pad (row 0, col 7) toggles PAD MODE in both modes. */
+const char* const kCtlPad[8][8] = {
+    { 0, 0, 0, 0, 0, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, 0, 0, 0 },
+    { 0, 0, 0, 0, 0, 0, 0, 0 },
+    { "copy", "insert", "delete", 0, 0, "wheel_down", "wheel_up", 0 },
+    { "cur_up", "cur_down", "cur_left", "cur_right", "play", "stop", "shift", "edit" },
+    { "scr_srec", "scr_song", "scr_note", "scr_instr", "scr_vol", "scr_fx", "scr_pattern", 0 },
+    { "scr_params", "scr_perf", "scr_file", "scr_config", "scr_master", "scr_sload", "scr_splay", "scr_sedit" },
+    { "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8" } };
+const int kModePad = 7;
+
+int playPadIndex(int k)   /* PLAY: bottom 4 rows = grid columns 0-7, top 4 rows = columns 4-11 (4-7 are reachable twice) */
+{
+    const int row = k / 8, col = k & 7;
+    return row < 4 ? (3 - row) * 12 + col : (3 - (row - 4)) * 12 + 4 + col;
+}
+
+void releaseHeld(Inst* in)
+{
+    for (int k = 0; k < 64; k++)
+    {
+        if (in->dnKind[k] == 1) xxl::post({ xxl::EV_PAD_RELEASE, in->dnArg[k] });
+        else if (in->dnKind[k] == 2) xxl::post({ xxl::EV_BTN_RELEASE, in->dnArg[k] });
+        in->dnKind[k] = 0;
+    }
+}
 
 void tapButton(int idx) { xxl::post({ xxl::EV_BTN_TAP, (int16_t)idx }); }
 
@@ -142,6 +173,11 @@ void eng_set_param(void* p, const char* key, const char* val)
                 in->padCols = o < 0 ? 0 : o > 2 ? 2 : o;
                 if (in->owner) xxl::setPadCols(in->padCols);
             }
+            else if (c.x == OPT_PAD_MODE)
+            {
+                const int m = o ? 1 : 0;
+                if (m != in->padMode) { releaseHeld(in); in->padMode = m; }
+            }
             else if (c.x == OPT_HOST_SYNC)
             {
                 in->hostSync = o ? 1 : 0;
@@ -193,14 +229,37 @@ void eng_midi(void* p, const uint8_t* msg, int len)
         const bool downEv = type == 0x90 && d2 > 0;
         if (downEv)
         {
-            const int idx = padIndex(k, in->padCols);
-            in->noteDown[k] = (uint8_t)(idx + 1);
-            xxl::post({ xxl::EV_PAD_PRESS, (int16_t)idx });
+            if (k == kModePad)
+            {
+                releaseHeld(in);
+                in->padMode ^= 1;
+                const int pm = findCtl("pad_mode");
+                if (pm >= 0) in->last[pm] = (float)in->padMode;
+                return;
+            }
+            if (in->padMode == 0)
+            {
+                const int idx = playPadIndex(k);
+                in->dnKind[k] = 1; in->dnArg[k] = (int16_t)idx;
+                xxl::post({ xxl::EV_PAD_PRESS, (int16_t)idx });
+            }
+            else
+            {
+                const char* key = kCtlPad[k / 8][k & 7];
+                const int ci = key ? findCtl(key) : -1;
+                if (ci < 0) return;
+                const ctl_t& c = CTLS[ci];
+                if (c.type == CT_BTN && c.b) { in->dnKind[k] = 2; in->dnArg[k] = (int16_t)c.a; xxl::post({ xxl::EV_BTN_PRESS, (int16_t)c.a }); }
+                else if (c.type == CT_BTN) tapButton(c.a);
+                else if (c.type == CT_CLICKS) xxl::post({ xxl::EV_ENC, (int16_t)c.a });
+                else if (c.type == CT_VIRT && c.x == VIRT_STOP) xxl::post({ xxl::EV_STOP, (int16_t)xxl::kFwPlayButton });
+            }
         }
-        else if (in->noteDown[k])
+        else if (in->dnKind[k])
         {
-            xxl::post({ xxl::EV_PAD_RELEASE, (int16_t)(in->noteDown[k] - 1) });   /* release the pad that was pressed, even if PAD COLUMNS moved */
-            in->noteDown[k] = 0;
+            if (in->dnKind[k] == 1) xxl::post({ xxl::EV_PAD_RELEASE, in->dnArg[k] });
+            else xxl::post({ xxl::EV_BTN_RELEASE, in->dnArg[k] });
+            in->dnKind[k] = 0;
         }
         return;
     }

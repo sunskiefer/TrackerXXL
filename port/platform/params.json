@@ -468,6 +468,15 @@
     "ON"
    ],
    "default": 1
+  },
+  {
+   "key": "pad_mode",
+   "name": "PAD MODE",
+   "options": [
+    "PLAY",
+    "CONTROL"
+   ],
+   "default": 0
   }
  ],
  "sections": [
@@ -562,7 +571,8 @@
    "label": "OPTIONS",
    "keys": [
     "pad_cols",
-    "host_sync"
+    "host_sync",
+    "pad_mode"
    ]
   }
  ]
