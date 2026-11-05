@@ -59,7 +59,9 @@ static uint64_t nowMs()
     timespec ts; clock_gettime(CLOCK_MONOTONIC, &ts);
     return (uint64_t)ts.tv_sec * 1000u + (uint64_t)ts.tv_nsec / 1000000u;
 }
+namespace xxl { void logf(const char* fmt, ...); }
 static uint64_t g_last = 0;
+static int g_lastMod = -1, g_slowLogged = 0;
 static bool g_inited = false;
 
 extern "C++" void xxl_display_bridge_init(Platform*)
@@ -87,11 +89,13 @@ extern "C++" void xxl_display_bridge_update()
     }
 
     const int mod = activeModule();
+    if (mod != g_lastMod) { xxl::logf("screen: module %d -> %d", g_lastMod, mod); g_lastMod = mod; }
     xxl_scene::begin();
     ctlFrame(mod);
     patFrame(mod);
     waveFrame(mod);
     xxl_scene::end();
+    { const uint64_t dt = nowMs() - t; if (dt >= 40 && g_slowLogged < 60) { g_slowLogged++; xxl::logf("slow frame: %llu ms (module %d)", (unsigned long long)dt, mod); } }
 }
 
 extern "C++" void xxl_display_bridge_shutdown()

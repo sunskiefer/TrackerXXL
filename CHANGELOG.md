@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.10 (2026-11-05) - pre-release
+- Opening a screen no longer freezes the Force (user report: stays up). Two causes found by comparing with the working DINXXL/VADER/reMixXXL wrappers: (1) after a screen change the wrapper told MPC about every moved value inside one audio block and took the engine lock about 2000 times; it now walks the table in slices and reports at most 6 moved values per block. (2) the audio thread and touch input waited on the lock the screen builder holds while drawing a frame; they now read a small published copy.
+- 0.1.9: crash recorder (writes a stack trace to trackerxxl.log), screen-change, button-tap and slow-frame logging, four generated demo samples in TrackerXXL/Samples.
+- 0.1.7/0.1.8: firmware starts on the first audio block, threads are joined at unload (load / delete-track crash); CONTROLS page on.
+- Not yet confirmed on a Force: sound, sample loading, Force Play starting the sequencer, pad notes.
+
 ## 0.1.4 (2026-11-04) - pre-release
 - 0.1.2/0.1.3 took the whole Force down when the plugin loaded. The two things added since the version that loaded (0.1.1) are switched off again: the second skin page (CONTROLS) and the never-unload link flag. Build switches: `TXL_CONTROLS_PAGE=1` for the page, `NODELETE=1` for the link flag. The Play/Stop fallback and the pad modes stay.
 - Back again: deleting a track that holds TrackerXXL crashed the Force in 0.1.1; that is not fixed in this build.

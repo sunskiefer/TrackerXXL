@@ -5,7 +5,7 @@
 set -euo pipefail
 VER="${1:?version, e.g. 0.1.0}"
 here="$(cd "$(dirname "$0")" && pwd)"
-TOOLS="${2:-${MPC_RELEASE_TOOLS:?set MPC_RELEASE_TOOLS to the tools folder of sunskiefer/mpc-vst-plugins @ 3845bea (the apostrophe-safe release.py)}}"
+TOOLS="${2:-${MPC_RELEASE_TOOLS:-/root/work/mpc-3845bea/tools}}"
 PLAT="$here/platform"
 NAME="L'Cronx - VST - TrackerXXL"          # the apostrophe lives only inside double quotes
 PKG="$PLAT/build/pkg"
@@ -19,6 +19,7 @@ cat > "$PKG/skin/$NAME/version.xml" <<'XML'
 </plugincontent>
 XML
 for d in Projects Samples Themes Fonts; do mkdir -p "$PKG/extra/TrackerXXL/$d"; printf 'Put your %s here.\n' "$d" > "$PKG/extra/TrackerXXL/$d/README.txt"; done
+python3 "$here/tools/make_demo_samples.py" "$PKG/extra/TrackerXXL/Samples"
 python3 "$TOOLS/gen_vst.py" "$PLAT/build/full/vst.json" >/dev/null
 cp "$PLAT/build/full/build/pluginlist-entry.xml" "$PKG/"
 mkdir -p "$here/../dist"

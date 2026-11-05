@@ -91,12 +91,14 @@ void* eng_create(const char* data_dir)
     const char* root = getenv("TRACKERXXL_ROOT");   /* offline/testing override */
     if (!root || !*root) root = data_dir;
     in->owner = xxl::runtimeAcquire(root);
+    xxl::logf("eng_create owner=%d", (int)in->owner);
     return in;
 }
 
 void eng_destroy(void* p)
 {
     Inst* in = (Inst*)p;
+    xxl::logf("eng_destroy");
     if (in->owner) xxl::runtimeRelease();
     delete in;
 }
@@ -134,6 +136,7 @@ void relative(Inst* in, int i, float v)
 void eng_set_param(void* p, const char* key, const char* val)
 {
     Inst* in = (Inst*)p;
+    { static int n = 0; if (n < 40) { n++; xxl::logf("set_param %s=%s", key, val ? val : ""); } }
     if (xxl_scene::set(key, val)) return;   // scene parameter (screen text/state/touch)
     const int i = findCtl(key);
     if (i < 0) return;
@@ -222,6 +225,7 @@ void eng_midi(void* p, const uint8_t* msg, int len)
     Inst* in = (Inst*)p;
     if (!in->owner || len < 1) return;
     const uint8_t st = msg[0];
+    { static int n = 0; if (n < 30 && st < 0xF0) { n++; xxl::logf("midi %02x %02x %02x ready=%d", st, len > 1 ? msg[1] : 0, len > 2 ? msg[2] : 0, (int)xxl::ready()); } }
     if (st >= 0xF0) return;                       /* host realtime/system: the transport comes through song_pos() */
     const uint8_t type = st & 0xF0, d1 = len > 1 ? msg[1] : 0, d2 = len > 2 ? msg[2] : 0;
     if ((type == 0x90 || type == 0x80) && d1 >= CTL_PAD_NOTE_BASE && d1 < CTL_PAD_NOTE_BASE + CTL_PAD_NOTE_COUNT)
@@ -287,6 +291,7 @@ void eng_render(void* p, int16_t* out, int frames)
 void eng_song_pos(void* p, double ppq, double bpm, int playing, int frames)
 {
     Inst* in = (Inst*)p;
+    { static int n = 0; if (n < 12 && (playing || n == 0)) { n++; xxl::logf("song_pos ppq=%.3f bpm=%.1f play=%d frames=%d", ppq, bpm, playing, frames); } }
     if (!in->owner || !xxl::ready()) return;
     if (bpm > 0.0) in->lastBpm = bpm;
     if (!in->hostSync) { in->wasPlaying = false; return; }

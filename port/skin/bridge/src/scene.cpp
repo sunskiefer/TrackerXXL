@@ -18,7 +18,11 @@ std::vector<Entry> g_sorted;
 std::vector<int32_t> g_val;
 std::vector<char*> g_text;            /* only for "<key>_t" parameters (nullptr otherwise) */
 std::vector<uint8_t> g_isInput;
-std::mutex g_mu;
+std::mutex g_mu;                      /* the bridge: held while it builds a frame */
+std::mutex g_pm;                      /* the published copy: held for microseconds, so the audio thread never waits on a frame */
+std::vector<int32_t> g_pval;
+std::vector<char> g_ptext;            /* SCN_NPARAMS * kTextMax */
+uint32_t g_prev = 1;
 uint32_t g_rev = 1;
 bool g_dirty = false;
 std::vector<xxl_scene::Touch> g_touch;
@@ -43,6 +47,8 @@ void init()
 {
     if (g_ready) return;
     g_val.assign(SCN_NPARAMS, 0);
+    g_pval.assign(SCN_NPARAMS, 0);
+    g_ptext.assign((size_t)SCN_NPARAMS * kTextMax, 0);
     g_text.assign(SCN_NPARAMS, nullptr);
     g_isInput.assign(SCN_NPARAMS, 0);
     for (int i = 0; i < SCN_NPARAMS; i++)
@@ -100,7 +106,15 @@ int getState(int idx) { return (idx >= 0 && idx < SCN_NPARAMS) ? g_val[idx] : 0;
 void begin() { g_mu.lock(); }
 void end()
 {
-    if (g_dirty) { g_rev++; g_dirty = false; }
+    if (g_dirty)
+    {
+        g_rev++; g_dirty = false;
+        std::lock_guard<std::mutex> l(g_pm);
+        g_pval = g_val;
+        for (int i = 0; i < SCN_NPARAMS; i++)
+            if (g_text[i]) memcpy(&g_ptext[(size_t)i * kTextMax], g_text[i], kTextMax);
+        g_prev = g_rev;
+    }
     g_mu.unlock();
 }
 
@@ -109,8 +123,8 @@ int get(const char* key, char* buf, int len)
     if (!g_ready || len < 2) return 0;
     if (!strcmp(key, "display_rev"))
     {
-        std::lock_guard<std::mutex> l(g_mu);
-        return snprintf(buf, (size_t)len, "%u", g_rev);
+        std::lock_guard<std::mutex> l(g_pm);
+        return snprintf(buf, (size_t)len, "%u", g_prev);
     }
     const bool disp = endsWith(key, "_display");
     char base[64];
@@ -123,13 +137,13 @@ int get(const char* key, char* buf, int len)
     }
     const int i = index(key);
     if (i < SCN_FIRST) return 0;                          /* platform controls answer for themselves */
-    std::lock_guard<std::mutex> l(g_mu);
+    std::lock_guard<std::mutex> l(g_pm);
     if (disp)
     {
         if (!g_text[i]) return 0;
-        return snprintf(buf, (size_t)len, "%s", g_text[i]);
+        return snprintf(buf, (size_t)len, "%.*s", kTextMax - 1, &g_ptext[(size_t)i * kTextMax]);
     }
-    return snprintf(buf, (size_t)len, "%d", g_val[i]);
+    return snprintf(buf, (size_t)len, "%d", g_pval[i]);
 }
 bool set(const char* key, const char* val)
 {
@@ -137,17 +151,17 @@ bool set(const char* key, const char* val)
     const int i = index(key);
     if (i < SCN_FIRST) return false;
     const int v = atoi(val ? val : "0");
-    std::lock_guard<std::mutex> l(g_mu);
+    std::lock_guard<std::mutex> l(g_pm);          /* never the frame lock: a touch must not wait for the bridge */
     if (g_isInput[i])
     {
-        g_val[i] = v;
+        g_pval[i] = v;
         if (v != 0 && g_touch.size() < 64) g_touch.push_back({ i, v });
     }
     return true;      /* display slots are the bridge's: a stray finger drag on a picture is ignored, the next frame overwrites it */
 }
 bool popTouch(Touch& t)
 {
-    std::lock_guard<std::mutex> l(g_mu);
+    std::lock_guard<std::mutex> l(g_pm);
     if (g_touch.empty()) return false;
     t = g_touch.front();
     g_touch.erase(g_touch.begin());

@@ -26,4 +26,5 @@ Counters counters();
 
 /* True once Tracker::init() has finished on the UI thread. */
 bool ready();
+void logf(const char* fmt, ...);   /* <root>/trackerxxl.log */
 } // namespace xxl

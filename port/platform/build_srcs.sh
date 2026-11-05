@@ -1,5 +1,5 @@
 # Source lists for TrackerXXL (sourced by build.sh). Paths relative to the TrackerXXL root (TXL).
-# TXL is set by the caller (build.sh) to the absolute path of <local path> (or wherever the tree lives).
+# TXL is set by the caller (build.sh) to the absolute path of /root/work/TrackerXXL (or wherever the tree lives).
 : "${TXL:?TXL must point at the TrackerXXL root}"
 CORE="$TXL/core"
 PLAT="$TXL/port/platform"

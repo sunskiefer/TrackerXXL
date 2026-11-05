@@ -1,7 +1,7 @@
 # What is vendored, from where, and every local change
 
 All sources are committed files in this directory; nothing is fetched at build time. Upstream trees were read at the
-commits below. The checked-out trees under `<local path> were not modified (the 0.5.10 files were taken with
+commits below. The checked-out trees under `/root/work` were not modified (the 0.5.10 files were taken with
 `git archive b449268` into a scratch directory, not by checking that commit out).
 
 | Part | Upstream | Commit | Vendored at |

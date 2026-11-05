@@ -8,8 +8,9 @@ SKIN = os.path.dirname(HERE)                       # port/skin
 PORT = os.path.dirname(SKIN)                       # port
 ROOT = os.path.dirname(PORT)                       # TrackerXXL
 CORE = os.path.join(ROOT, "core")
-MPCVST = os.environ.get("MPC_VST", os.path.join(PORT, "platform", "third_party", "mpc-vst-plugins"))   # the vendored framework
-PAGES = os.environ.get("TXL_PAGES", os.path.join(ROOT, "docs", "screens"))                           # the 800x480 drawn layouts
+MPCVST = "/root/work/zynth/third_party/mpc-vst-plugins"
+SCRATCH = "/tmp/claude-0/-home-claude/196b1c20-bcbc-5df0-8e18-2e4e79256657/scratchpad"
+PAGES = os.path.join(SCRATCH, "pages")
 TOOLS = os.path.join(MPCVST, "tools")
 
 CANVAS_W, CANVAS_H = 1280, 628

@@ -146,6 +146,7 @@ typedef struct {
     float pend0, pend0_from;  /* a host set of parameter 0 not applied yet, and where parameter 0 was before it */
     int has_pend0;            /* (see setParameter) */
     char last_rev[16];       /* HAS_DISPLAY_REV: the "display_rev" last seen */
+    int scan_pos, scan_again; /* TrackerXXL: slice walk of the table after a display_rev change (-1 = idle) */
     float last_norm[NPARAMS];   /* HAS_DISPLAY_REV: value last reported per param (-1 = never) */
     float open[NPARAMS];     /* popup "open" flags (popup.h): kept here, never sent to the DSP or saved */
     char *chunk;             /* LXRXXL: grown as needed (see effGetChunk) */
@@ -537,18 +538,29 @@ static void housekeeping(AEffect *e, int32_t n) {
             }
         }
     }
-    if (HAS_DISPLAY_REV && poll_text) {
-        char rev[16];
-        if (eng_get(w, "display_rev", rev, sizeof rev) > 0 && strcmp(rev, w->last_rev)) {
-            snprintf(w->last_rev, sizeof w->last_rev, "%s", rev);
-            if (!DISPLAY_REV_NO_UPDATE) w->need_update_display = 1;
-            /* report what the engine changed by itself, so the host moves controls and re-evaluates
-             * IndexedEnabling (when= panels), not only text */
-            for (int i = 0; i < NPARAMS; i++) {
-                if (PARAMS[i].momentary || popup_is(i) || PARAMS[i].string_display) continue;
-                float v = get_norm(w, i);
-                if (fabsf(v - w->last_norm[i]) > 1e-4f) { w->last_norm[i] = v; w->master(&w->fx, audioMasterAutomate, i, 0, 0, v); }
+    if (HAS_DISPLAY_REV) {
+        /* TrackerXXL: a screen change moves hundreds of values at once. Telling the host about all of them inside one audio block
+         * (and taking the engine lock ~2000 times) froze the Force. So: notice a change at most every 100 ms, then walk the table
+         * a slice per block and tell the host about at most 6 moved values per block. */
+        if (poll_text) {
+            char rev[16];
+            if (eng_get(w, "display_rev", rev, sizeof rev) > 0 && strcmp(rev, w->last_rev)) {
+                snprintf(w->last_rev, sizeof w->last_rev, "%s", rev);
+                if (!DISPLAY_REV_NO_UPDATE) w->need_update_display = 1;
+                if (w->scan_pos >= 0) w->scan_again = 1; else w->scan_pos = 0;
             }
+        }
+        if (w->scan_pos >= 0) {
+            int reported = 0, looked = 0;
+            while (w->scan_pos < NPARAMS && reported < 6 && looked < 96) {
+                const int i = w->scan_pos++; looked++;
+                if (PARAMS[i].momentary || popup_is(i) || PARAMS[i].string_display) continue;
+                char b3[64];
+                if (eng_get(w, PARAMS[i].key, b3, sizeof b3) <= 0) continue;
+                const float v = str_to_norm(&PARAMS[i], b3);
+                if (fabsf(v - w->last_norm[i]) > 1e-4f) { w->last_norm[i] = v; w->master(&w->fx, audioMasterAutomate, i, 0, 0, v); reported++; }
+            }
+            if (w->scan_pos >= NPARAMS) { w->scan_pos = w->scan_again ? 0 : -1; w->scan_again = 0; }
         }
     }
     /* parameters the engine changed by itself (engine.h mpc_engine_changed): reported as a CC's are, just below */
@@ -867,6 +879,7 @@ __attribute__((visibility("default"))) AEffect *VSTPluginMain(audioMasterCallbac
     w->master = master;
     w->pos = DSP_BLOCK;
     for (int i = 0; i < NPARAMS; i++) w->last_pos[i] = w->last_norm[i] = -1;
+    w->scan_pos = -1;
     w->nrpn = -1;
     AEffect *e = &w->fx;
     e->magic = 0x56737450; /* 'VstP' */
