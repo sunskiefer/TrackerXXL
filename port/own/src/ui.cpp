@@ -10,7 +10,7 @@ namespace ui
 {
 namespace
 {
-constexpr int kMaxPool = 64, kRows = 14, kNCtl = (int)(sizeof OWN_CTL / sizeof OWN_CTL[0]);
+constexpr int kMaxPool = 256, kRows = 14, kNCtl = (int)(sizeof OWN_CTL / sizeof OWN_CTL[0]);
 struct Pools
 {
     int lA[kMaxPool], lB[kMaxPool], lC[kMaxPool];
@@ -79,6 +79,7 @@ int row(const char* name)
 }
 int module(int r) { return r >= 0 ? OWN_CTL[r].mi : 0; }
 int rows(int r) { return r >= 0 ? OWN_CTL[r].rows : 0; }
+const char* ctlName(int r) { return r >= 0 && r < kNCtl ? OWN_CTL[r].name : ""; }
 int places(int r) { return r >= 0 ? OWN_CTL[r].nplaces : 0; }
 
 void begin() { memset(&W, 0, sizeof W); }
@@ -90,7 +91,7 @@ void label(int r, const char* a, int va, const char* b, int vb, int line)
     if (c.cls != 'L') return;
     const int k = c.pool;
     if (va >= c.nva) va = c.nva ? c.nva - 1 : 0;
-    W.lA[k] = 1 + c.mi * 8 + va * 2;
+    W.lA[k] = 1 + c.mi * 8 + va * 2 + ((b && *b) ? 1 : 0);   /* name lifts above the value line */
     copyText(W.tA[k], a);
     if (b && *b)
     {

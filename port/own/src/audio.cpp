@@ -47,6 +47,7 @@ struct Voice
     float env = 0, atkR = 1, decR = 0, sus = 1, relR = 0.001f, gain = 1, pl = 1, pr = 1, fc = 1, fq = 0.5f, lp[2] = {}, bp[2] = {}, rev = 0, del = 0, fade = 0, gp = 0;
     int gT[2] = { 0, 1200 };
     bool oneShotDone = false;
+    int trk = 0, vel = 100, bits = 16; double inc0 = 1; float drive = 0; bool pfApplied = false;
 };
 struct Track
 {
@@ -56,6 +57,7 @@ struct Track
     int retrigPeriod = 0, retrigLeft = 0, retrigNote = 0, retrigVel = 100, retrigInstr = 0;
     bool synthOn = false; int drumSlot = -1;
     float meter = 0;
+    int pf[PF_COUNT] = {}; uint32_t pfOn = 0; int lastNote = 60, rpLeft = 0;   /* performance effects */
 };
 
 struct Rev
@@ -134,7 +136,9 @@ float envTime(int v, float mx) { const float x = v / 100.f; return std::max(0.00
 void startVoice(Voice& V, int instrIdx, const Sample* s, int note, int vel, int trk, int offsetPct, bool reverse)
 {
     Project& P = proj(); const Instr& I = P.ins[instrIdx];
-    V = Voice(); V.on = true; V.instr = instrIdx; V.s = s; V.mode = I.mode; V.ftype = I.ftype;
+    Track& PT = A.tr[trk];
+    if ((PT.pfOn >> PF_PLAY & 1) && PT.pf[PF_PLAY] == 1) reverse = !reverse;
+    V = Voice(); V.on = true; V.instr = instrIdx; V.s = s; V.mode = I.mode; V.ftype = I.ftype; V.trk = trk; V.vel = vel;
     const double N = (double)s->frames();
     V.a = I.start * N; V.b = I.end * N; if (V.b <= V.a + 1) V.b = N;
     V.l1 = I.loop1 * N; V.l2 = I.loop2 * N; if (V.l2 <= V.l1 + 8) { V.l1 = V.a; V.l2 = V.b; }
@@ -153,6 +157,18 @@ void startVoice(Voice& V, int instrIdx, const Sample* s, int note, int vel, int 
     }
     else if (I.mode == PM_GRANULAR) { V.gA = I.start * N; V.inc = pow(2.0, st / 12.0); V.gT[0] = 0; V.gT[1] = 600; }
     else V.inc = pow(2.0, st / 12.0);
+    if (PT.pfOn >> PF_POS & 1)
+    {
+        const double d = PT.pf[PF_POS] / 100.0 * N;
+        if (I.mode == PM_WAVETABLE || I.mode == PM_GRANULAR) V.gA = std::max(0.0, std::min(N - 2.0, V.gA + d));
+        else { V.a = std::max(0.0, std::min(N - 2.0, V.a + d)); if (V.b <= V.a + 1) V.b = N; if (V.l1 < V.a) V.l1 = V.a; if (V.l2 <= V.l1 + 8) V.l2 = V.b; }
+    }
+    if (PT.pfOn >> PF_END & 1)
+    {
+        const double d = PT.pf[PF_END] / 100.0 * N;
+        V.b = std::max(V.a + 2.0, std::min((double)N, V.b + d)); if (V.l2 > V.b) V.l2 = V.b; if (V.l2 <= V.l1 + 8) V.l1 = V.a;
+    }
+    V.inc0 = V.inc;
     V.dir = 1; V.pos = V.a;
     if (offsetPct > 0 && I.mode <= PM_PING) V.pos = V.a + (V.b - V.a) * offsetPct / 100.0;
     if (I.mode == PM_BWD) { V.dir = -1; V.pos = V.l2 - 1; }
@@ -177,10 +193,32 @@ inline float rd(const Sample* s, int c, double p)
     const float f = (float)(p - i);
     return (d[i] + (d[i + 1] - d[i]) * f) * (1.f / 32768.f);
 }
+/* the track's performance effects on a sounding voice, recomputed from the instrument every block while any is on (and once more when they end) */
+void perfApplyLive(Voice& V)
+{
+    Track& T = A.tr[V.trk]; const bool on = T.pfOn != 0;
+    if (!on && !V.pfApplied) return;
+    V.pfApplied = on;
+    const Instr& I = proj().ins[V.instr]; const uint32_t m = T.pfOn;
+    auto has = [m](int fx) { return (m >> fx & 1) != 0; };
+    const int vol = has(PF_VOL) ? clampi(I.vol + T.pf[PF_VOL], 0, 100) : I.vol;
+    V.gain = volGain(vol) * (V.vel / 100.f) * (T.volMod >= 0 ? volGain(T.volMod) : 1.f);
+    int pn = T.panMod > -999 ? T.panMod : I.pan; if (has(PF_PAN)) pn += T.pf[PF_PAN] / 2; pn = clampi(pn, -50, 50);
+    { const float ang = (pn + 50) / 100.f * kPi * 0.5f; V.pl = cosf(ang) * 1.4142f; V.pr = sinf(ang) * 1.4142f; }
+    V.inc = has(PF_TUNE) ? V.inc0 * pow(2.0, T.pf[PF_TUNE] / 12.0) : V.inc0;
+    int ft = I.ftype, cu = T.cutMod >= 0 ? T.cutMod : I.cutoff; const int rs = T.resMod >= 0 ? T.resMod : I.res;
+    for (int k = 0; k < 3; k++) { const int fx = PF_LP + k; if (has(fx)) { ft = 1 + k; cu = clampi(cu + T.pf[fx], 0, 100); } }
+    if (ft != V.ftype) { V.ftype = ft; for (int c = 0; c < 2; c++) V.lp[c] = V.bp[c] = 0; }
+    if (V.ftype) { const float fc = 20.f * powf(1000.f, cu / 100.f); V.fc = std::min(1.2f, 2 * sinf(kPi * std::min(fc, 18000.f) / kSr)); V.fq = 1.f - 0.97f * rs / 100.f * 0.97f; }
+    V.rev = clampi(I.rev + (has(PF_REV) ? T.pf[PF_REV] : 0), 0, 100) / 100.f; V.del = clampi(I.del + (has(PF_DEL) ? T.pf[PF_DEL] : 0), 0, 100) / 100.f;
+    V.bits = has(PF_BITS) ? clampi(16 + T.pf[PF_BITS], 4, 16) : 16;
+    V.drive = has(PF_DRIVE) ? clampi(T.pf[PF_DRIVE], 0, 100) / 100.f : 0.f;
+}
 /* adds one block of a voice to L/R; sends to rl (mono) */
 bool renderVoice(Voice& V, float* L, float* R, float* sr_, float* sd, int n)
 {
     if (!V.on || !V.s) return false;
+    perfApplyLive(V);
     const Sample* s = V.s; const int64_t N = (int64_t)s->frames();
     for (int i = 0; i < n; i++)
     {
@@ -234,6 +272,8 @@ bool renderVoice(Voice& V, float* L, float* R, float* sr_, float* sd, int n)
             }
             xl = out[0]; xr = out[1];
         }
+        if (V.bits < 16) { const float q = (float)(1 << (V.bits - 1)); xl = floorf(xl * q + 0.5f) / q; xr = floorf(xr * q + 0.5f) / q; }
+        if (V.drive > 0.f) { const float k = 1.f + V.drive * 12.f, nk = 1.f / tanhf(k); xl = tanhf(xl * k) * nk; xr = tanhf(xr * k) * nk; }
         const float g = V.gain * V.env;
         const float m = (xl + xr) * 0.5f;
         const float ol = (V.s->ch > 1 ? xl : m) * g, or_ = (V.s->ch > 1 ? xr : m) * g;
@@ -278,7 +318,7 @@ void trigger(int t, int note, int instr, int vel, int offsetPct = 0, bool revers
     Project& P = proj(); Track& T = A.tr[t];
     if (instr < 0 || instr >= kInstr || !P.ins[instr].used) return;
     const Instr& I = P.ins[instr];
-    T.lastInstr = instr;
+    T.lastInstr = instr; T.lastNote = note;
     if (I.kind == 1) { synthNote(t, I, note, vel, instr); return; }
     const Sample* s = &smp(instr);
     if (s->frames() < 2) return;
@@ -359,6 +399,19 @@ void fireStep(int64_t k)
 double swungOffset() { const int sw = proj().swing; return clampi(sw, 50, 75) <= 50 ? 0.0 : (sw - 50) / 75.0; }
 }   // anon
 
+void perfSet(int track, int fx, int value)
+{
+    if (track < 0 || track >= kTracks || fx <= PF_NONE || fx >= PF_COUNT) return;
+    Track& T = A.tr[track];
+    if (fx >= PF_LP && fx <= PF_BP) for (int k = PF_LP; k <= PF_BP; k++) T.pfOn &= ~(1u << k);   /* one filter at a time */
+    if (fx == PF_REPEAT && !(T.pfOn >> PF_REPEAT & 1)) T.rpLeft = 1;
+    T.pf[fx] = value; T.pfOn |= 1u << fx;
+}
+void perfClear(int track, int fx)
+{
+    if (track < 0 || track >= kTracks || fx <= PF_NONE || fx >= PF_COUNT) return;
+    A.tr[track].pfOn &= ~(1u << fx);
+}
 float dbOf(int vol) { const float g = volGain(vol); return g <= 0 ? -99.f : 20.f * log10f(g); }
 void dbText(int vol, char* b) { if (vol <= 0) strcpy(b, "-inf"); else snprintf(b, 16, "%.2f dB", dbOf(vol)); }
 
@@ -483,6 +536,12 @@ void render(int16_t* out, int n)
         for (int t = 0; t < kTracks; t++)
         {
             Track& T = A.tr[t];
+            if (T.pfOn >> PF_REPEAT & 1)
+            {
+                static const double kMul[16] = { 0, 16, 12, 8, 6, 4, 3, 2, 1, 0.5, 1.0 / 3, 0.25, 1.0 / 6, 0.125, 1.0 / 12, 0.0625 };
+                const double sf = kSr * 60.0 / (A.tempoNow * 4.0); const int per = std::max(256, (int)(sf * kMul[clampi(T.pf[PF_REPEAT], 1, 15)]));
+                T.rpLeft -= n; if (T.rpLeft <= 0) { T.rpLeft = per; if (!P.mute[t] && T.lastInstr >= 0) trigger(t, T.lastNote, T.lastInstr, 90); }
+            }
             if (T.retrigPeriod > 0) { T.retrigLeft -= n; if (T.retrigLeft <= 0) { T.retrigLeft += T.retrigPeriod; if (!P.mute[t]) trigger(t, T.retrigNote, T.retrigInstr, 80); } }
         }
         A.timeSec += (double)n / kSr;

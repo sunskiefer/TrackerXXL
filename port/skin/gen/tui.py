@@ -32,10 +32,10 @@ class Skin:
             comp["bounds"]["showWhenDataModelInvalid"] = "Show"
             comp["bounds"]["additionalInvalidatingHandles"] = [when] if isinstance(when, str) else list(when)
         return comp
-    def _placed(self, ctype, name, pidx, x, y, w, h, focus="No", show="Hide"):
+    def _placed(self, ctype, name, pidx, x, y, w, h, focus="No", show="Hide", extra=None):
         comp = {"version": 2,
                 "componentData": {"version": 1, "name": name, "type": ctype, "data": {"version": 1, "handleName": "Data"}},
-                "handle remapping": {"version": 1, "map": [{"key": "Data", "value": "Parameter %d" % pidx}]},
+                "handle remapping": {"version": 1, "map": [{"key": "Data", "value": "Parameter %d" % pidx}] + [{"key": k, "value": "Parameter %d" % v} for k, v in (extra or {}).items()]},
                 "bounds": SS._bounds(x, y, w, h, focus=focus, show=show)}
         return comp
     # ---------------------------------------------------------------- live text (Value label of a parameter)
@@ -128,41 +128,39 @@ class Skin:
             self.defs[dk] = SS._local(dk, [SS._action("Mouse Down", "Q-Link")], [SS._focus(w, h),
                                       SS._value_label(0, 0, w, h, 26.0, "none", "left verticallyCentred")])
         self.kids.append(self._placed(dk, "qanchor", self.P.index[key], x, y, w, h, focus="Yes"))
+    # ---------------------------------------------------------------- the data wheel: a focused control; turning it moves `key`, pressing it fires `enter_key`
+    def wheel_anchor(self, key, enter_key, x, y, w, h):
+        dk = "wheelanchor_%dx%d" % (w, h)
+        if dk not in self.defs:
+            self.defs[dk] = SS._local(dk, [SS._action("Mouse Down", "Q-Link"), SS._action("Enter Pressed", "Toggle Switch", handle="Enter")],
+                                      [SS._focus(w, h), SS._value_label(0, 0, w, h, 26.0, "none", "left verticallyCentred")])
+        self.kids.append(self._placed(dk, "wheel", self.P.index[key], x, y, w, h, focus="Yes", extra={"Enter": self.P.index[enter_key]}))
     # ---------------------------------------------------------------- write
-    def write(self, qlinks, bg_hex="000000"):
-        comp = "TrackerXXL|PATTERN"
+    def write(self, tabs, bg_hex="000000"):
+        """tabs: list of dict(name, kids, qkeys) - one Force tab per screen. Tab t sits on function key min(t,7); the tabs past 8
+        are sub-tabs of the last key. qkeys = the (up to 8) parameters that tab's Q-Links/macros turn."""
         clear = {"version": 1, "colour": "ff" + bg_hex, "image": ""}
-        page = {"key": comp, "value": {
-            "version": 4, "actions": [],
-            "backgroundData": {"version": 1, "focussed": clear, "unfocussed": dict(clear)},
-            "ignoreMousePresses": False, "disableCoarseDataWheel": False, "repeats": 1, "hideQLinkBounds": True,
-            "componentsData": self.kids}}
-        self.defs[comp] = page
-        tabs = [{"version": 3, "tabName": "TRACKER", "fnKeyIndex": 0, "fnKeySubIndex": 0, "qlinkBoundsData": ["0 0 0 0"],
-                 "componentName": comp, "initialSize": "0 0 %d %d" % (1280, 628), "scale": 1.0}]
-        pages = getattr(self, "pages", None)
-        if pages and len(pages) > 1:      # page 2: CONTROLS (touch buttons); page 1 keeps the Q-Link anchors added after this was set up
-            comp2 = "TrackerXXL|CONTROLS"
-            page2 = {"key": comp2, "value": {
+        tabj, qmap = [], []
+        for t, tab in enumerate(tabs):
+            fk, sp = min(t, 7), max(0, t - 7)
+            comp = "TrackerXXL|%s" % tab["name"]
+            self.defs[comp] = {"key": comp, "value": {
                 "version": 4, "actions": [],
                 "backgroundData": {"version": 1, "focussed": clear, "unfocussed": dict(clear)},
                 "ignoreMousePresses": False, "disableCoarseDataWheel": False, "repeats": 1, "hideQLinkBounds": True,
-                "componentsData": pages[1]}}
-            self.defs[comp2] = page2
-            tabs.append({"version": 3, "tabName": "CONTROLS", "fnKeyIndex": 1, "fnKeySubIndex": 0, "qlinkBoundsData": ["0 0 0 0"],
-                         "componentName": comp2, "initialSize": "0 0 %d %d" % (1280, 628), "scale": 1.0})
+                "componentsData": tab["kids"]}}
+            tabj.append({"version": 3, "tabName": tab["name"], "fnKeyIndex": fk, "fnKeySubIndex": sp, "qlinkBoundsData": ["0 0 0 0"],
+                         "componentName": comp, "initialSize": "0 0 %d %d" % (1280, 628), "scale": 1.0})
+            ql = {"Q-Link %d" % (q + 1): -1 for q in range(16)}
+            for s, k in enumerate(tab.get("qkeys", [])):
+                ql["Q-Link %d" % SS.qlink_for_slot(s)] = self.P.index[k]
+            qmap.append({"Tab": fk + 1, "SubTab": sp + 1, "Bank Direction": "Column", "Q-Links": ql})
         comps = list(self.defs.values())   # SS._local() entries are already {"key":..,"value":..}
         tui = {"pageData": {"version": 1,
                             "componentDefinitions": {"version": 2, "importFiles": [AKAI + "Generic/Generic Knob Overlay.json",
                                                                                   AKAI + "Generic/Generic Menu Overlay.json"],
                                                      "localComponentDefinitions": comps},
-                            "info": {"version": 1, "type": "CompleteDescription"}, "tabs": tabs}}
-        ql = {"Q-Link %d" % (q + 1): -1 for q in range(16)}
-        for s, k in enumerate(qlinks):
-            ql["Q-Link %d" % SS.qlink_for_slot(s)] = self.P.index[k]
-        qmap = [{"Tab": 1, "SubTab": 1, "Bank Direction": "Column", "Q-Links": ql}]
-        if pages and len(pages) > 1:
-            qmap.append({"Tab": 2, "SubTab": 1, "Bank Direction": "Column", "Q-Links": {"Q-Link %d" % (q + 1): -1 for q in range(16)}})
+                            "info": {"version": 1, "type": "CompleteDescription"}, "tabs": tabj}}
         qj = {"version": 4, "info": {"version": 1, "type": "CompleteDescription"},
               "Screen Mode Q-Links": {"version": 4, "map": qmap}, "Program Mode Q-Links": dict(qmap[0]["Q-Links"])}
         text = json.dumps(tui, separators=(",", ":"))

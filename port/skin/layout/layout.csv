@@ -1,274 +1,322 @@
 id,screen,type,x,y,w,h,label,live,px,parameter,when,colour,extra
 patternEditor.grid,patternEditor,cTracker,6,37,1269,510,,pcRRSS pcRRSS_t pnRR pbRR pcur pcp pct ptA/ptB pt,27,pat_cells,,,rows=15 step_h=26 cursor_row=7 modes=0
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb02a/b,26,lb02,,,var=bar style=134225920 value=0
+patternEditor.cBgLabel.9,patternEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb17a/b,26,lb17,,,var=bar style=134225920 value=0
+sampleEditor.cBgLabel.28,sampleEditor,cBgLabel,6,556,1267,71,,,,bg01,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb31a/b,26,lb31,,,var=bar style=134225920 value=0
+sampleImporter.cBgLabel.9,sampleImporter,cBgLabel,6,556,1267,71,,,,bg02,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb46a/b,26,lb46,,,var=bar style=134225920 value=0
+samplePlayback.cBgLabel.9,samplePlayback,cBgLabel,6,556,1267,71,,,,bg03,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb59a/b,26,lb59,,,var=bar style=134225920 value=0
+sampleRecorder.cBgLabel.13,sampleRecorder,cBgLabel,6,556,1267,71,,,,bg04,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb76a/b,26,lb76,,,var=bar style=134225920 value=0
+instrumentEditor.cBgLabel.18,instrumentEditor,cBgLabel,6,556,1267,71,,,,bg05,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb93a/b,26,lb93,,,var=bar style=134225920 value=0
+songEditor.cBgLabel.10,songEditor,cBgLabel,6,556,1267,71,,,,bg06,,,var=bgLabel style=32768 value=191
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb110a/b,26,lb110,,,var=bar style=134225920 value=0
+projectEditor.cBgLabel.9,projectEditor,cBgLabel,6,556,1267,71,,,,bg07,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb126a/b,26,lb126,,,var=bar style=134225920 value=0
+configEditor.cBgLabel.11,configEditor,cBgLabel,6,556,1267,71,,,,bg08,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb149a/b,26,lb149,,,var=bar style=134225920 value=0
+masterParams.cBgLabel.9,masterParams,cBgLabel,6,556,1267,71,,,,bg09,,,var=bgLabel style=32769 value=255
+global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb173a/b,26,lb173,,,var=bar style=134225920 value=0
+performanceMode.cBgLabel.9,performanceMode,cBgLabel,6,556,1267,71,,,,bg10,,,var=bgLabel style=32768 value=255
 global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb00a/b,27,lb00,,,var=titleLabel style=536871944 value=0
 global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb01a/b,27,lb01,,,var=rightLabel style=1048 value=0
-global.titleBar.cLabel.4,global.titleBar,cLabel,4,0,1272,37,,lb02a/b,26,lb02,,,var=bar style=134225920 value=0
 global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb03a/b,27,lb03,,,var=timerLabel style=1032 value=0
-global.popups.cList.0,global.popups,cList,966,52,318,563,,,,ls00,,,var=popupListControl style=0 value=0
 global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb04a/b,26,lb04,,,var=textPopup style=8192 value=0
-global.popups.cTextBox.4,global.popups,cTextBox,4,0,80,65,,lb05a/b,26,lb05,,,var=textBox style=0 value=0
-global.popups.cLabel.5,global.popups,cLabel,52,0,429,0,,lb06a/b,26,lb06,,,var=textLabel1 style=8200 value=0
-global.popups.cLabel.6,global.popups,cLabel,1012,0,429,0,,lb07a/b,26,lb07,,,var=textLabel2 style=772 value=0
-global.popups.cLabel.7,global.popups,cLabel,4,0,1264,33,,lb08a/b,26,lb08,,,var=bgLabel style=8192 value=0
-global.misc.cSimpleText.1,global.misc,cSimpleText,449,314,382,33,,lb09a/b,26,lb09,,,var=noSdTextControl style=12 value=0
-global.misc.cSimpleText.2,global.misc,cSimpleText,449,314,382,33,,lb10a/b,26,lb10,,,var=noSdTextControl style=13 value=0
-global.misc.cTextBox.3,global.misc,cTextBox,163,392,954,131,,lb11a/b,26,lb11,,,var=descriptionTextBox style=257 value=3
-global.misc.cLabel.4,global.misc,cLabel,1117,555,159,39,,lb12a/b,27,lb12,,,var=fileTransferLabelControl style=1029 value=3
 patternEditor.cFrame.0,patternEditor,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-patternEditor.cLabel.1,patternEditor,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=0
-patternEditor.cLabel.2,patternEditor,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=0
-patternEditor.cLabel.3,patternEditor,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=0
-patternEditor.cLabel.4,patternEditor,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=0
-patternEditor.cLabel.5,patternEditor,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=0
-patternEditor.cLabel.6,patternEditor,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=0
-patternEditor.cLabel.7,patternEditor,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=0
-patternEditor.cLabel.8,patternEditor,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=0
-patternEditor.cBgLabel.9,patternEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-patternEditor.cList.10,patternEditor,cList,165,76,154,476,,,,ls01,,,var=param1PopupListControl style=8192 value=0
-patternEditor.cList.11,patternEditor,cList,642,76,154,476,,,,ls02,,,var=param2PopupListControl style=8192 value=0
-patternEditor.cList.12,patternEditor,cList,6,76,154,476,,,,ls03,,,var=param3PopupListControl style=8192 value=0
-patternEditor.cList.13,patternEditor,cList,642,76,154,476,,,,ls04,,,var=intstrumentsFromPopupListControl style=8192 value=0
-patternEditor.cList.14,patternEditor,cList,801,76,154,476,,,,ls05,,,var=intstrumentsToPopupListControl style=8192 value=0
+patternEditor.cLabel.1,patternEditor,cLabel,9,555,149,72,,lb05a/b,26,lb05,,,var=label[0] style=780 value=0
+patternEditor.cLabel.2,patternEditor,cLabel,168,555,149,72,,lb06a/b,26,lb06,,,var=label[1] style=780 value=0
+patternEditor.cLabel.3,patternEditor,cLabel,327,555,149,72,,lb07a/b,26,lb07,,,var=label[2] style=780 value=0
+patternEditor.cLabel.4,patternEditor,cLabel,486,555,149,72,,lb08a/b,26,lb08,,,var=label[3] style=780 value=0
+patternEditor.cLabel.5,patternEditor,cLabel,645,555,149,72,,lb09a/b,26,lb09,,,var=label[4] style=780 value=0
+patternEditor.cLabel.6,patternEditor,cLabel,804,555,149,72,,lb10a/b,26,lb10,,,var=label[5] style=780 value=0
+patternEditor.cLabel.7,patternEditor,cLabel,963,555,149,72,,lb11a/b,26,lb11,,,var=label[6] style=780 value=0
+patternEditor.cLabel.8,patternEditor,cLabel,1122,555,149,72,,lb12a/b,26,lb12,,,var=label[7] style=780 value=0
+patternEditor.cList.10,patternEditor,cList,165,76,154,476,,,,ls00,,,var=param1PopupListControl style=8192 value=0
+patternEditor.cList.11,patternEditor,cList,642,76,154,476,,,,ls01,,,var=param2PopupListControl style=8192 value=0
+patternEditor.cList.12,patternEditor,cList,6,76,154,476,,,,ls02,,,var=param3PopupListControl style=8192 value=0
+patternEditor.cList.13,patternEditor,cList,642,76,154,476,,,,ls03,,,var=intstrumentsFromPopupListControl style=8192 value=0
+patternEditor.cList.14,patternEditor,cList,801,76,154,476,,,,ls04,,,var=intstrumentsToPopupListControl style=8192 value=0
 patternEditor.cBar.15,patternEditor,cBar,324,76,154,476,,,,br00,,,var=val1PopupBar style=270336 value=0
 patternEditor.cBar.16,patternEditor,cBar,483,76,154,476,,,,br01,,,var=val2PopupBar style=270336 value=0
 patternEditor.cBar.17,patternEditor,cBar,165,76,154,476,,,,br02,,,var=val3PopupBar style=270336 value=0
 patternEditor.cBar.18,patternEditor,cBar,960,76,154,476,,,,br03,,,var=valCancelEmptyPopupBar style=270336 value=-1
 patternEditor.cBar.19,patternEditor,cBar,1119,76,154,476,,,,br04,,,var=valFillEmptyPopupBar style=270336 value=-1
-patternEditor.cLabel.20,patternEditor,cLabel,4,37,1270,35,,lb21a/b,27,lb21,,,var=patternPopupTitleLabel style=9224 value=0
-patternEditor.cLabel.21,patternEditor,cLabel,4,42,1272,509,,lb22a/b,26,lb22,,,var=patternPopupLabel style=40964 value=0
-sampleEditor.cFrame.1,sampleEditor,cFrame,4,0,1272,628,,,,fr00,,,var=frame style=0 value=0
-sampleEditor.cLabel.2,sampleEditor,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-sampleEditor.cLabel.3,sampleEditor,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-sampleEditor.cLabel.4,sampleEditor,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-sampleEditor.cLabel.5,sampleEditor,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-sampleEditor.cLabel.6,sampleEditor,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-sampleEditor.cLabel.7,sampleEditor,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-sampleEditor.cLabel.8,sampleEditor,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-sampleEditor.cLabel.9,sampleEditor,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-sampleEditor.cLabel.10,sampleEditor,cLabel,1119,38,156,515,,lb21a/b,26,lb21,,,var=blankSpaceCover style=8192 value=0
-sampleEditor.cBar.11,sampleEditor,cBar,6,38,152,515,,,,br00,,,var=bar[0] style=270336 value=0
-sampleEditor.cBar.12,sampleEditor,cBar,165,38,152,515,,,,br01,,,var=bar[1] style=270336 value=0
-sampleEditor.cBar.13,sampleEditor,cBar,324,38,152,515,,,,br02,,,var=bar[2] style=270336 value=0
-sampleEditor.cBar.14,sampleEditor,cBar,483,38,152,515,,,,br03,,,var=bar[3] style=270336 value=0
-sampleEditor.cBar.15,sampleEditor,cBar,642,38,152,515,,,,br04,,,var=bar[4] style=270336 value=0
-sampleEditor.cBar.16,sampleEditor,cBar,801,38,152,515,,,,br05,,,var=bar[5] style=270336 value=0
-sampleEditor.cBar.17,sampleEditor,cBar,960,38,152,515,,,,br06,,,var=bar[6] style=270336 value=0
-sampleEditor.cBar.18,sampleEditor,cBar,1119,38,152,515,,,,br07,,,var=bar[7] style=270336 value=0
-sampleEditor.cList.19,sampleEditor,cList,6,38,152,515,,,,ls01,,,var=paramList[0] style=8192 value=0
-sampleEditor.cList.20,sampleEditor,cList,165,38,152,515,,,,ls02,,,var=paramList[1] style=8192 value=0
-sampleEditor.cList.21,sampleEditor,cList,324,38,152,515,,,,ls03,,,var=paramList[2] style=8192 value=0
-sampleEditor.cList.22,sampleEditor,cList,483,38,152,515,,,,ls04,,,var=paramList[3] style=8192 value=0
-sampleEditor.cList.23,sampleEditor,cList,960,38,313,515,,,,ls05,,,var=effectList style=8192 value=0
-sampleEditor.cBgLabel.28,sampleEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-sampleImporter.cFrame.0,sampleImporter,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-sampleImporter.cLabel.1,sampleImporter,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-sampleImporter.cLabel.2,sampleImporter,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-sampleImporter.cLabel.3,sampleImporter,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-sampleImporter.cLabel.4,sampleImporter,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-sampleImporter.cLabel.5,sampleImporter,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-sampleImporter.cLabel.6,sampleImporter,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-sampleImporter.cLabel.7,sampleImporter,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-sampleImporter.cLabel.8,sampleImporter,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-sampleImporter.cBgLabel.9,sampleImporter,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-sampleImporter.cLabel.10,sampleImporter,cLabel,6,42,472,34,,lb21a/b,27,lb21,,,var=explorerLabelControl style=9229 value=0
-sampleImporter.cLabel.11,sampleImporter,cLabel,483,42,472,34,,lb22a/b,27,lb22,,,var=instrumentLabelControl style=9229 value=0
-sampleImporter.cList.12,sampleImporter,cList,6,80,472,473,,,,ls01,,,var=explorerListControl style=8192 value=0
-sampleImporter.cList.13,sampleImporter,cList,483,80,472,473,,,,ls02,,,var=instrumentListControl style=8192 value=0
-sampleImporter.cBar.14,sampleImporter,cBar,1119,38,154,515,,,,br00,,,var=memoryBarControl style=1056768 value=0
-sampleImporter.cBar.15,sampleImporter,cBar,960,38,154,515,,,,br01,,,var=previewVolumeBarControl style=270336 value=0
-samplePlayback.cFrame.0,samplePlayback,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-samplePlayback.cLabel.1,samplePlayback,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-samplePlayback.cLabel.2,samplePlayback,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-samplePlayback.cLabel.3,samplePlayback,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-samplePlayback.cLabel.4,samplePlayback,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-samplePlayback.cLabel.5,samplePlayback,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-samplePlayback.cLabel.6,samplePlayback,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-samplePlayback.cLabel.7,samplePlayback,cLabel,963,555,308,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-samplePlayback.cLabel.8,samplePlayback,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-samplePlayback.cBgLabel.9,samplePlayback,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-samplePlayback.cList.10,samplePlayback,cList,960,38,313,515,,,,ls01,,,var=playModeListControl style=8192 value=0
-sampleRecorder.cLabel.4,sampleRecorder,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-sampleRecorder.cLabel.5,sampleRecorder,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-sampleRecorder.cLabel.6,sampleRecorder,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-sampleRecorder.cLabel.7,sampleRecorder,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-sampleRecorder.cLabel.8,sampleRecorder,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-sampleRecorder.cLabel.9,sampleRecorder,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-sampleRecorder.cLabel.10,sampleRecorder,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-sampleRecorder.cLabel.11,sampleRecorder,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-sampleRecorder.cFrame.12,sampleRecorder,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-sampleRecorder.cBgLabel.13,sampleRecorder,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-sampleRecorder.cLabel.14,sampleRecorder,cLabel,1120,38,154,515,,lb21a/b,26,lb21,,,var=blankSpaceCover style=8192 value=0
-sampleRecorder.cLabel.15,sampleRecorder,cLabel,325,38,313,515,,lb22a/b,26,lb22,,,var=radioSpaceCover style=8192 value=0
-sampleRecorder.cList.16,sampleRecorder,cList,7,38,154,515,,,,ls01,,,var=sourceListControl style=8192 value=0
-sampleRecorder.cList.17,sampleRecorder,cList,961,38,154,515,,,,ls02,,,var=monitorListControl style=8192 value=0
-sampleRecorder.cLabel.18,sampleRecorder,cLabel,961,38,159,515,,lb23a/b,26,lb23,,,var=monitorListSpaceCover style=8192 value=0
-sampleRecorder.cBar.19,sampleRecorder,cBar,643,38,154,515,,,,br00,,,var=levelBarControl style=270337 value=0
-sampleRecorder.cBar.20,sampleRecorder,cBar,802,38,154,515,,,,br01,,,var=gainBarControl style=270337 value=0
-sampleRecorder.cBar.21,sampleRecorder,cBar,166,38,154,515,,,,br02,,,var=radioFreqBarControl style=270337 value=0
-sampleRecorder.cLabel.22,sampleRecorder,cLabel,324,262,313,39,,lb24a/b,26,lb24,,,var=radioRdsLabel style=8204 value=0
-instrumentEditor.cFrame.0,instrumentEditor,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-instrumentEditor.cLabel.1,instrumentEditor,cLabel,9,555,308,72,,lb13a/b,26,lb13,,,var=doubleLabelAutomation style=812 value=0
-instrumentEditor.cLabel.2,instrumentEditor,cLabel,9,555,149,72,,lb14a/b,26,lb14,,,var=label[0] style=780 value=1
-instrumentEditor.cBar.3,instrumentEditor,cBar,6,38,154,515,,,,br00,,,var=barControl[0] style=270336 value=0
-instrumentEditor.cLabel.4,instrumentEditor,cLabel,168,555,149,72,,lb15a/b,26,lb15,,,var=label[1] style=780 value=1
-instrumentEditor.cBar.5,instrumentEditor,cBar,165,38,154,515,,,,br01,,,var=barControl[1] style=270336 value=0
-instrumentEditor.cLabel.6,instrumentEditor,cLabel,327,555,149,72,,lb16a/b,26,lb16,,,var=label[2] style=780 value=1
-instrumentEditor.cBar.7,instrumentEditor,cBar,324,38,154,515,,,,br02,,,var=barControl[2] style=270336 value=0
-instrumentEditor.cLabel.8,instrumentEditor,cLabel,486,555,149,72,,lb17a/b,26,lb17,,,var=label[3] style=780 value=1
-instrumentEditor.cBar.9,instrumentEditor,cBar,483,38,154,515,,,,br03,,,var=barControl[3] style=270336 value=0
-instrumentEditor.cLabel.10,instrumentEditor,cLabel,645,555,149,72,,lb18a/b,26,lb18,,,var=label[4] style=780 value=1
-instrumentEditor.cBar.11,instrumentEditor,cBar,642,38,154,515,,,,br04,,,var=barControl[4] style=270336 value=0
-instrumentEditor.cLabel.12,instrumentEditor,cLabel,804,555,149,72,,lb19a/b,26,lb19,,,var=label[5] style=780 value=1
-instrumentEditor.cBar.13,instrumentEditor,cBar,801,38,154,515,,,,br05,,,var=barControl[5] style=270336 value=0
-instrumentEditor.cLabel.14,instrumentEditor,cLabel,963,555,149,72,,lb20a/b,26,lb20,,,var=label[6] style=780 value=1
-instrumentEditor.cBar.15,instrumentEditor,cBar,960,38,154,515,,,,br06,,,var=barControl[6] style=270336 value=0
-instrumentEditor.cLabel.16,instrumentEditor,cLabel,1122,555,149,72,,lb21a/b,26,lb21,,,var=label[7] style=780 value=1
-instrumentEditor.cBar.17,instrumentEditor,cBar,1119,38,154,515,,,,br07,,,var=barControl[7] style=270336 value=0
-instrumentEditor.cBgLabel.18,instrumentEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-instrumentEditor.cList.19,instrumentEditor,cList,642,38,154,515,,,,ls01,,,var=filterModeListControl style=8192 value=0
-instrumentEditor.cList.20,instrumentEditor,cList,6,38,313,515,,,,ls02,,,var=list1Control style=8192 value=0
-instrumentEditor.cList.21,instrumentEditor,cList,324,38,154,515,,,,ls03,,,var=list2Control style=8192 value=0
-instrumentEditor.cList.22,instrumentEditor,cList,483,38,154,515,,,,ls04,,,var=list3Control style=8192 value=0
-instrumentEditor.cList.23,instrumentEditor,cList,642,38,154,515,,,,ls05,,,var=list4Control style=8192 value=0
-instrumentEditor.cList.24,instrumentEditor,cList,6,105,631,438,,,,ls06,,,var=instrumentSynthCCListControl style=8192 value=0
-instrumentEditor.cList.25,instrumentEditor,cList,642,105,472,438,,,,ls07,,,var=instrumentListControl style=8192 value=0
-instrumentEditor.NewList.26,instrumentEditor,NewList,165,38,313,515,,,,ls08,,,var=paramsListControl style=8192 value=0
-instrumentEditor.NewList.27,instrumentEditor,NewList,6,38,154,515,,,,ls09,,,var=modelListControl style=8192 value=0
-instrumentEditor.cList.29,instrumentEditor,cList,324,38,154,515,,,,ls10,,,var=ccNameListControl[0] style=8192 value=0
-instrumentEditor.cList.30,instrumentEditor,cList,483,38,154,515,,,,ls11,,,var=ccNameListControl[1] style=8192 value=0
-instrumentEditor.cList.31,instrumentEditor,cList,642,38,154,515,,,,ls12,,,var=ccNameListControl[2] style=8192 value=0
-instrumentEditor.cList.32,instrumentEditor,cList,801,38,154,515,,,,ls13,,,var=ccNameListControl[3] style=8192 value=0
-instrumentEditor.cList.33,instrumentEditor,cList,960,38,154,515,,,,ls14,,,var=ccNameListControl[4] style=8192 value=0
-instrumentEditor.cList.34,instrumentEditor,cList,1119,38,154,515,,,,ls15,,,var=ccNameListControl[5] style=8192 value=0
-instrumentEditor.cLabel.35,instrumentEditor,cLabel,4,556,1272,71,,lb22a/b,26,lb22,,,var=noteLabel style=256 value=0
-instrumentEditor.cLabel.36,instrumentEditor,cLabel,1119,38,156,515,,lb23a/b,26,lb23,,,var=blankSpaceCover[0] style=8192 value=0
-instrumentEditor.cLabel.37,instrumentEditor,cLabel,1119,38,156,515,,lb24a/b,26,lb24,,,var=blankSpaceCover[1] style=8192 value=0
-songEditor.cFrame.0,songEditor,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-songEditor.cBar.1,songEditor,cBar,1119,38,154,515,,,,br00,,,var=barControl style=270336 value=0
-songEditor.cLabel.2,songEditor,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-songEditor.cLabel.3,songEditor,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-songEditor.cLabel.4,songEditor,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-songEditor.cLabel.5,songEditor,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-songEditor.cLabel.6,songEditor,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-songEditor.cLabel.7,songEditor,cLabel,883,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-songEditor.cLabel.8,songEditor,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-songEditor.cLabel.9,songEditor,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-songEditor.cBgLabel.10,songEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32768 value=191
-projectEditor.cFrame.0,projectEditor,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-projectEditor.cLabel.1,projectEditor,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-projectEditor.cLabel.2,projectEditor,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-projectEditor.cLabel.3,projectEditor,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-projectEditor.cLabel.4,projectEditor,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-projectEditor.cLabel.5,projectEditor,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-projectEditor.cLabel.6,projectEditor,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-projectEditor.cLabel.7,projectEditor,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-projectEditor.cLabel.8,projectEditor,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-projectEditor.cBgLabel.9,projectEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-projectEditor.cLabel.10,projectEditor,cLabel,9,42,467,34,,lb21a/b,27,lb21,,,var=browserLabelControl style=9228 value=0
-projectEditor.cLabel.11,projectEditor,cLabel,486,42,467,34,,lb22a/b,27,lb22,,,var=recentLabelControl style=9228 value=0
-projectEditor.cList.12,projectEditor,cList,6,80,472,473,,,,ls01,,,var=fileListControl style=8192 value=0
-projectEditor.cList.13,projectEditor,cList,483,80,472,473,,,,ls02,,,var=recentListControl style=8192 value=0
-projectEditor.cLabel.15,projectEditor,cLabel,1119,38,156,515,,lb23a/b,26,lb23,,,var=blankSpaceCover style=8192 value=0
-configEditor.cLabel.0,configEditor,cLabel,831,17,429,0,,lb13a/b,27,lb13,,,var=gridNameLabel style=1048 value=0
-configEditor.cLabel.1,configEditor,cLabel,12,419,1256,131,,lb14a/b,27,lb14,,,var=popoutWindowLabel style=8716 value=0
-configEditor.cFrame.2,configEditor,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-configEditor.cLabel.3,configEditor,cLabel,88,555,149,72,,lb15a/b,26,lb15,,,var=label[0] style=780 value=0
-configEditor.cLabel.4,configEditor,cLabel,168,555,149,72,,lb16a/b,26,lb16,,,var=label[1] style=780 value=0
-configEditor.cLabel.5,configEditor,cLabel,327,555,149,72,,lb17a/b,26,lb17,,,var=label[2] style=780 value=0
-configEditor.cLabel.6,configEditor,cLabel,565,555,149,72,,lb18a/b,26,lb18,,,var=label[3] style=780 value=0
-configEditor.cLabel.7,configEditor,cLabel,645,555,149,72,,lb19a/b,26,lb19,,,var=label[4] style=780 value=0
-configEditor.cLabel.8,configEditor,cLabel,804,555,149,72,,lb20a/b,26,lb20,,,var=label[5] style=780 value=0
-configEditor.cLabel.9,configEditor,cLabel,963,555,149,72,,lb21a/b,26,lb21,,,var=label[6] style=780 value=0
-configEditor.cLabel.10,configEditor,cLabel,1122,555,149,72,,lb22a/b,26,lb22,,,var=label[7] style=780 value=0
-configEditor.cBgLabel.11,configEditor,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-configEditor.cList.12,configEditor,cList,6,38,313,515,,,,ls01,,,var=configBasemenuListControl style=8448 value=0
-configEditor.cParamValueList.13,configEditor,cParamValueList,324,38,631,515,,,,ls02,,,var=configSubmenuListControl style=8448 value=0
-configEditor.cList.14,configEditor,cList,801,38,313,515,,,,ls03,,,var=configListControl style=8448 value=0
-configEditor.cLabel.15,configEditor,cLabel,346,35,289,72,,lb23a/b,26,lb23,,,var=configLabel style=768 value=0
-configEditor.cTextBox.16,configEditor,cTextBox,4,39,1240,589,,lb24a/b,26,lb24,,,var=creditsTextBox style=1280 value=3
-configEditor.cTextBox.17,configEditor,cTextBox,338,78,294,478,,lb25a/b,26,lb25,,,var=descriptionTextBox style=1280 value=3
-configEditor.cBar.19,configEditor,cBar,6,38,154,515,,,,br00,,,var=padBar[0] style=270336 value=0
-configEditor.cBar.20,configEditor,cBar,165,38,154,515,,,,br01,,,var=padBar[1] style=73728 value=0
-configEditor.cLabel.21,configEditor,cLabel,982,39,159,78,,lb26a/b,26,lb26,,,var=batteryLabelControl style=768 value=1
-configEditor.cLabel.22,configEditor,cLabel,982,314,159,78,,lb27a/b,26,lb27,,,var=audioPerformanceLabelControl style=768 value=1
-configEditor.cLabel.23,configEditor,cLabel,982,392,159,78,,lb28a/b,26,lb28,,,var=memoryUsageLabelControl style=768 value=1
-configEditor.cLabel.24,configEditor,cLabel,960,38,315,515,,lb29a/b,26,lb29,,,var=blankSpaceCover[0] style=8192 value=0
-configEditor.cLabel.25,configEditor,cLabel,324,38,315,515,,lb30a/b,26,lb30,,,var=blankSpaceCover[1] style=8192 value=0
-masterParams.cFrame.0,masterParams,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-masterParams.cLabel.1,masterParams,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-masterParams.cLabel.2,masterParams,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-masterParams.cLabel.3,masterParams,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-masterParams.cLabel.4,masterParams,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-masterParams.cLabel.5,masterParams,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-masterParams.cLabel.6,masterParams,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-masterParams.cLabel.7,masterParams,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-masterParams.cLabel.8,masterParams,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-masterParams.cBgLabel.9,masterParams,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-masterParams.cLabel.10,masterParams,cLabel,7,42,153,34,,lb21a/b,27,lb21,,,var=trackNameLabel[0] style=9229 value=0
-masterParams.cBar.11,masterParams,cBar,7,84,75,469,,,,br00,,,var=trackVolumeBar[0] style=270336 value=0
-masterParams.cBar.12,masterParams,cBar,7,38,154,515,,,,br01,,,var=barControl[0] style=270336 value=0
-masterParams.cLabel.13,masterParams,cLabel,166,42,153,34,,lb22a/b,27,lb22,,,var=trackNameLabel[1] style=9229 value=0
-masterParams.cBar.14,masterParams,cBar,166,84,75,469,,,,br02,,,var=trackVolumeBar[1] style=270336 value=0
-masterParams.cBar.15,masterParams,cBar,166,38,154,515,,,,br03,,,var=barControl[1] style=270336 value=0
-masterParams.cLabel.16,masterParams,cLabel,325,42,153,34,,lb23a/b,27,lb23,,,var=trackNameLabel[2] style=9229 value=0
-masterParams.cBar.17,masterParams,cBar,325,84,75,469,,,,br04,,,var=trackVolumeBar[2] style=270336 value=0
-masterParams.cBar.18,masterParams,cBar,325,38,154,515,,,,br05,,,var=barControl[2] style=270336 value=0
-masterParams.cLabel.19,masterParams,cLabel,484,42,153,34,,lb24a/b,27,lb24,,,var=trackNameLabel[3] style=9229 value=0
-masterParams.cBar.20,masterParams,cBar,484,84,75,469,,,,br06,,,var=trackVolumeBar[3] style=270336 value=0
-masterParams.cBar.21,masterParams,cBar,484,38,154,515,,,,br07,,,var=barControl[3] style=270336 value=0
-masterParams.cLabel.22,masterParams,cLabel,643,42,153,34,,lb25a/b,27,lb25,,,var=trackNameLabel[4] style=9229 value=0
-masterParams.cBar.23,masterParams,cBar,643,84,75,469,,,,br08,,,var=trackVolumeBar[4] style=270336 value=0
-masterParams.cBar.24,masterParams,cBar,643,38,154,515,,,,br09,,,var=barControl[4] style=270336 value=0
-masterParams.cLabel.25,masterParams,cLabel,802,42,153,34,,lb26a/b,27,lb26,,,var=trackNameLabel[5] style=9229 value=0
-masterParams.cBar.26,masterParams,cBar,802,84,75,469,,,,br10,,,var=trackVolumeBar[5] style=270336 value=0
-masterParams.cBar.27,masterParams,cBar,802,38,154,515,,,,br11,,,var=barControl[5] style=270336 value=0
-masterParams.cLabel.28,masterParams,cLabel,961,42,153,34,,lb27a/b,27,lb27,,,var=trackNameLabel[6] style=9229 value=0
-masterParams.cBar.29,masterParams,cBar,961,84,75,469,,,,br12,,,var=trackVolumeBar[6] style=270336 value=0
-masterParams.cBar.30,masterParams,cBar,961,38,154,515,,,,br13,,,var=barControl[6] style=270336 value=0
-masterParams.cLabel.31,masterParams,cLabel,1120,42,153,34,,lb28a/b,27,lb28,,,var=trackNameLabel[7] style=9229 value=0
-masterParams.cBar.32,masterParams,cBar,1120,84,75,469,,,,br14,,,var=trackVolumeBar[7] style=270336 value=0
-masterParams.cBar.33,masterParams,cBar,1120,38,154,515,,,,br15,,,var=barControl[7] style=270336 value=0
-masterParams.cBar.34,masterParams,cBar,4,38,154,515,,,,br16,,,var=barControl[barIdx] style=270336 value=0
-masterParams.cLabel.35,masterParams,cLabel,1120,38,156,515,,lb29a/b,26,lb29,,,var=blankSpaceCover[0] style=8192 value=0
-masterParams.cLabel.36,masterParams,cLabel,643,84,153,470,,lb30a/b,26,lb30,,,var=blankSpaceCover[1] style=8192 value=0
-masterParams.cLabel.37,masterParams,cLabel,802,84,153,470,,lb31a/b,26,lb31,,,var=blankSpaceCover[2] style=8192 value=0
-masterParams.cList.38,masterParams,cList,7,38,154,515,,,,ls01,,,var=delayPingpongEnableList style=8192 value=0
-masterParams.cList.39,masterParams,cList,166,38,154,515,,,,ls02,,,var=delaySyncEnableList style=8192 value=0
-masterParams.cList.40,masterParams,cList,325,38,154,515,,,,ls03,,,var=delaySyncRateList style=8192 value=0
-masterParams.cList.41,masterParams,cList,643,38,154,515,,,,ls04,,,var=limiterSidechainList style=8192 value=0
-masterParams.cList.42,masterParams,cList,802,38,154,515,,,,ls05,,,var=saturationList style=8192 value=0
-performanceMode.cFrame.0,performanceMode,cFrame,4,0,1272,628,,,,fr00,,,var=frameControl style=0 value=0
-performanceMode.cLabel.1,performanceMode,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=780 value=1
-performanceMode.cLabel.2,performanceMode,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=780 value=1
-performanceMode.cLabel.3,performanceMode,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=780 value=1
-performanceMode.cLabel.4,performanceMode,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=780 value=1
-performanceMode.cLabel.5,performanceMode,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=780 value=1
-performanceMode.cLabel.6,performanceMode,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=780 value=1
-performanceMode.cLabel.7,performanceMode,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=780 value=1
-performanceMode.cLabel.8,performanceMode,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=780 value=1
-performanceMode.cBgLabel.9,performanceMode,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32768 value=255
-performanceMode.cLabel.10,performanceMode,cLabel,-144,319,429,0,,lb21a/b,27,lb21,,,var=textLabel[0] style=652 value=0
-performanceMode.cLabel.12,performanceMode,cLabel,125,319,99,509,,lb22a/b,27,lb22,,,var=textLabel[1] style=652 value=0
-performanceMode.cLabel.14,performanceMode,cLabel,228,319,99,509,,lb23a/b,27,lb23,,,var=textLabel[2] style=652 value=0
-performanceMode.cLabel.16,performanceMode,cLabel,332,319,99,509,,lb24a/b,27,lb24,,,var=textLabel[3] style=652 value=0
-performanceMode.cLabel.18,performanceMode,cLabel,435,319,99,509,,lb25a/b,27,lb25,,,var=textLabel[4] style=652 value=0
-performanceMode.cLabel.20,performanceMode,cLabel,538,319,99,509,,lb26a/b,27,lb26,,,var=textLabel[5] style=652 value=0
-performanceMode.cLabel.22,performanceMode,cLabel,642,319,99,509,,lb27a/b,27,lb27,,,var=textLabel[6] style=652 value=0
-performanceMode.cLabel.24,performanceMode,cLabel,745,319,99,509,,lb28a/b,27,lb28,,,var=textLabel[7] style=652 value=0
-performanceMode.cLabel.26,performanceMode,cLabel,848,319,99,509,,lb29a/b,27,lb29,,,var=textLabel[8] style=652 value=0
-performanceMode.cLabel.28,performanceMode,cLabel,952,319,99,509,,lb30a/b,27,lb30,,,var=textLabel[9] style=652 value=0
-performanceMode.cLabel.30,performanceMode,cLabel,1055,319,99,509,,lb31a/b,27,lb31,,,var=textLabel[10] style=652 value=0
-performanceMode.cLabel.32,performanceMode,cLabel,1158,319,99,509,,lb32a/b,27,lb32,,,var=textLabel[11] style=652 value=0
-imageViewer.cLabel.0,imageViewer,cLabel,9,555,149,72,,lb13a/b,26,lb13,,,var=label[0] style=781 value=0
-imageViewer.cLabel.1,imageViewer,cLabel,168,555,149,72,,lb14a/b,26,lb14,,,var=label[1] style=781 value=0
-imageViewer.cLabel.2,imageViewer,cLabel,327,555,149,72,,lb15a/b,26,lb15,,,var=label[2] style=781 value=0
-imageViewer.cLabel.3,imageViewer,cLabel,486,555,149,72,,lb16a/b,26,lb16,,,var=label[3] style=781 value=0
-imageViewer.cLabel.4,imageViewer,cLabel,645,555,149,72,,lb17a/b,26,lb17,,,var=label[4] style=781 value=0
-imageViewer.cLabel.5,imageViewer,cLabel,804,555,149,72,,lb18a/b,26,lb18,,,var=label[5] style=781 value=0
-imageViewer.cLabel.6,imageViewer,cLabel,963,555,149,72,,lb19a/b,26,lb19,,,var=label[6] style=781 value=0
-imageViewer.cLabel.7,imageViewer,cLabel,1122,555,149,72,,lb20a/b,26,lb20,,,var=label[7] style=781 value=0
-imageViewer.cBgLabel.8,imageViewer,cBgLabel,6,556,1267,71,,,,bg00,,,var=bgLabel style=32769 value=255
-imageViewer.cTextBox.10,imageViewer,cTextBox,4,39,1240,510,,lb21a/b,26,lb21,,,var=infoTextBox style=1280 value=3
+patternEditor.cLabel.20,patternEditor,cLabel,4,37,1270,35,,lb13a/b,27,lb13,,,var=patternPopupTitleLabel style=9224 value=0
+patternEditor.cLabel.21,patternEditor,cLabel,4,42,1272,509,,lb14a/b,26,lb14,,,var=patternPopupLabel style=40964 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb15a/b,27,lb15,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb16a/b,27,lb16,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb18a/b,27,lb18,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb19a/b,26,lb19,,,var=textPopup style=8192 value=0
+sampleEditor.cFrame.1,sampleEditor,cFrame,4,0,1272,628,,,,fr01,,,var=frame style=0 value=0
+sampleEditor.cLabel.2,sampleEditor,cLabel,9,555,149,72,,lb20a/b,26,lb20,,,var=label[0] style=780 value=1
+sampleEditor.cLabel.3,sampleEditor,cLabel,168,555,149,72,,lb21a/b,26,lb21,,,var=label[1] style=780 value=1
+sampleEditor.cLabel.4,sampleEditor,cLabel,327,555,149,72,,lb22a/b,26,lb22,,,var=label[2] style=780 value=1
+sampleEditor.cLabel.5,sampleEditor,cLabel,486,555,149,72,,lb23a/b,26,lb23,,,var=label[3] style=780 value=1
+sampleEditor.cLabel.6,sampleEditor,cLabel,645,555,149,72,,lb24a/b,26,lb24,,,var=label[4] style=780 value=1
+sampleEditor.cLabel.7,sampleEditor,cLabel,804,555,149,72,,lb25a/b,26,lb25,,,var=label[5] style=780 value=1
+sampleEditor.cLabel.8,sampleEditor,cLabel,963,555,149,72,,lb26a/b,26,lb26,,,var=label[6] style=780 value=1
+sampleEditor.cLabel.9,sampleEditor,cLabel,1122,555,149,72,,lb27a/b,26,lb27,,,var=label[7] style=780 value=1
+sampleEditor.cLabel.10,sampleEditor,cLabel,1119,38,156,515,,lb28a/b,26,lb28,,,var=blankSpaceCover style=8192 value=0
+sampleEditor.cBar.11,sampleEditor,cBar,6,38,152,515,,,,br05,,,var=bar[0] style=270336 value=0
+sampleEditor.cBar.12,sampleEditor,cBar,165,38,152,515,,,,br06,,,var=bar[1] style=270336 value=0
+sampleEditor.cBar.13,sampleEditor,cBar,324,38,152,515,,,,br07,,,var=bar[2] style=270336 value=0
+sampleEditor.cBar.14,sampleEditor,cBar,483,38,152,515,,,,br08,,,var=bar[3] style=270336 value=0
+sampleEditor.cBar.15,sampleEditor,cBar,642,38,152,515,,,,br09,,,var=bar[4] style=270336 value=0
+sampleEditor.cBar.16,sampleEditor,cBar,801,38,152,515,,,,br10,,,var=bar[5] style=270336 value=0
+sampleEditor.cBar.17,sampleEditor,cBar,960,38,152,515,,,,br11,,,var=bar[6] style=270336 value=0
+sampleEditor.cBar.18,sampleEditor,cBar,1119,38,152,515,,,,br12,,,var=bar[7] style=270336 value=0
+sampleEditor.cList.19,sampleEditor,cList,6,38,152,515,,,,ls05,,,var=paramList[0] style=8192 value=0
+sampleEditor.cList.20,sampleEditor,cList,165,38,152,515,,,,ls06,,,var=paramList[1] style=8192 value=0
+sampleEditor.cList.21,sampleEditor,cList,324,38,152,515,,,,ls07,,,var=paramList[2] style=8192 value=0
+sampleEditor.cList.22,sampleEditor,cList,483,38,152,515,,,,ls08,,,var=paramList[3] style=8192 value=0
+sampleEditor.cList.23,sampleEditor,cList,960,38,313,515,,,,ls09,,,var=effectList style=8192 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb29a/b,27,lb29,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb30a/b,27,lb30,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb32a/b,27,lb32,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb33a/b,26,lb33,,,var=textPopup style=8192 value=0
+sampleImporter.cFrame.0,sampleImporter,cFrame,4,0,1272,628,,,,fr02,,,var=frameControl style=0 value=0
+sampleImporter.cLabel.1,sampleImporter,cLabel,9,555,149,72,,lb34a/b,26,lb34,,,var=label[0] style=780 value=1
+sampleImporter.cLabel.2,sampleImporter,cLabel,168,555,149,72,,lb35a/b,26,lb35,,,var=label[1] style=780 value=1
+sampleImporter.cLabel.3,sampleImporter,cLabel,327,555,149,72,,lb36a/b,26,lb36,,,var=label[2] style=780 value=1
+sampleImporter.cLabel.4,sampleImporter,cLabel,486,555,149,72,,lb37a/b,26,lb37,,,var=label[3] style=780 value=1
+sampleImporter.cLabel.5,sampleImporter,cLabel,645,555,149,72,,lb38a/b,26,lb38,,,var=label[4] style=780 value=1
+sampleImporter.cLabel.6,sampleImporter,cLabel,804,555,149,72,,lb39a/b,26,lb39,,,var=label[5] style=780 value=1
+sampleImporter.cLabel.7,sampleImporter,cLabel,963,555,149,72,,lb40a/b,26,lb40,,,var=label[6] style=780 value=1
+sampleImporter.cLabel.8,sampleImporter,cLabel,1122,555,149,72,,lb41a/b,26,lb41,,,var=label[7] style=780 value=1
+sampleImporter.cLabel.10,sampleImporter,cLabel,6,42,472,34,,lb42a/b,27,lb42,,,var=explorerLabelControl style=9229 value=0
+sampleImporter.cLabel.11,sampleImporter,cLabel,483,42,472,34,,lb43a/b,27,lb43,,,var=instrumentLabelControl style=9229 value=0
+sampleImporter.cList.12,sampleImporter,cList,6,80,472,473,,,,ls10,,,var=explorerListControl style=8192 value=0
+sampleImporter.cList.13,sampleImporter,cList,483,80,472,473,,,,ls11,,,var=instrumentListControl style=8192 value=0
+sampleImporter.cBar.14,sampleImporter,cBar,1119,38,154,515,,,,br13,,,var=memoryBarControl style=1056768 value=0
+sampleImporter.cBar.15,sampleImporter,cBar,960,38,154,515,,,,br14,,,var=previewVolumeBarControl style=270336 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb44a/b,27,lb44,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb45a/b,27,lb45,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb47a/b,27,lb47,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb48a/b,26,lb48,,,var=textPopup style=8192 value=0
+samplePlayback.cFrame.0,samplePlayback,cFrame,4,0,1272,628,,,,fr03,,,var=frameControl style=0 value=0
+samplePlayback.cLabel.1,samplePlayback,cLabel,9,555,149,72,,lb49a/b,26,lb49,,,var=label[0] style=780 value=1
+samplePlayback.cLabel.2,samplePlayback,cLabel,168,555,149,72,,lb50a/b,26,lb50,,,var=label[1] style=780 value=1
+samplePlayback.cLabel.3,samplePlayback,cLabel,327,555,149,72,,lb51a/b,26,lb51,,,var=label[2] style=780 value=1
+samplePlayback.cLabel.4,samplePlayback,cLabel,486,555,149,72,,lb52a/b,26,lb52,,,var=label[3] style=780 value=1
+samplePlayback.cLabel.5,samplePlayback,cLabel,645,555,149,72,,lb53a/b,26,lb53,,,var=label[4] style=780 value=1
+samplePlayback.cLabel.6,samplePlayback,cLabel,804,555,149,72,,lb54a/b,26,lb54,,,var=label[5] style=780 value=1
+samplePlayback.cLabel.7,samplePlayback,cLabel,963,555,308,72,,lb55a/b,26,lb55,,,var=label[6] style=780 value=1
+samplePlayback.cLabel.8,samplePlayback,cLabel,1122,555,149,72,,lb56a/b,26,lb56,,,var=label[7] style=780 value=1
+samplePlayback.cList.10,samplePlayback,cList,960,38,313,515,,,,ls12,,,var=playModeListControl style=8192 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb57a/b,27,lb57,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb58a/b,27,lb58,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb60a/b,27,lb60,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb61a/b,26,lb61,,,var=textPopup style=8192 value=0
+sampleRecorder.cLabel.4,sampleRecorder,cLabel,9,555,149,72,,lb62a/b,26,lb62,,,var=label[0] style=780 value=1
+sampleRecorder.cLabel.5,sampleRecorder,cLabel,168,555,149,72,,lb63a/b,26,lb63,,,var=label[1] style=780 value=1
+sampleRecorder.cLabel.6,sampleRecorder,cLabel,327,555,149,72,,lb64a/b,26,lb64,,,var=label[2] style=780 value=1
+sampleRecorder.cLabel.7,sampleRecorder,cLabel,486,555,149,72,,lb65a/b,26,lb65,,,var=label[3] style=780 value=1
+sampleRecorder.cLabel.8,sampleRecorder,cLabel,645,555,149,72,,lb66a/b,26,lb66,,,var=label[4] style=780 value=1
+sampleRecorder.cLabel.9,sampleRecorder,cLabel,804,555,149,72,,lb67a/b,26,lb67,,,var=label[5] style=780 value=1
+sampleRecorder.cLabel.10,sampleRecorder,cLabel,963,555,149,72,,lb68a/b,26,lb68,,,var=label[6] style=780 value=1
+sampleRecorder.cLabel.11,sampleRecorder,cLabel,1122,555,149,72,,lb69a/b,26,lb69,,,var=label[7] style=780 value=1
+sampleRecorder.cFrame.12,sampleRecorder,cFrame,4,0,1272,628,,,,fr04,,,var=frameControl style=0 value=0
+sampleRecorder.cLabel.14,sampleRecorder,cLabel,1120,38,154,515,,lb70a/b,26,lb70,,,var=blankSpaceCover style=8192 value=0
+sampleRecorder.cLabel.15,sampleRecorder,cLabel,325,38,313,515,,lb71a/b,26,lb71,,,var=radioSpaceCover style=8192 value=0
+sampleRecorder.cList.16,sampleRecorder,cList,7,38,154,515,,,,ls13,,,var=sourceListControl style=8192 value=0
+sampleRecorder.cList.17,sampleRecorder,cList,961,38,154,515,,,,ls14,,,var=monitorListControl style=8192 value=0
+sampleRecorder.cLabel.18,sampleRecorder,cLabel,961,38,159,515,,lb72a/b,26,lb72,,,var=monitorListSpaceCover style=8192 value=0
+sampleRecorder.cBar.19,sampleRecorder,cBar,643,38,154,515,,,,br15,,,var=levelBarControl style=270337 value=0
+sampleRecorder.cBar.20,sampleRecorder,cBar,802,38,154,515,,,,br16,,,var=gainBarControl style=270337 value=0
+sampleRecorder.cBar.21,sampleRecorder,cBar,166,38,154,515,,,,br17,,,var=radioFreqBarControl style=270337 value=0
+sampleRecorder.cLabel.22,sampleRecorder,cLabel,324,262,313,39,,lb73a/b,26,lb73,,,var=radioRdsLabel style=8204 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb74a/b,27,lb74,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb75a/b,27,lb75,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb77a/b,27,lb77,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb78a/b,26,lb78,,,var=textPopup style=8192 value=0
+instrumentEditor.cFrame.0,instrumentEditor,cFrame,4,0,1272,628,,,,fr05,,,var=frameControl style=0 value=0
+instrumentEditor.cLabel.1,instrumentEditor,cLabel,9,555,308,72,,lb79a/b,26,lb79,,,var=doubleLabelAutomation style=812 value=0
+instrumentEditor.cLabel.2,instrumentEditor,cLabel,9,555,149,72,,lb80a/b,26,lb80,,,var=label[0] style=780 value=1
+instrumentEditor.cBar.3,instrumentEditor,cBar,6,38,154,515,,,,br18,,,var=barControl[0] style=270336 value=0
+instrumentEditor.cLabel.4,instrumentEditor,cLabel,168,555,149,72,,lb81a/b,26,lb81,,,var=label[1] style=780 value=1
+instrumentEditor.cBar.5,instrumentEditor,cBar,165,38,154,515,,,,br19,,,var=barControl[1] style=270336 value=0
+instrumentEditor.cLabel.6,instrumentEditor,cLabel,327,555,149,72,,lb82a/b,26,lb82,,,var=label[2] style=780 value=1
+instrumentEditor.cBar.7,instrumentEditor,cBar,324,38,154,515,,,,br20,,,var=barControl[2] style=270336 value=0
+instrumentEditor.cLabel.8,instrumentEditor,cLabel,486,555,149,72,,lb83a/b,26,lb83,,,var=label[3] style=780 value=1
+instrumentEditor.cBar.9,instrumentEditor,cBar,483,38,154,515,,,,br21,,,var=barControl[3] style=270336 value=0
+instrumentEditor.cLabel.10,instrumentEditor,cLabel,645,555,149,72,,lb84a/b,26,lb84,,,var=label[4] style=780 value=1
+instrumentEditor.cBar.11,instrumentEditor,cBar,642,38,154,515,,,,br22,,,var=barControl[4] style=270336 value=0
+instrumentEditor.cLabel.12,instrumentEditor,cLabel,804,555,149,72,,lb85a/b,26,lb85,,,var=label[5] style=780 value=1
+instrumentEditor.cBar.13,instrumentEditor,cBar,801,38,154,515,,,,br23,,,var=barControl[5] style=270336 value=0
+instrumentEditor.cLabel.14,instrumentEditor,cLabel,963,555,149,72,,lb86a/b,26,lb86,,,var=label[6] style=780 value=1
+instrumentEditor.cBar.15,instrumentEditor,cBar,960,38,154,515,,,,br24,,,var=barControl[6] style=270336 value=0
+instrumentEditor.cLabel.16,instrumentEditor,cLabel,1122,555,149,72,,lb87a/b,26,lb87,,,var=label[7] style=780 value=1
+instrumentEditor.cBar.17,instrumentEditor,cBar,1119,38,154,515,,,,br25,,,var=barControl[7] style=270336 value=0
+instrumentEditor.cList.19,instrumentEditor,cList,642,38,154,515,,,,ls15,,,var=filterModeListControl style=8192 value=0
+instrumentEditor.cList.20,instrumentEditor,cList,6,38,313,515,,,,ls16,,,var=list1Control style=8192 value=0
+instrumentEditor.cList.21,instrumentEditor,cList,324,38,154,515,,,,ls17,,,var=list2Control style=8192 value=0
+instrumentEditor.cList.22,instrumentEditor,cList,483,38,154,515,,,,ls18,,,var=list3Control style=8192 value=0
+instrumentEditor.cList.23,instrumentEditor,cList,642,38,154,515,,,,ls19,,,var=list4Control style=8192 value=0
+instrumentEditor.cList.24,instrumentEditor,cList,6,105,631,438,,,,ls20,,,var=instrumentSynthCCListControl style=8192 value=0
+instrumentEditor.cList.25,instrumentEditor,cList,642,105,472,438,,,,ls21,,,var=instrumentListControl style=8192 value=0
+instrumentEditor.NewList.26,instrumentEditor,NewList,165,38,313,515,,,,ls22,,,var=paramsListControl style=8192 value=0
+instrumentEditor.NewList.27,instrumentEditor,NewList,6,38,154,515,,,,ls23,,,var=modelListControl style=8192 value=0
+instrumentEditor.cList.29,instrumentEditor,cList,324,38,154,515,,,,ls24,,,var=ccNameListControl[0] style=8192 value=0
+instrumentEditor.cList.30,instrumentEditor,cList,483,38,154,515,,,,ls25,,,var=ccNameListControl[1] style=8192 value=0
+instrumentEditor.cList.31,instrumentEditor,cList,642,38,154,515,,,,ls26,,,var=ccNameListControl[2] style=8192 value=0
+instrumentEditor.cList.32,instrumentEditor,cList,801,38,154,515,,,,ls27,,,var=ccNameListControl[3] style=8192 value=0
+instrumentEditor.cList.33,instrumentEditor,cList,960,38,154,515,,,,ls28,,,var=ccNameListControl[4] style=8192 value=0
+instrumentEditor.cList.34,instrumentEditor,cList,1119,38,154,515,,,,ls29,,,var=ccNameListControl[5] style=8192 value=0
+instrumentEditor.cLabel.35,instrumentEditor,cLabel,4,556,1272,71,,lb88a/b,26,lb88,,,var=noteLabel style=256 value=0
+instrumentEditor.cLabel.36,instrumentEditor,cLabel,1119,38,156,515,,lb89a/b,26,lb89,,,var=blankSpaceCover[0] style=8192 value=0
+instrumentEditor.cLabel.37,instrumentEditor,cLabel,1119,38,156,515,,lb90a/b,26,lb90,,,var=blankSpaceCover[1] style=8192 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb91a/b,27,lb91,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb92a/b,27,lb92,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb94a/b,27,lb94,,,var=timerLabel style=1032 value=0
+global.popups.cList.0,global.popups,cList,966,52,318,563,,,,ls30,,,var=popupListControl style=0 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb95a/b,26,lb95,,,var=textPopup style=8192 value=0
+global.popups.cTextBox.4,global.popups,cTextBox,4,0,80,65,,lb96a/b,26,lb96,,,var=textBox style=0 value=0
+global.popups.cLabel.5,global.popups,cLabel,52,0,429,0,,lb97a/b,26,lb97,,,var=textLabel1 style=8200 value=0
+global.popups.cLabel.6,global.popups,cLabel,1012,0,429,0,,lb98a/b,26,lb98,,,var=textLabel2 style=772 value=0
+global.popups.cLabel.7,global.popups,cLabel,4,0,1264,33,,lb99a/b,26,lb99,,,var=bgLabel style=8192 value=0
+songEditor.cFrame.0,songEditor,cFrame,4,0,1272,628,,,,fr06,,,var=frameControl style=0 value=0
+songEditor.cBar.1,songEditor,cBar,1119,38,154,515,,,,br26,,,var=barControl style=270336 value=0
+songEditor.cLabel.2,songEditor,cLabel,9,555,149,72,,lb100a/b,26,lb100,,,var=label[0] style=780 value=1
+songEditor.cLabel.3,songEditor,cLabel,168,555,149,72,,lb101a/b,26,lb101,,,var=label[1] style=780 value=1
+songEditor.cLabel.4,songEditor,cLabel,327,555,149,72,,lb102a/b,26,lb102,,,var=label[2] style=780 value=1
+songEditor.cLabel.5,songEditor,cLabel,486,555,149,72,,lb103a/b,26,lb103,,,var=label[3] style=780 value=1
+songEditor.cLabel.6,songEditor,cLabel,645,555,149,72,,lb104a/b,26,lb104,,,var=label[4] style=780 value=1
+songEditor.cLabel.7,songEditor,cLabel,883,555,149,72,,lb105a/b,26,lb105,,,var=label[5] style=780 value=1
+songEditor.cLabel.8,songEditor,cLabel,963,555,149,72,,lb106a/b,26,lb106,,,var=label[6] style=780 value=1
+songEditor.cLabel.9,songEditor,cLabel,1122,555,149,72,,lb107a/b,26,lb107,,,var=label[7] style=780 value=1
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb108a/b,27,lb108,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb109a/b,27,lb109,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb111a/b,27,lb111,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb112a/b,26,lb112,,,var=textPopup style=8192 value=0
+projectEditor.cFrame.0,projectEditor,cFrame,4,0,1272,628,,,,fr07,,,var=frameControl style=0 value=0
+projectEditor.cLabel.1,projectEditor,cLabel,9,555,149,72,,lb113a/b,26,lb113,,,var=label[0] style=780 value=1
+projectEditor.cLabel.2,projectEditor,cLabel,168,555,149,72,,lb114a/b,26,lb114,,,var=label[1] style=780 value=1
+projectEditor.cLabel.3,projectEditor,cLabel,327,555,149,72,,lb115a/b,26,lb115,,,var=label[2] style=780 value=1
+projectEditor.cLabel.4,projectEditor,cLabel,486,555,149,72,,lb116a/b,26,lb116,,,var=label[3] style=780 value=1
+projectEditor.cLabel.5,projectEditor,cLabel,645,555,149,72,,lb117a/b,26,lb117,,,var=label[4] style=780 value=1
+projectEditor.cLabel.6,projectEditor,cLabel,804,555,149,72,,lb118a/b,26,lb118,,,var=label[5] style=780 value=1
+projectEditor.cLabel.7,projectEditor,cLabel,963,555,149,72,,lb119a/b,26,lb119,,,var=label[6] style=780 value=1
+projectEditor.cLabel.8,projectEditor,cLabel,1122,555,149,72,,lb120a/b,26,lb120,,,var=label[7] style=780 value=1
+projectEditor.cLabel.10,projectEditor,cLabel,9,42,467,34,,lb121a/b,27,lb121,,,var=browserLabelControl style=9228 value=0
+projectEditor.cLabel.11,projectEditor,cLabel,486,42,467,34,,lb122a/b,27,lb122,,,var=recentLabelControl style=9228 value=0
+projectEditor.cList.12,projectEditor,cList,6,80,472,473,,,,ls31,,,var=fileListControl style=8192 value=0
+projectEditor.cList.13,projectEditor,cList,483,80,472,473,,,,ls32,,,var=recentListControl style=8192 value=0
+projectEditor.cLabel.15,projectEditor,cLabel,1119,38,156,515,,lb123a/b,26,lb123,,,var=blankSpaceCover style=8192 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb124a/b,27,lb124,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb125a/b,27,lb125,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb127a/b,27,lb127,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb128a/b,26,lb128,,,var=textPopup style=8192 value=0
+configEditor.cLabel.0,configEditor,cLabel,831,17,429,0,,lb129a/b,27,lb129,,,var=gridNameLabel style=1048 value=0
+configEditor.cLabel.1,configEditor,cLabel,12,419,1256,131,,lb130a/b,27,lb130,,,var=popoutWindowLabel style=8716 value=0
+configEditor.cFrame.2,configEditor,cFrame,4,0,1272,628,,,,fr08,,,var=frameControl style=0 value=0
+configEditor.cLabel.3,configEditor,cLabel,88,555,149,72,,lb131a/b,26,lb131,,,var=label[0] style=780 value=0
+configEditor.cLabel.4,configEditor,cLabel,168,555,149,72,,lb132a/b,26,lb132,,,var=label[1] style=780 value=0
+configEditor.cLabel.5,configEditor,cLabel,327,555,149,72,,lb133a/b,26,lb133,,,var=label[2] style=780 value=0
+configEditor.cLabel.6,configEditor,cLabel,565,555,149,72,,lb134a/b,26,lb134,,,var=label[3] style=780 value=0
+configEditor.cLabel.7,configEditor,cLabel,645,555,149,72,,lb135a/b,26,lb135,,,var=label[4] style=780 value=0
+configEditor.cLabel.8,configEditor,cLabel,804,555,149,72,,lb136a/b,26,lb136,,,var=label[5] style=780 value=0
+configEditor.cLabel.9,configEditor,cLabel,963,555,149,72,,lb137a/b,26,lb137,,,var=label[6] style=780 value=0
+configEditor.cLabel.10,configEditor,cLabel,1122,555,149,72,,lb138a/b,26,lb138,,,var=label[7] style=780 value=0
+configEditor.cList.12,configEditor,cList,6,38,313,515,,,,ls33,,,var=configBasemenuListControl style=8448 value=0
+configEditor.cParamValueList.13,configEditor,cParamValueList,324,38,631,515,,,,ls34,,,var=configSubmenuListControl style=8448 value=0
+configEditor.cList.14,configEditor,cList,801,38,313,515,,,,ls35,,,var=configListControl style=8448 value=0
+configEditor.cLabel.15,configEditor,cLabel,346,35,289,72,,lb139a/b,26,lb139,,,var=configLabel style=768 value=0
+configEditor.cTextBox.16,configEditor,cTextBox,4,39,1240,589,,lb140a/b,26,lb140,,,var=creditsTextBox style=1280 value=3
+configEditor.cTextBox.17,configEditor,cTextBox,338,78,294,478,,lb141a/b,26,lb141,,,var=descriptionTextBox style=1280 value=3
+configEditor.cBar.19,configEditor,cBar,6,38,154,515,,,,br27,,,var=padBar[0] style=270336 value=0
+configEditor.cBar.20,configEditor,cBar,165,38,154,515,,,,br28,,,var=padBar[1] style=73728 value=0
+configEditor.cLabel.21,configEditor,cLabel,982,39,159,78,,lb142a/b,26,lb142,,,var=batteryLabelControl style=768 value=1
+configEditor.cLabel.22,configEditor,cLabel,982,314,159,78,,lb143a/b,26,lb143,,,var=audioPerformanceLabelControl style=768 value=1
+configEditor.cLabel.23,configEditor,cLabel,982,392,159,78,,lb144a/b,26,lb144,,,var=memoryUsageLabelControl style=768 value=1
+configEditor.cLabel.24,configEditor,cLabel,960,38,315,515,,lb145a/b,26,lb145,,,var=blankSpaceCover[0] style=8192 value=0
+configEditor.cLabel.25,configEditor,cLabel,324,38,315,515,,lb146a/b,26,lb146,,,var=blankSpaceCover[1] style=8192 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb147a/b,27,lb147,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb148a/b,27,lb148,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb150a/b,27,lb150,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb151a/b,26,lb151,,,var=textPopup style=8192 value=0
+masterParams.cFrame.0,masterParams,cFrame,4,0,1272,628,,,,fr09,,,var=frameControl style=0 value=0
+masterParams.cLabel.1,masterParams,cLabel,9,555,149,72,,lb152a/b,26,lb152,,,var=label[0] style=780 value=1
+masterParams.cLabel.2,masterParams,cLabel,168,555,149,72,,lb153a/b,26,lb153,,,var=label[1] style=780 value=1
+masterParams.cLabel.3,masterParams,cLabel,327,555,149,72,,lb154a/b,26,lb154,,,var=label[2] style=780 value=1
+masterParams.cLabel.4,masterParams,cLabel,486,555,149,72,,lb155a/b,26,lb155,,,var=label[3] style=780 value=1
+masterParams.cLabel.5,masterParams,cLabel,645,555,149,72,,lb156a/b,26,lb156,,,var=label[4] style=780 value=1
+masterParams.cLabel.6,masterParams,cLabel,804,555,149,72,,lb157a/b,26,lb157,,,var=label[5] style=780 value=1
+masterParams.cLabel.7,masterParams,cLabel,963,555,149,72,,lb158a/b,26,lb158,,,var=label[6] style=780 value=1
+masterParams.cLabel.8,masterParams,cLabel,1122,555,149,72,,lb159a/b,26,lb159,,,var=label[7] style=780 value=1
+masterParams.cLabel.10,masterParams,cLabel,7,42,153,34,,lb160a/b,27,lb160,,,var=trackNameLabel[0] style=9229 value=0
+masterParams.cBar.11,masterParams,cBar,7,84,75,469,,,,br29,,,var=trackVolumeBar[0] style=270336 value=0
+masterParams.cBar.12,masterParams,cBar,7,38,154,515,,,,br30,,,var=barControl[0] style=270336 value=0
+masterParams.cLabel.13,masterParams,cLabel,166,42,153,34,,lb161a/b,27,lb161,,,var=trackNameLabel[1] style=9229 value=0
+masterParams.cBar.14,masterParams,cBar,166,84,75,469,,,,br31,,,var=trackVolumeBar[1] style=270336 value=0
+masterParams.cBar.15,masterParams,cBar,166,38,154,515,,,,br32,,,var=barControl[1] style=270336 value=0
+masterParams.cLabel.16,masterParams,cLabel,325,42,153,34,,lb162a/b,27,lb162,,,var=trackNameLabel[2] style=9229 value=0
+masterParams.cBar.17,masterParams,cBar,325,84,75,469,,,,br33,,,var=trackVolumeBar[2] style=270336 value=0
+masterParams.cBar.18,masterParams,cBar,325,38,154,515,,,,br34,,,var=barControl[2] style=270336 value=0
+masterParams.cLabel.19,masterParams,cLabel,484,42,153,34,,lb163a/b,27,lb163,,,var=trackNameLabel[3] style=9229 value=0
+masterParams.cBar.20,masterParams,cBar,484,84,75,469,,,,br35,,,var=trackVolumeBar[3] style=270336 value=0
+masterParams.cBar.21,masterParams,cBar,484,38,154,515,,,,br36,,,var=barControl[3] style=270336 value=0
+masterParams.cLabel.22,masterParams,cLabel,643,42,153,34,,lb164a/b,27,lb164,,,var=trackNameLabel[4] style=9229 value=0
+masterParams.cBar.23,masterParams,cBar,643,84,75,469,,,,br37,,,var=trackVolumeBar[4] style=270336 value=0
+masterParams.cBar.24,masterParams,cBar,643,38,154,515,,,,br38,,,var=barControl[4] style=270336 value=0
+masterParams.cLabel.25,masterParams,cLabel,802,42,153,34,,lb165a/b,27,lb165,,,var=trackNameLabel[5] style=9229 value=0
+masterParams.cBar.26,masterParams,cBar,802,84,75,469,,,,br39,,,var=trackVolumeBar[5] style=270336 value=0
+masterParams.cBar.27,masterParams,cBar,802,38,154,515,,,,br40,,,var=barControl[5] style=270336 value=0
+masterParams.cLabel.28,masterParams,cLabel,961,42,153,34,,lb166a/b,27,lb166,,,var=trackNameLabel[6] style=9229 value=0
+masterParams.cBar.29,masterParams,cBar,961,84,75,469,,,,br41,,,var=trackVolumeBar[6] style=270336 value=0
+masterParams.cBar.30,masterParams,cBar,961,38,154,515,,,,br42,,,var=barControl[6] style=270336 value=0
+masterParams.cLabel.31,masterParams,cLabel,1120,42,153,34,,lb167a/b,27,lb167,,,var=trackNameLabel[7] style=9229 value=0
+masterParams.cBar.32,masterParams,cBar,1120,84,75,469,,,,br43,,,var=trackVolumeBar[7] style=270336 value=0
+masterParams.cBar.33,masterParams,cBar,1120,38,154,515,,,,br44,,,var=barControl[7] style=270336 value=0
+masterParams.cBar.34,masterParams,cBar,4,38,154,515,,,,br45,,,var=barControl[barIdx] style=270336 value=0
+masterParams.cLabel.35,masterParams,cLabel,1120,38,156,515,,lb168a/b,26,lb168,,,var=blankSpaceCover[0] style=8192 value=0
+masterParams.cLabel.36,masterParams,cLabel,643,84,153,470,,lb169a/b,26,lb169,,,var=blankSpaceCover[1] style=8192 value=0
+masterParams.cLabel.37,masterParams,cLabel,802,84,153,470,,lb170a/b,26,lb170,,,var=blankSpaceCover[2] style=8192 value=0
+masterParams.cList.38,masterParams,cList,7,38,154,515,,,,ls36,,,var=delayPingpongEnableList style=8192 value=0
+masterParams.cList.39,masterParams,cList,166,38,154,515,,,,ls37,,,var=delaySyncEnableList style=8192 value=0
+masterParams.cList.40,masterParams,cList,325,38,154,515,,,,ls38,,,var=delaySyncRateList style=8192 value=0
+masterParams.cList.41,masterParams,cList,643,38,154,515,,,,ls39,,,var=limiterSidechainList style=8192 value=0
+masterParams.cList.42,masterParams,cList,802,38,154,515,,,,ls40,,,var=saturationList style=8192 value=0
+global.titleBar.cLabel.0,global.titleBar,cLabel,18,17,429,0,,lb171a/b,27,lb171,,,var=titleLabel style=536871944 value=0
+global.titleBar.cLabel.1,global.titleBar,cLabel,831,17,429,0,,lb172a/b,27,lb172,,,var=rightLabel style=1048 value=0
+global.songTimer.cLabel.0,global.songTimer,cLabel,449,0,429,34,,lb174a/b,27,lb174,,,var=timerLabel style=1032 value=0
+global.popups.cTextPopup.3,global.popups,cTextPopup,402,249,477,92,,lb175a/b,26,lb175,,,var=textPopup style=8192 value=0
+performanceMode.cFrame.0,performanceMode,cFrame,4,0,1272,628,,,,fr10,,,var=frameControl style=0 value=0
+performanceMode.cLabel.1,performanceMode,cLabel,9,555,149,72,,lb176a/b,26,lb176,,,var=label[0] style=780 value=1
+performanceMode.cLabel.2,performanceMode,cLabel,168,555,149,72,,lb177a/b,26,lb177,,,var=label[1] style=780 value=1
+performanceMode.cLabel.3,performanceMode,cLabel,327,555,149,72,,lb178a/b,26,lb178,,,var=label[2] style=780 value=1
+performanceMode.cLabel.4,performanceMode,cLabel,486,555,149,72,,lb179a/b,26,lb179,,,var=label[3] style=780 value=1
+performanceMode.cLabel.5,performanceMode,cLabel,645,555,149,72,,lb180a/b,26,lb180,,,var=label[4] style=780 value=1
+performanceMode.cLabel.6,performanceMode,cLabel,804,555,149,72,,lb181a/b,26,lb181,,,var=label[5] style=780 value=1
+performanceMode.cLabel.7,performanceMode,cLabel,963,555,149,72,,lb182a/b,26,lb182,,,var=label[6] style=780 value=1
+performanceMode.cLabel.8,performanceMode,cLabel,1122,555,149,72,,lb183a/b,26,lb183,,,var=label[7] style=780 value=1
+performanceMode.cLabel.10,performanceMode,cLabel,21,212,99,92,,lb184a/b,27,lb184,,,var=fxName[0] style=524 value=0
+performanceMode.cList.11,performanceMode,cList,21,44,99,163,,,,ls41,,,var=col[0] style=8448 value=0
+performanceMode.cLabel.12,performanceMode,cLabel,125,212,99,92,,lb185a/b,27,lb185,,,var=fxName[1] style=524 value=0
+performanceMode.cList.13,performanceMode,cList,125,44,98,163,,,,ls42,,,var=col[1] style=8448 value=0
+performanceMode.cLabel.14,performanceMode,cLabel,228,212,99,92,,lb186a/b,27,lb186,,,var=fxName[2] style=524 value=0
+performanceMode.cList.15,performanceMode,cList,228,44,99,163,,,,ls43,,,var=col[2] style=8448 value=0
+performanceMode.cLabel.16,performanceMode,cLabel,332,212,99,92,,lb187a/b,27,lb187,,,var=fxName[3] style=524 value=0
+performanceMode.cList.17,performanceMode,cList,332,44,98,163,,,,ls44,,,var=col[3] style=8448 value=0
+performanceMode.cLabel.18,performanceMode,cLabel,435,212,99,92,,lb188a/b,27,lb188,,,var=fxName[4] style=524 value=0
+performanceMode.cList.19,performanceMode,cList,435,44,98,163,,,,ls45,,,var=col[4] style=8448 value=0
+performanceMode.cLabel.20,performanceMode,cLabel,538,212,99,92,,lb189a/b,27,lb189,,,var=fxName[5] style=524 value=0
+performanceMode.cList.21,performanceMode,cList,538,44,99,163,,,,ls46,,,var=col[5] style=8448 value=0
+performanceMode.cLabel.22,performanceMode,cLabel,642,212,99,92,,lb190a/b,27,lb190,,,var=fxName[6] style=524 value=0
+performanceMode.cList.23,performanceMode,cList,642,44,98,163,,,,ls47,,,var=col[6] style=8448 value=0
+performanceMode.cLabel.24,performanceMode,cLabel,745,212,99,92,,lb191a/b,27,lb191,,,var=fxName[7] style=524 value=0
+performanceMode.cList.25,performanceMode,cList,745,44,99,163,,,,ls48,,,var=col[7] style=8448 value=0
+performanceMode.cLabel.26,performanceMode,cLabel,848,212,99,92,,lb192a/b,27,lb192,,,var=fxName[8] style=524 value=0
+performanceMode.cList.27,performanceMode,cList,848,44,99,163,,,,ls49,,,var=col[8] style=8448 value=0
+performanceMode.cLabel.28,performanceMode,cLabel,952,212,99,92,,lb193a/b,27,lb193,,,var=fxName[9] style=524 value=0
+performanceMode.cList.29,performanceMode,cList,952,44,98,163,,,,ls50,,,var=col[9] style=8448 value=0
+performanceMode.cLabel.30,performanceMode,cLabel,1055,212,99,92,,lb194a/b,27,lb194,,,var=fxName[10] style=524 value=0
+performanceMode.cList.31,performanceMode,cList,1055,44,99,163,,,,ls51,,,var=col[10] style=8448 value=0
+performanceMode.cLabel.32,performanceMode,cLabel,1158,212,99,92,,lb195a/b,27,lb195,,,var=fxName[11] style=524 value=0
+performanceMode.cList.33,performanceMode,cList,1158,44,99,163,,,,ls52,,,var=col[11] style=8448 value=0
 wave.m0,waveform,cSpectrum,4,152,954,285,,wu0_NNN wd0_NNN (100 columns x 2 halves),,wg0,,,levels=24 src_px_per_column=6
 wave.l0,waveform,cSpectrum,4,152,954,142,,wu0_NNN wd0_NNN (100 columns x 2 halves),,wg0,,,levels=24 src_px_per_column=6
 wave.m1,waveform,cSpectrum,163,152,954,285,,wu0_NNN wd0_NNN (100 columns x 2 halves),,wg0,,,levels=24 src_px_per_column=6
@@ -289,39 +337,24 @@ bottom.4,all,button,640,584,160,44,F5,,26,btn5,,,
 bottom.5,all,button,800,584,160,44,F6,,26,btn6,,,
 bottom.6,all,button,960,584,160,44,F7,,26,btn7,,,
 bottom.7,all,button,1120,584,160,44,F8,,26,btn8,,,
-controls.btn1,controls,button,4,4,154,112,BTN 1,,36,btn1,,,
-controls.btn2,controls,button,164,4,154,112,BTN 2,,36,btn2,,,
-controls.btn3,controls,button,324,4,154,112,BTN 3,,36,btn3,,,
-controls.btn4,controls,button,484,4,154,112,BTN 4,,36,btn4,,,
-controls.btn5,controls,button,644,4,154,112,BTN 5,,36,btn5,,,
-controls.btn6,controls,button,804,4,154,112,BTN 6,,36,btn6,,,
-controls.btn7,controls,button,964,4,154,112,BTN 7,,36,btn7,,,
-controls.btn8,controls,button,1124,4,154,112,BTN 8,,36,btn8,,,
-controls.scr_params,controls,button,4,122,154,112,PARAMS,,36,scr_params,,,
-controls.scr_perf,controls,button,164,122,154,112,PERFORM,,36,scr_perf,,,
-controls.scr_file,controls,button,324,122,154,112,FILE,,36,scr_file,,,
-controls.scr_config,controls,button,484,122,154,112,CONFIG,,36,scr_config,,,
-controls.scr_master,controls,button,644,122,154,112,MASTER,,36,scr_master,,,
-controls.scr_sload,controls,button,804,122,154,112,SAMPLE LOAD,,36,scr_sload,,,
-controls.scr_splay,controls,button,964,122,154,112,SAMPLE PLAY,,36,scr_splay,,,
-controls.scr_sedit,controls,button,1124,122,154,112,SAMPLE EDIT,,36,scr_sedit,,,
-controls.scr_srec,controls,button,4,240,154,112,SAMPLE REC,,36,scr_srec,,,
-controls.scr_song,controls,button,164,240,154,112,SONG,,36,scr_song,,,
-controls.scr_note,controls,button,324,240,154,112,NOTE,,36,scr_note,,,
-controls.scr_instr,controls,button,484,240,154,112,INSTR,,36,scr_instr,,,
-controls.scr_vol,controls,button,644,240,154,112,VOLUME,,36,scr_vol,,,
-controls.scr_fx,controls,button,804,240,154,112,FX,,36,scr_fx,,,
-controls.scr_pattern,controls,button,964,240,154,112,PATTERN,,36,scr_pattern,,,
-controls.cur_up,controls,button,4,358,154,112,UP,,36,cur_up,,,
-controls.cur_down,controls,button,164,358,154,112,DOWN,,36,cur_down,,,
-controls.cur_left,controls,button,324,358,154,112,LEFT,,36,cur_left,,,
-controls.cur_right,controls,button,484,358,154,112,RIGHT,,36,cur_right,,,
-controls.play,controls,button,644,358,154,112,PLAY,,36,play,,,
-controls.stop,controls,button,804,358,154,112,STOP,,36,stop,,,
-controls.shift,controls,button,964,358,154,112,SHIFT,,36,shift,,,
-controls.edit,controls,button,1124,358,154,112,EDIT,,36,edit,,,
-controls.copy,controls,button,4,476,154,112,COPY,,36,copy,,,
-controls.insert,controls,button,164,476,154,112,INSERT,,36,insert,,,
-controls.delete,controls,button,324,476,154,112,DELETE,,36,delete,,,
-controls.wheel_down,controls,button,484,476,154,112,WHEEL -,,36,wheel_down,,,
-controls.wheel_up,controls,button,644,476,154,112,WHEEL +,,36,wheel_up,,,
+controls.play,controls,button,4,4,308,148,PLAY,,48,play,,,
+controls.stop,controls,button,320,4,308,148,STOP,,48,stop,,,
+controls.edit,controls,button,636,4,308,148,EDIT,,48,edit,,,
+controls.shift,controls,button,952,4,308,148,SHIFT,,48,shift,,,
+controls.cur_up,controls,button,4,160,308,148,UP,,48,cur_up,,,
+controls.cur_down,controls,button,320,160,308,148,DOWN,,48,cur_down,,,
+controls.cur_left,controls,button,636,160,308,148,LEFT,,48,cur_left,,,
+controls.cur_right,controls,button,952,160,308,148,RIGHT,,48,cur_right,,,
+controls.copy,controls,button,4,316,308,148,COPY,,48,copy,,,
+controls.insert,controls,button,320,316,308,148,INSERT,,48,insert,,,
+controls.delete,controls,button,636,316,308,148,DELETE,,48,delete,,,
+controls.wheel_down,controls,button,4,472,308,148,WHEEL -,,48,wheel_down,,,
+controls.wheel_up,controls,button,320,472,308,148,WHEEL +,,48,wheel_up,,,
+controls.btn1,controls,button,4,4,308,148,BTN 1,,48,btn1,,,
+controls.btn2,controls,button,320,4,308,148,BTN 2,,48,btn2,,,
+controls.btn3,controls,button,636,4,308,148,BTN 3,,48,btn3,,,
+controls.btn4,controls,button,952,4,308,148,BTN 4,,48,btn4,,,
+controls.btn5,controls,button,4,160,308,148,BTN 5,,48,btn5,,,
+controls.btn6,controls,button,320,160,308,148,BTN 6,,48,btn6,,,
+controls.btn7,controls,button,636,160,308,148,BTN 7,,48,btn7,,,
+controls.btn8,controls,button,952,160,308,148,BTN 8,,48,btn8,,,

@@ -18,7 +18,7 @@ ap.add_argument("--out", default=os.path.join(C.SKIN, "build"))
 a = ap.parse_args()
 
 table = json.load(open(os.path.join(C.HERE, "ctl_table.json")))
-mods = [m for m in MODULES if not a.modules or m in a.modules.split(",")]
+mods = [m for m in MODULES if m != "imageViewer" and (not a.modules or m in a.modules.split(","))]   # the image viewer is not part of the plugin
 P = model.Params(); controls = []
 out = a.out; skd = os.path.join(out, "Plugin Skins"); os.makedirs(skd, exist_ok=True)
 S = tui.Skin(P, skd)
@@ -31,6 +31,13 @@ pat = pattern.Pattern(P, S, pattern.MODES if a.views == "all" else pattern.CORE_
 pat.declare()
 wav = wave.Wave(P, S, controls)
 wav.declare()
+# Performance page: the firmware's 12 multi-line columns become a name label + a 4-row list per column (our own engine drives them)
+_pm = [c for c in table["performanceMode"] if c["type"] not in ("cLabel", "cMultiLabel") or (c.get("var") or "").startswith("label[")]
+for _i in range(12):
+    _x = 42 + 65 * _i
+    _pm.append(dict(type="cLabel", var="fxName[%d]" % _i, cond=False, x=_x, y=162, w=62, h=70, style=524, value=0, text=None, data=0, colors="display.getTheme.perfFxNameTextLabelColors"))
+    _pm.append(dict(type="cList", var="col[%d]" % _i, cond=False, x=_x - 31, y=34, w=62, h=124, style=8448, value=0, text=0, data=0, colors=0))
+table["performanceMode"] = _pm
 gen = generic.Generic(P, S, table, mods, controls, detail=a.detail)
 gen.plan()
 scan = {m: generic.scan_roles(m, f) for m, f in MODULES.items()}
@@ -38,50 +45,70 @@ gen.declare(scan)
 P.region("icons", [("ic%02d" % i, "opt", dict(n=len(icons.ICONS) + 1)) for i in range(4)])
 
 art = os.path.join(C.SKIN, "art")
-pat.build(art)
+S.kids = []; pat.build(art); pat_kids = S.kids
 gen.build(art)
-wav.build(art)
-icons.build(S, P, controls, art)
+S.kids = []; wav.build(art); wave_kids = S.kids
+S.kids = []; icons.build(S, P, controls, art); icon_kids = S.kids
+S.kids = []
 
-# bottom buttons: 8 touch boxes under the grid (button order = hardware under-screen buttons)
+# ---- one Force tab per screen (module index = screen id); the last two are touch pages for the panel buttons
+from PIL import Image, ImageDraw, ImageFont
+FONT = os.path.join(C.PORT, "platform", "third_party", "mpc-vst-plugins", "tools", "html_art", "fonts", "TitilliumWeb-SemiBold.ttf")
+SCREEN_TABS = [("PATTERN", 1), ("INSTRUMENT", 6), ("SAMPLE LOAD", 3), ("SAMPLE PLAY", 4), ("SAMPLE EDIT", 2), ("SONG", 7), ("PROJECT", 8),
+               ("CONFIG", 9), ("MASTER", 10), ("PERFORM", 11)]
+tabs = []
 bw = C.CANVAS_W // 8
+for tname, mi in SCREEN_TABS:
+    S.kids = []
+    kids = []
+    if mi == 1: kids += pat_kids
+    kids += gen.pages.get((mi, True), []) + gen.pages.get((mi, False), [])
+    if mi in (2, 4): kids += wave_kids
+    if mi == 1: kids += icon_kids
+    S.kids = []
+    for i in range(8):
+        S.button("bs%02d_%d" % (mi, i + 1), i * bw, C.CANVAS_H - 44, bw, 44, name="bottom %d" % (i + 1))
+    kids += S.kids
+    S.kids = []
+    S.wheel_anchor("wh%02d" % mi, "we%02d" % mi, 196, 2, 116, 32)   # the focused control: the Force data wheel turns the parameter that has the focus, so the wheel needs one on every tab
+    for q in range(1, 9): S.qlink_anchor("mt%02d_%d" % (mi, q), 320 + (q - 1) * 120, 2, 116, 32)
+    kids += S.kids
+    tabs.append(dict(name=tname, kids=kids, qkeys=["mt%02d_%d" % (mi, q) for q in range(1, 9)]))
 for i in range(8):
-    S.button("btn%d" % (i + 1), i * bw, C.CANVAS_H - 44, bw, 44, name="bottom %d" % (i + 1))
     controls.append(model.Widget(id="bottom.%d" % i, screen="all", type="button", x=i * bw, y=C.CANVAS_H - 44, w=bw, h=44,
                                  label="F%d" % (i + 1), live="", px=26, parameter="btn%d" % (i + 1)))
 
-# ---- page 2: CONTROLS (touch buttons for everything the Tracker's panel has and the skin did not draw; placement = layout.csv, screen "controls")
-from PIL import Image, ImageDraw, ImageFont
-page1 = S.kids
-S.kids = []
-FONT = os.path.join(C.PORT, "platform", "third_party", "mpc-vst-plugins", "tools", "html_art", "fonts", "TitilliumWeb-SemiBold.ttf")
-CTRL_ROWS = [
-    [("btn%d" % k, "BTN %d" % k) for k in range(1, 9)],
-    [("scr_params", "PARAMS"), ("scr_perf", "PERFORM"), ("scr_file", "FILE"), ("scr_config", "CONFIG"), ("scr_master", "MASTER"), ("scr_sload", "SAMPLE\nLOAD"), ("scr_splay", "SAMPLE\nPLAY"), ("scr_sedit", "SAMPLE\nEDIT")],
-    [("scr_srec", "SAMPLE\nREC"), ("scr_song", "SONG"), ("scr_note", "NOTE"), ("scr_instr", "INSTR"), ("scr_vol", "VOLUME"), ("scr_fx", "FX"), ("scr_pattern", "PATTERN"), ("pad_mode_btn", "")],
-    [("cur_up", "UP"), ("cur_down", "DOWN"), ("cur_left", "LEFT"), ("cur_right", "RIGHT"), ("play", "PLAY"), ("stop", "STOP"), ("shift", "SHIFT"), ("edit", "EDIT")],
-    [("copy", "COPY"), ("insert", "INSERT"), ("delete", "DELETE"), ("wheel_down", "WHEEL -"), ("wheel_up", "WHEEL +"), ("", ""), ("", ""), ("", "")],
+CTRL_PAGES = [
+    ("TRANSPORT", [
+        [("play", "PLAY"), ("stop", "STOP"), ("edit", "EDIT"), ("shift", "SHIFT")],
+        [("cur_up", "UP"), ("cur_down", "DOWN"), ("cur_left", "LEFT"), ("cur_right", "RIGHT")],
+        [("copy", "COPY"), ("insert", "INSERT"), ("delete", "DELETE"), ("", "")],
+        [("wheel_down", "WHEEL -"), ("wheel_up", "WHEEL +"), ("", ""), ("", "")],
+    ]),
+    ("FUNCTION", [
+        [("btn1", "BTN 1"), ("btn2", "BTN 2"), ("btn3", "BTN 3"), ("btn4", "BTN 4")],
+        [("btn5", "BTN 5"), ("btn6", "BTN 6"), ("btn7", "BTN 7"), ("btn8", "BTN 8")],
+    ]),
 ]
-cw, chh, gap = 154, 112, 6
-for r, row in enumerate(CTRL_ROWS):
-    for c, (key, label) in enumerate(row):
-        if not key or key not in P.index:
-            continue
-        x, y = 4 + c * (cw + gap), 4 + r * (chh + gap)
-        im = Image.new("RGBA", (cw, chh), (22, 22, 22, 255))
-        d = ImageDraw.Draw(im)
-        d.rectangle((0, 0, cw - 1, chh - 1), outline=(96, 96, 96, 255), width=2)
-        f = ImageFont.truetype(FONT, 36)
-        d.multiline_text((cw // 2, chh // 2), label, font=f, fill=(235, 235, 235, 255), anchor="mm", align="center", spacing=2)
-        png = S.save_png("ctl_%s.png" % key, im)
-        S.image(png, x, y, cw, chh, name="ctl plate %s" % key)
-        S.button(key, x, y, cw, chh, name="ctl %s" % key)
-        controls.append(model.Widget(id="controls.%s" % key, screen="controls", type="button", x=x, y=y, w=cw, h=chh, label=label.replace("\n", " "), live="", px=36, parameter=key))
-page2 = S.kids
-S.pages = [page1, page2] if os.environ.get('TXL_CONTROLS_PAGE', '0') == '1' else [page1]   # 0.1.4: off until a Force confirms a second tab loads
-S.kids = page1
-for q in range(1, 5): S.qlink_anchor("ql%d" % q, 4 + (q - 1) * 300, 2, 290, 32)   # Q-Links 1-4 carry the focused parameter
-nbytes = S.write(["ql1", "ql2", "ql3", "ql4"])
+cw, chh, gap = 308, 148, 8
+for pname, prows in CTRL_PAGES:
+    S.kids = []
+    for r, row in enumerate(prows):
+        for c, (key, label) in enumerate(row):
+            if not key or key not in P.index:
+                continue
+            x, y = 4 + c * (cw + gap), 4 + r * (chh + gap)
+            im = Image.new("RGBA", (cw, chh), (22, 22, 22, 255))
+            d = ImageDraw.Draw(im)
+            d.rectangle((0, 0, cw - 1, chh - 1), outline=(96, 96, 96, 255), width=2)
+            f = ImageFont.truetype(FONT, 48)
+            d.multiline_text((cw // 2, chh // 2), label, font=f, fill=(235, 235, 235, 255), anchor="mm", align="center", spacing=2)
+            png = S.save_png("ctl_%s.png" % key, im)
+            S.image(png, x, y, cw, chh, name="ctl plate %s" % key)
+            S.button(key, x, y, cw, chh, name="ctl %s" % key)
+            controls.append(model.Widget(id="controls.%s" % key, screen="controls", type="button", x=x, y=y, w=cw, h=chh, label=label.replace("\n", " "), live="", px=48, parameter=key))
+    tabs.append(dict(name=pname, kids=S.kids, qkeys=[]))
+nbytes = S.write(tabs)
 
 json.dump(P.to_json(), open(os.path.join(out, "params.json"), "w"), indent=1)
 vj = json.load(open(os.path.join(C.PORT, "platform", "vst.json")))          # the platform's own (name, vendor "L'Cronx", uid, so, MODULE_DIR, HAS_SONG_POS)

@@ -22,6 +22,9 @@ constexpr int kSr = 44100;
 constexpr int kBlock = 128;
 constexpr size_t kSampleMemMax = 64u * 1024u * 1024u;   /* bytes of sample data */
 
+/* performance effects (the Tracker's per-track Performance page); values are offsets -100..100 unless noted */
+enum PerfFx : uint8_t { PF_NONE = 0, PF_VOL, PF_PAN, PF_TUNE, PF_LP, PF_HP, PF_BP, PF_DEL, PF_REV, PF_POS, PF_END, PF_PLAY, PF_REPEAT, PF_BITS, PF_DRIVE, PF_COUNT };
+
 /* ------------------------------------------------------------------ pattern data */
 enum : uint8_t { N_NONE = 255, N_OFF = 254, N_CUT = 253, N_FADE = 252 };
 enum FxType : uint8_t { FX_NONE = 0, FX_VOL, FX_PAN, FX_CUT, FX_RES, FX_TEMPO, FX_OFFSET, FX_RETRIG, FX_REVERSE, FX_CHANCE, FX_COUNT };

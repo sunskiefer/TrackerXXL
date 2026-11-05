@@ -15,9 +15,9 @@ def load(skin_dir, params_json):
     keys = [p["key"] for p in json.load(open(params_json))["params"]]
     return tui, defs, keys
 
-def render(skin_dir, params_json, scene, out, size=(1280, 628)):
+def render(skin_dir, params_json, scene, out, size=(1280, 628), tab=0):
     tui, defs, keys = load(skin_dir, params_json)
-    page = defs[tui["pageData"]["tabs"][0]["componentName"]]
+    page = defs[tui["pageData"]["tabs"][tab]["componentName"]]
     val = {}; txt = {}
     for k, v in scene.items():
         if isinstance(v, list): val[k], txt[k] = v[0], v[1]

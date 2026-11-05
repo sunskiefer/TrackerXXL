@@ -39,6 +39,9 @@ int bazzVoice();
 float level();                                   /* 0..1 peak of the last blocks */
 float samplePlayPos(int track, int instr);       /* 0..1 of the sample being played by that track, -1 if none */
 float lastPlayPos();                             /* 0..1 of the most recent sample voice, -1 none */
+/* performance effects: an offset on top of the instrument for one track, until cleared */
+void perfSet(int track, int fx, int value);
+void perfClear(int track, int fx);
 float dbOf(int vol);
 void dbText(int vol, char* b);
 void tapTempo();

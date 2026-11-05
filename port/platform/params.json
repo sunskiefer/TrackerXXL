@@ -24,32 +24,732 @@
    "momentary": true
   },
   {
-   "key": "ql1",
-   "name": "QL1 VALUE",
+   "key": "wheel_enter",
+   "name": "WHEEL PRESS",
    "min": 0,
    "max": 1,
-   "default": 0.5
+   "default": 0,
+   "momentary": true
   },
   {
-   "key": "ql2",
-   "name": "QL2 COARSE",
+   "key": "mt01_1",
+   "name": "PATTERN MACRO 1",
    "min": 0,
    "max": 1,
-   "default": 0.5
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
   },
   {
-   "key": "ql3",
-   "name": "QL3 FOCUS H",
+   "key": "mt01_2",
+   "name": "PATTERN MACRO 2",
    "min": 0,
    "max": 1,
-   "default": 0.5
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
   },
   {
-   "key": "ql4",
-   "name": "QL4 FOCUS V",
+   "key": "mt01_3",
+   "name": "PATTERN MACRO 3",
    "min": 0,
    "max": 1,
-   "default": 0.5
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt01_4",
+   "name": "PATTERN MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt01_5",
+   "name": "PATTERN MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt01_6",
+   "name": "PATTERN MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt01_7",
+   "name": "PATTERN MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt01_8",
+   "name": "PATTERN MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_1",
+   "name": "INSTRUMENT MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_2",
+   "name": "INSTRUMENT MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_3",
+   "name": "INSTRUMENT MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_4",
+   "name": "INSTRUMENT MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_5",
+   "name": "INSTRUMENT MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_6",
+   "name": "INSTRUMENT MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_7",
+   "name": "INSTRUMENT MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt06_8",
+   "name": "INSTRUMENT MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_1",
+   "name": "SAMPLE LOAD MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_2",
+   "name": "SAMPLE LOAD MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_3",
+   "name": "SAMPLE LOAD MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_4",
+   "name": "SAMPLE LOAD MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_5",
+   "name": "SAMPLE LOAD MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_6",
+   "name": "SAMPLE LOAD MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_7",
+   "name": "SAMPLE LOAD MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt03_8",
+   "name": "SAMPLE LOAD MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_1",
+   "name": "SAMPLE PLAY MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_2",
+   "name": "SAMPLE PLAY MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_3",
+   "name": "SAMPLE PLAY MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_4",
+   "name": "SAMPLE PLAY MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_5",
+   "name": "SAMPLE PLAY MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_6",
+   "name": "SAMPLE PLAY MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_7",
+   "name": "SAMPLE PLAY MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt04_8",
+   "name": "SAMPLE PLAY MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_1",
+   "name": "SAMPLE EDIT MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_2",
+   "name": "SAMPLE EDIT MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_3",
+   "name": "SAMPLE EDIT MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_4",
+   "name": "SAMPLE EDIT MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_5",
+   "name": "SAMPLE EDIT MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_6",
+   "name": "SAMPLE EDIT MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_7",
+   "name": "SAMPLE EDIT MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt02_8",
+   "name": "SAMPLE EDIT MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_1",
+   "name": "SONG MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_2",
+   "name": "SONG MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_3",
+   "name": "SONG MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_4",
+   "name": "SONG MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_5",
+   "name": "SONG MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_6",
+   "name": "SONG MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_7",
+   "name": "SONG MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt07_8",
+   "name": "SONG MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_1",
+   "name": "PROJECT MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_2",
+   "name": "PROJECT MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_3",
+   "name": "PROJECT MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_4",
+   "name": "PROJECT MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_5",
+   "name": "PROJECT MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_6",
+   "name": "PROJECT MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_7",
+   "name": "PROJECT MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt08_8",
+   "name": "PROJECT MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_1",
+   "name": "CONFIG MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_2",
+   "name": "CONFIG MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_3",
+   "name": "CONFIG MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_4",
+   "name": "CONFIG MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_5",
+   "name": "CONFIG MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_6",
+   "name": "CONFIG MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_7",
+   "name": "CONFIG MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt09_8",
+   "name": "CONFIG MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_1",
+   "name": "MASTER MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_2",
+   "name": "MASTER MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_3",
+   "name": "MASTER MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_4",
+   "name": "MASTER MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_5",
+   "name": "MASTER MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_6",
+   "name": "MASTER MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_7",
+   "name": "MASTER MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt10_8",
+   "name": "MASTER MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_1",
+   "name": "PERFORM MACRO 1",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_2",
+   "name": "PERFORM MACRO 2",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_3",
+   "name": "PERFORM MACRO 3",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_4",
+   "name": "PERFORM MACRO 4",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_5",
+   "name": "PERFORM MACRO 5",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_6",
+   "name": "PERFORM MACRO 6",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_7",
+   "name": "PERFORM MACRO 7",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
+  },
+  {
+   "key": "mt11_8",
+   "name": "PERFORM MACRO 8",
+   "min": 0,
+   "max": 1,
+   "default": 0.5,
+   "dynamic_name": true,
+   "dynamic_display": true
   },
   {
    "key": "btn1",
@@ -323,6 +1023,14 @@
    "momentary": true
   },
   {
+   "key": "scr_menu",
+   "name": "SCREEN MENU",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
    "key": "pad1",
    "name": "PAD 1",
    "min": 0,
@@ -477,6 +1185,796 @@
     "CONTROL"
    ],
    "default": 0
+  },
+  {
+   "key": "bs01_1",
+   "name": "TAB 1 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_2",
+   "name": "TAB 1 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_3",
+   "name": "TAB 1 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_4",
+   "name": "TAB 1 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_5",
+   "name": "TAB 1 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_6",
+   "name": "TAB 1 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_7",
+   "name": "TAB 1 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs01_8",
+   "name": "TAB 1 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_1",
+   "name": "TAB 2 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_2",
+   "name": "TAB 2 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_3",
+   "name": "TAB 2 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_4",
+   "name": "TAB 2 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_5",
+   "name": "TAB 2 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_6",
+   "name": "TAB 2 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_7",
+   "name": "TAB 2 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs02_8",
+   "name": "TAB 2 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_1",
+   "name": "TAB 3 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_2",
+   "name": "TAB 3 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_3",
+   "name": "TAB 3 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_4",
+   "name": "TAB 3 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_5",
+   "name": "TAB 3 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_6",
+   "name": "TAB 3 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_7",
+   "name": "TAB 3 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs03_8",
+   "name": "TAB 3 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_1",
+   "name": "TAB 4 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_2",
+   "name": "TAB 4 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_3",
+   "name": "TAB 4 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_4",
+   "name": "TAB 4 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_5",
+   "name": "TAB 4 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_6",
+   "name": "TAB 4 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_7",
+   "name": "TAB 4 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs04_8",
+   "name": "TAB 4 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_1",
+   "name": "TAB 6 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_2",
+   "name": "TAB 6 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_3",
+   "name": "TAB 6 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_4",
+   "name": "TAB 6 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_5",
+   "name": "TAB 6 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_6",
+   "name": "TAB 6 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_7",
+   "name": "TAB 6 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs06_8",
+   "name": "TAB 6 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_1",
+   "name": "TAB 7 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_2",
+   "name": "TAB 7 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_3",
+   "name": "TAB 7 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_4",
+   "name": "TAB 7 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_5",
+   "name": "TAB 7 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_6",
+   "name": "TAB 7 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_7",
+   "name": "TAB 7 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs07_8",
+   "name": "TAB 7 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_1",
+   "name": "TAB 8 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_2",
+   "name": "TAB 8 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_3",
+   "name": "TAB 8 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_4",
+   "name": "TAB 8 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_5",
+   "name": "TAB 8 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_6",
+   "name": "TAB 8 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_7",
+   "name": "TAB 8 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs08_8",
+   "name": "TAB 8 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_1",
+   "name": "TAB 9 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_2",
+   "name": "TAB 9 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_3",
+   "name": "TAB 9 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_4",
+   "name": "TAB 9 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_5",
+   "name": "TAB 9 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_6",
+   "name": "TAB 9 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_7",
+   "name": "TAB 9 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs09_8",
+   "name": "TAB 9 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_1",
+   "name": "TAB 10 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_2",
+   "name": "TAB 10 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_3",
+   "name": "TAB 10 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_4",
+   "name": "TAB 10 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_5",
+   "name": "TAB 10 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_6",
+   "name": "TAB 10 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_7",
+   "name": "TAB 10 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs10_8",
+   "name": "TAB 10 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_1",
+   "name": "TAB 11 BOTTOM 1",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_2",
+   "name": "TAB 11 BOTTOM 2",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_3",
+   "name": "TAB 11 BOTTOM 3",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_4",
+   "name": "TAB 11 BOTTOM 4",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_5",
+   "name": "TAB 11 BOTTOM 5",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_6",
+   "name": "TAB 11 BOTTOM 6",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_7",
+   "name": "TAB 11 BOTTOM 7",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "bs11_8",
+   "name": "TAB 11 BOTTOM 8",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh01",
+   "name": "TAB 1 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we01",
+   "name": "TAB 1 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh02",
+   "name": "TAB 2 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we02",
+   "name": "TAB 2 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh03",
+   "name": "TAB 3 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we03",
+   "name": "TAB 3 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh04",
+   "name": "TAB 4 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we04",
+   "name": "TAB 4 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh06",
+   "name": "TAB 6 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we06",
+   "name": "TAB 6 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh07",
+   "name": "TAB 7 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we07",
+   "name": "TAB 7 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh08",
+   "name": "TAB 8 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we08",
+   "name": "TAB 8 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh09",
+   "name": "TAB 9 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we09",
+   "name": "TAB 9 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh10",
+   "name": "TAB 10 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we10",
+   "name": "TAB 10 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
+  },
+  {
+   "key": "wh11",
+   "name": "TAB 11 DATA WHEEL",
+   "min": 0,
+   "max": 1,
+   "default": 0.5
+  },
+  {
+   "key": "we11",
+   "name": "TAB 11 WHEEL PRESS",
+   "min": 0,
+   "max": 1,
+   "default": 0,
+   "momentary": true
   }
  ],
  "sections": [
@@ -485,16 +1983,93 @@
    "keys": [
     "wheel",
     "wheel_up",
-    "wheel_down"
+    "wheel_down",
+    "wheel_enter"
    ]
   },
   {
-   "label": "Q-LINKS",
+   "label": "MACROS",
    "keys": [
-    "ql1",
-    "ql2",
-    "ql3",
-    "ql4"
+    "mt01_1",
+    "mt01_2",
+    "mt01_3",
+    "mt01_4",
+    "mt01_5",
+    "mt01_6",
+    "mt01_7",
+    "mt01_8",
+    "mt06_1",
+    "mt06_2",
+    "mt06_3",
+    "mt06_4",
+    "mt06_5",
+    "mt06_6",
+    "mt06_7",
+    "mt06_8",
+    "mt03_1",
+    "mt03_2",
+    "mt03_3",
+    "mt03_4",
+    "mt03_5",
+    "mt03_6",
+    "mt03_7",
+    "mt03_8",
+    "mt04_1",
+    "mt04_2",
+    "mt04_3",
+    "mt04_4",
+    "mt04_5",
+    "mt04_6",
+    "mt04_7",
+    "mt04_8",
+    "mt02_1",
+    "mt02_2",
+    "mt02_3",
+    "mt02_4",
+    "mt02_5",
+    "mt02_6",
+    "mt02_7",
+    "mt02_8",
+    "mt07_1",
+    "mt07_2",
+    "mt07_3",
+    "mt07_4",
+    "mt07_5",
+    "mt07_6",
+    "mt07_7",
+    "mt07_8",
+    "mt08_1",
+    "mt08_2",
+    "mt08_3",
+    "mt08_4",
+    "mt08_5",
+    "mt08_6",
+    "mt08_7",
+    "mt08_8",
+    "mt09_1",
+    "mt09_2",
+    "mt09_3",
+    "mt09_4",
+    "mt09_5",
+    "mt09_6",
+    "mt09_7",
+    "mt09_8",
+    "mt10_1",
+    "mt10_2",
+    "mt10_3",
+    "mt10_4",
+    "mt10_5",
+    "mt10_6",
+    "mt10_7",
+    "mt10_8",
+    "mt11_1",
+    "mt11_2",
+    "mt11_3",
+    "mt11_4",
+    "mt11_5",
+    "mt11_6",
+    "mt11_7",
+    "mt11_8"
    ]
   },
   {
@@ -543,7 +2118,8 @@
     "scr_instr",
     "scr_vol",
     "scr_fx",
-    "scr_pattern"
+    "scr_pattern",
+    "scr_menu"
    ]
   },
   {
@@ -573,6 +2149,116 @@
     "pad_cols",
     "host_sync",
     "pad_mode"
+   ]
+  },
+  {
+   "label": "TAB BUTTONS",
+   "keys": [
+    "bs01_1",
+    "bs01_2",
+    "bs01_3",
+    "bs01_4",
+    "bs01_5",
+    "bs01_6",
+    "bs01_7",
+    "bs01_8",
+    "bs02_1",
+    "bs02_2",
+    "bs02_3",
+    "bs02_4",
+    "bs02_5",
+    "bs02_6",
+    "bs02_7",
+    "bs02_8",
+    "bs03_1",
+    "bs03_2",
+    "bs03_3",
+    "bs03_4",
+    "bs03_5",
+    "bs03_6",
+    "bs03_7",
+    "bs03_8",
+    "bs04_1",
+    "bs04_2",
+    "bs04_3",
+    "bs04_4",
+    "bs04_5",
+    "bs04_6",
+    "bs04_7",
+    "bs04_8",
+    "bs06_1",
+    "bs06_2",
+    "bs06_3",
+    "bs06_4",
+    "bs06_5",
+    "bs06_6",
+    "bs06_7",
+    "bs06_8",
+    "bs07_1",
+    "bs07_2",
+    "bs07_3",
+    "bs07_4",
+    "bs07_5",
+    "bs07_6",
+    "bs07_7",
+    "bs07_8",
+    "bs08_1",
+    "bs08_2",
+    "bs08_3",
+    "bs08_4",
+    "bs08_5",
+    "bs08_6",
+    "bs08_7",
+    "bs08_8",
+    "bs09_1",
+    "bs09_2",
+    "bs09_3",
+    "bs09_4",
+    "bs09_5",
+    "bs09_6",
+    "bs09_7",
+    "bs09_8",
+    "bs10_1",
+    "bs10_2",
+    "bs10_3",
+    "bs10_4",
+    "bs10_5",
+    "bs10_6",
+    "bs10_7",
+    "bs10_8",
+    "bs11_1",
+    "bs11_2",
+    "bs11_3",
+    "bs11_4",
+    "bs11_5",
+    "bs11_6",
+    "bs11_7",
+    "bs11_8"
+   ]
+  },
+  {
+   "label": "TAB WHEELS",
+   "keys": [
+    "wh01",
+    "we01",
+    "wh02",
+    "we02",
+    "wh03",
+    "we03",
+    "wh04",
+    "we04",
+    "wh06",
+    "we06",
+    "wh07",
+    "we07",
+    "wh08",
+    "we08",
+    "wh09",
+    "we09",
+    "wh10",
+    "we10",
+    "wh11",
+    "we11"
    ]
   }
  ]

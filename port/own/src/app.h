@@ -10,6 +10,9 @@ void buttonTap(int n);                      /* Tracker button numbers: 0-7 botto
 void buttonPress(int n);
 void buttonRelease(int n);
 void wheel(int clicks);                     /* the data wheel */
+void wheelTab(int screen);                 /* the tab whose wheel control was turned */
+void macro(int b, int c);   /* b = screen*8 + index: the tab the macro belongs to and which of its 8 controls */
+void macroLabel(int scr, int idx, char* name, char* val, int len);   /* what macro idx (0..7) of screen `scr` controls */
 void knob(int clicks, bool coarse);         /* the value Q-Links */
 void padDown(int idx, int vel);             /* PLAY mode pads: idx 0..63 = Force pad (row from bottom *8 + col) */
 void padUp(int idx);

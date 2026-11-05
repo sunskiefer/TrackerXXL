@@ -48,7 +48,7 @@ int main(int argc, char** argv)
         char c[64], a[256] = ""; int n = sscanf(line, "%63s %255[^\n]", c, a); if (n < 1) continue;
         const int x = atoi(a);
         if (!strcmp(c, "tap")) app::buttonTap(x); else if (!strcmp(c, "press")) app::buttonPress(x); else if (!strcmp(c, "release")) app::buttonRelease(x);
-        else if (!strcmp(c, "wheel")) app::wheel(x); else if (!strcmp(c, "knob")) app::knob(x, false); else if (!strcmp(c, "pad")) app::padDown(x, 100); else if (!strcmp(c, "padup")) app::padUp(x);
+        else if (!strcmp(c, "wheel")) app::wheel(x); else if (!strcmp(c, "knob")) app::knob(x, false); else if (!strcmp(c, "macro")) { int y2 = 1; sscanf(a, "%*d %d", &y2); app::macro(x, y2); } else if (!strcmp(c, "pad")) app::padDown(x, 100); else if (!strcmp(c, "padup")) app::padUp(x);
         else if (!strcmp(c, "stop")) app::stopButton(); else if (!strcmp(c, "blocks")) blocks(x ? x : 1);
         else if (!strcmp(c, "frame")) app::frame(); else if (!strcmp(c, "dump")) { app::frame(); dump(a); }
         else if (!strcmp(c, "hostpos")) { double ppq, bpm; int pl, fr; sscanf(a, "%lf %lf %d %d", &ppq, &bpm, &pl, &fr); audio::hostPos(ppq, bpm, pl, fr); }

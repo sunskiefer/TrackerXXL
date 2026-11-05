@@ -58,20 +58,21 @@ class Generic:
         self.hdr_rows = []
     # ------------------------------------------------------------------ plan: pool assignment + variants
     def plan(self):
-        order_global = [k for k in self.table if k.startswith("global.")]
-        gcount, mcount = {}, {}
-        # global controls first (pool prefix), then each module
-        for key in order_global:
-            for n, c in enumerate(self.table[key]):
-                self._add(key, 0, n, c, gcount)
-        self.G = dict(gcount)
+        # every screen is its own tab, so every screen owns its pools: nothing is shared between modules.
+        # The title bar, the timer and the popups exist once per screen (a tab shows its own copy).
+        per_screen = ["global.titleBar", "global.songTimer", "global.popups"]
+        tot = {}
         for mi, key in enumerate(self.modules, start=1):
             local = {}
+            for gk in per_screen:
+                for n, c in enumerate(self.table[gk]):
+                    if gk == "global.popups" and mi != 7 and (c.get("var") or "") != "textPopup": continue   # only the song screen has a list popup; every screen shows toasts
+                    self._add(gk, mi, n, c, local, base=tot)
             for n, c in enumerate(self.table[key]):
-                self._add(key, mi, n, c, local, base=self.G)
-            for k, v in local.items(): mcount[k] = max(mcount.get(k, 0), v)
-        for k in set(self.G) | set(mcount):
-            self.pool_n[k] = self.G.get(k, 0) + mcount.get(k, 0)
+                self._add(key, mi, n, c, local, base=tot)
+            for k, v in local.items(): tot[k] = tot.get(k, 0) + v
+        self.G = {}
+        self.pool_n = dict(tot)
     def _add(self, scr, mi, n, c, counter, base=None):
         cl = CLASS_OF.get(c["type"])
         it = dict(scr=scr, mi=mi, n=n, c=c, cls=cl)
@@ -89,7 +90,7 @@ class Generic:
         if m: idx = m.group(1)
         else:
             # loop-built handle: label[i] -> use creation order inside its loop (n-th created of this var)
-            same = [x for x in self.items if x["scr"] == it["scr"] and (x["c"].get("var") or "") == var]
+            same = [x for x in self.items if x["scr"] == it["scr"] and x["mi"] == it["mi"] and (x["c"].get("var") or "") == var]
             idx = str(same.index(it)) if "[i]" in var else None
         names = []
         cs = role_of_sym(c.get("colors"))
@@ -142,11 +143,15 @@ class Generic:
         S = self.S
         def under(it):   # drawn first: the bottom bar background and the title bar, which must not cover the texts
             return it["cls"] == "BGL" or (it["scr"] == "global.titleBar" and (it["c"].get("var") or "") == "bar")
+        keep = S.kids
+        self.pages = {}                      # (module, under?) -> that screen's components, in z-order
         for first in (True, False):
             for it in self.items:
                 cl = it["cls"]
                 if not cl or under(it) != first: continue
+                S.kids = self.pages.setdefault((it["mi"], first), [])
                 getattr(self, "b_" + cl.lower())(it)
+        S.kids = keep
     def reg(self, it, p):
         c = it["c"]
         self.controls.append(Widget(id="%s.%s.%d" % (it["scr"], c["type"], it["n"]), screen=it["scr"], type=c["type"],
@@ -183,7 +188,6 @@ class Generic:
         if w == 0: w = 270
         bx = x - w // 2 if just == "center" else (x - w if just == "right" else x)
         for vflag in (0, 1):
-            if vflag and not cy: continue
             yc = (y + h / 2.0 - (10 if vflag else 0)) if cy else (y + 18.0)
             ty_ = C.ty(yc - 13); th_ = C.th(26)
             for vi, (c0, c1) in enumerate(va):
@@ -399,7 +403,7 @@ class Generic:
             import re as _re
             self.handles.append("(int)(%s.%s)" % (own, var) if _re.fullmatch(r"[A-Za-z_]\w*(\[\d+\])?", var) else "-1 /* %s.%s: not a plain member: matched by control id + order */" % (own, var))
             c = it["c"]
-            _nm = "%s.%s" % (it["scr"].replace("global.", "g."), var); _k = _seen.get(_nm, 0); _seen[_nm] = _k + 1
+            _nm = ("%s.%s.%s" % (self.mods[it["mi"]], it["scr"][7:], var)) if it["scr"].startswith("global.") else "%s.%s" % (it["scr"], var); _k = _seen.get(_nm, 0); _seen[_nm] = _k + 1
             if _k: _nm += "#%d" % _k
             self.own.append('{%d,\'%s\',%d,"%s",%d,%d,%d,%d,%d,%d,%d,%d,%d}' % (it["mi"], {"LBL": "L", "BAR": "B", "LST": "S", "BGL": "G", "FRM": "F"}[cl], it["pool"], _nm, c["x"], c["y"], c["w"], c["h"],
                 len(it.get("va", [])[:3]), len(list(it.get("vb", []))[:3]), len(it.get("vars", [])[:3]), it.get("rows", 0), len(it.get("places", []))))

@@ -11,6 +11,7 @@ int row(const char* name);                     /* index of a control, -1 if the 
 int module(int row);                           /* screen index of a control */
 int rows(int row);                             /* list capacity of a list control */
 int places(int row);
+const char* ctlName(int row);                  /* name of a control by row */
 
 enum Line { LN_NONE = 0, LN_RED = 1, LN_GREEN = 2, LN_DARK = 3 };
 void begin();

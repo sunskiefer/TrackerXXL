@@ -36,11 +36,19 @@ Step g_clipStep; bool g_clipHas = false;
 Pattern g_clipPat; bool g_clipPatHas = false;
 Browser g_br;
 bool g_brLoaded = false;
+bool g_menu = false; int g_menuSel = 0, g_menuTop = 0; void menuOpen(); void menuMove(int d); void menuPick(int i);
 int g_sloadRegion = 0, g_sloadSel = 0, g_sloadTop = 0, g_prevVol = 50;
 std::vector<Sample> g_sedUndo; int g_sedUndoInstr = -1;
 int g_effect = 1, g_fxp[4] = { 50, 50, 50, 50 };
 int g_songSel = 0, g_songTop = 0; std::vector<std::vector<uint8_t>> g_songUndo;
 int g_confBase = 1, g_confSub = 0, g_confRegion = 0;
+/* Performance page: 12 columns, each an effect with 4 rows (row 0 = off, rows 1..3 = stored values); pads / taps pick the row, the track buttons choose the tracks it acts on */
+struct PfState
+{
+    uint8_t fx[12] = { PF_VOL, PF_PAN, PF_TUNE, PF_LP, PF_HP, PF_BP, PF_DEL, PF_REV, PF_POS, PF_END, PF_PLAY, PF_REPEAT };
+    int16_t val[12][4] = {}; uint8_t row[12] = {}; bool active[12] = {}; int16_t temp[12] = {};
+    bool trk[8] = {}; bool edit = false; int place = 0;
+} g_pf;
 struct Config { int numbering = 1, padOct = 0, metro = 0, metroVol = 50, padVel = 100, pageStep = 0, hostSync = 1, brightness = 3, theme = 0, noteRec = 1; } g_cfg;
 int g_rev[kInstr];
 int g_confirm = -1; int g_confirmLeft = 0;
@@ -84,6 +92,8 @@ void cfgLoad()
         if (!strcmp(k, "numbering")) g_cfg.numbering = v; else if (!strcmp(k, "padOct")) g_cfg.padOct = v; else if (!strcmp(k, "metro")) g_cfg.metro = v;
         else if (!strcmp(k, "metroVol")) g_cfg.metroVol = v; else if (!strcmp(k, "padVel")) g_cfg.padVel = v; else if (!strcmp(k, "hostSync")) g_cfg.hostSync = v;
         else if (!strcmp(k, "brightness")) g_cfg.brightness = v; else if (!strcmp(k, "theme")) g_cfg.theme = v; else if (!strcmp(k, "noteRec")) g_cfg.noteRec = v; else if (!strcmp(k, "stepJump")) g_stepJump = clampi(v, 0, 16);
+        else if (!strncmp(k, "pfFx", 4)) { const int s = atoi(k + 4); if (s >= 0 && s < 12) g_pf.fx[s] = (uint8_t)clampi(v, 0, PF_COUNT - 1); }
+        else if (!strncmp(k, "pfV", 3)) { int s = 0, r = 0; if (sscanf(k + 3, "%d_%d", &s, &r) == 2 && s >= 0 && s < 12 && r >= 0 && r < 4) g_pf.val[s][r] = (int16_t)clampi(v, -100, 100); }
     }
     fclose(f);
 }
@@ -91,13 +101,16 @@ void cfgSave()
 {
     FILE* f = fopen((g_root + "/config.ini").c_str(), "w"); if (!f) return;
     fprintf(f, "numbering=%d\npadOct=%d\nmetro=%d\nmetroVol=%d\npadVel=%d\nhostSync=%d\nbrightness=%d\ntheme=%d\nnoteRec=%d\nstepJump=%d\n", g_cfg.numbering, g_cfg.padOct, g_cfg.metro, g_cfg.metroVol, g_cfg.padVel, g_cfg.hostSync, g_cfg.brightness, g_cfg.theme, g_cfg.noteRec, g_stepJump);
+    for (int s = 0; s < 12; s++) { fprintf(f, "pfFx%d=%d\n", s, (int)g_pf.fx[s]); for (int r = 1; r < 4; r++) fprintf(f, "pfV%d_%d=%d\n", s, r, (int)g_pf.val[s][r]); }
     fclose(f);
 }
 
 /* ------------------------------------------------------------------ frame helpers */
+int g_drawMi = 1;   /* the screen being drawn: the title bar, timer and popups exist once per screen (one tab each) */
 int R(int mod, const char* fmt, int a = -1)
 {
-    char b[96]; if (a >= 0) { char f[64]; snprintf(f, sizeof f, fmt, a); snprintf(b, sizeof b, "%s.%s", mod ? kMod[mod] : "g", f); } else snprintf(b, sizeof b, "%s.%s", mod ? kMod[mod] : "g", fmt);
+    if (!mod) mod = g_drawMi;
+    char b[96]; if (a >= 0) { char f[64]; snprintf(f, sizeof f, fmt, a); snprintf(b, sizeof b, "%s.%s", kMod[mod], f); } else snprintf(b, sizeof b, "%s.%s", kMod[mod], fmt);
     return ui::row(b);
 }
 void bottom(int mod, const Item* it, int pages, int page, int dotsSlot = 7)
@@ -116,7 +129,7 @@ void titleBar(const char* title, const char* right)
     ui::label(R(0, "titleBar.bar"), "", 0);
     char tb[96]; snprintf(tb, sizeof tb, "%s", title);
     ui::label(R(0, "titleBar.titleLabel"), tb, 0);
-    ui::label(R(0, "titleBar.rightLabel"), right ? right : "", 0);
+    ui::label(R(0, "titleBar.rightLabel"), (g_confirmLeft > 0 && g_confirm >= 0) ? "Press again to confirm" : (right ? right : ""), 0);
     const int sec = (int)audio::timeSeconds();
     char t[64];
     if (audio::playing()) snprintf(t, sizeof t, "%dm:%02ds  P%d.%03d", sec / 60, sec % 60, audio::playPattern() + 1, audio::playStep() + 1);
@@ -373,7 +386,7 @@ int instPages() { const Instr& I = inst(); return !I.used ? 1 : I.kind == 1 ? 4 
 void instItems(Item* it, int& pages)
 {
     Instr& I = inst(); pages = instPages(); const int pg = std::min(g_page[S_INSTR], pages - 1); char b[32];
-    if (!I.used) { setI(it[0], "Type", "Empty"); return; }
+    if (!I.used) { setI(it[0], "Type", "Empty"); setI(it[2], "SAMPLE LOAD", "%s", "for a sample"); setI(it[4], "Macro 1", "%s", "synth voice"); return; }
     if (I.kind == 0)
     {
         if (pg == 0)
@@ -416,7 +429,11 @@ void instItems(Item* it, int& pages)
 void instAdjust(int slot, int d, bool coarse)
 {
     Instr& I = inst(); const int pg = std::min(g_page[S_INSTR], instPages() - 1);
-    if (!I.used) return;
+    if (!I.used)
+    {
+        if (slot == 0 && d != 0) { ensureUsed(I); I.kind = 1; I.voice = 0; audio::loadPatch(I); snprintf(I.name, sizeof I.name, "%s", tv_voice_name(I.voice)); audio::refreshInstrument(g_inst); dirty(); }
+        return;
+    }
     if (I.kind == 0)
     {
         if (pg == 0)
@@ -838,10 +855,21 @@ void projOpen(const std::string& name)
     audio::refreshInstrument(0); for (int i = 0; i < kInstr; i++) audio::refreshInstrument(i);
     toast("Opened %s", name.c_str()); g_scr = S_PAT;
 }
+void demoBeat()
+{
+    const char* f[3] = { "demo_kick.wav", "demo_snare.wav", "demo_hat.wav" }; bool any = false;
+    for (int i = 0; i < 3; i++) if (loadInto(i, g_root + "/Samples/" + f[i])) any = true;
+    if (!any) return;
+    Pattern& p = P().pat[0]; p.len = 16;
+    for (int st = 0; st < 16; st += 4) { p.s[0][st].note = 60; p.s[0][st].instr = 0; }
+    for (int st = 4; st < 16; st += 8) { p.s[1][st].note = 60; p.s[1][st].instr = 1; }
+    for (int st = 0; st < 16; st += 2) { p.s[2][st].note = 60; p.s[2][st].instr = 2; }
+    g_inst = 0; g_sloadSel = 0;
+}
 void projNew()
 {
     audio::stop(); audio::allOff(); projectInit(P()); for (int i = 0; i < kInstr; i++) { smp(i) = Sample(); g_rev[i]++; }
-    g_pat = 0; g_step = 0; g_trk = 0; g_inst = 0; audio::setEditPattern(0); g_undo.clear(); g_redo.clear(); for (int i = 0; i < kInstr; i++) audio::refreshInstrument(i); toast("New project"); g_scr = S_PAT;
+    g_pat = 0; g_step = 0; g_trk = 0; g_inst = 0; audio::setEditPattern(0); g_undo.clear(); g_redo.clear(); for (int i = 0; i < kInstr; i++) audio::refreshInstrument(i); demoBeat(); toast("New project"); g_scr = S_PAT;
 }
 std::string autoName() { projRefresh(); for (int n = 1; n < 1000; n++) { char b[32]; snprintf(b, sizeof b, "Project %d", n); if (std::find(g_projList.begin(), g_projList.end(), b) == g_projList.end()) return b; } return "Project"; }
 void prItems(Item* it, int& pages)
@@ -876,7 +904,7 @@ void prDraw()
 /* ------------------------------------------------------------------ config */
 struct CE { std::string name, val; std::function<void(int)> adj; std::vector<std::string> choices; int cur = 0; };
 int g_midiCh = 0;
-const char* const kGroups[7] = { "Project Settings", "General", "MIDI", "USB", "Metronome", "Firmware", "Info" };
+const char* const kGroups[4] = { "Project Settings", "General", "MIDI", "Metronome" };
 std::vector<CE> confEntries(int g)
 {
     std::vector<CE> v; char b[64]; Project& p = P();
@@ -900,15 +928,9 @@ std::vector<CE> confEntries(int g)
             snprintf(b, sizeof b, "%s", g_midiCh ? std::to_string(g_midiCh).c_str() : "Omni"); v.push_back({ "MIDI in channel", b, [](int d) { g_midiCh = clampi(g_midiCh + d, 0, 16); } });
             v.push_back({ "MIDI notes play", "Current instrument", nullptr });
             break;
-        case 3: v.push_back({ "USB", "Not used in the plugin", nullptr }); break;
-        case 4:
+        case 3:
             v.push_back({ "Metronome", g_cfg.metro ? "On" : "Off", [](int d) { g_cfg.metro = d > 0; audio::setMetronome(g_cfg.metro, g_cfg.metroVol); }, { "Off", "On" }, g_cfg.metro });
             snprintf(b, sizeof b, "%d", g_cfg.metroVol); v.push_back({ "Metronome volume", b, [](int d) { g_cfg.metroVol = clampi(g_cfg.metroVol + d, 0, 100); audio::setMetronome(g_cfg.metro, g_cfg.metroVol); } });
-            break;
-        case 5: v.push_back({ "Version", "TrackerXXL 0.2.0", nullptr }); v.push_back({ "Update", "Replace the plugin folder", nullptr }); break;
-        case 6:
-            snprintf(b, sizeof b, "%d / %d MB", (int)(sampleMemUsed() >> 20), (int)(kSampleMemMax >> 20)); v.push_back({ "Sample memory", b, nullptr });
-            v.push_back({ "Sample rate", "44100 Hz", nullptr }); v.push_back({ "Synths", "ZYNTH, BAZZLINE, LXRXXL", nullptr }); v.push_back({ "Licence", "LXR02 Open-Source", nullptr });
             break;
     }
     return v;
@@ -924,7 +946,7 @@ void cfItems(Item* it, int& pages)
 void cfAdjust(int slot, int d, bool coarse)
 {
     (void)coarse;
-    if (g_confRegion == 0 || slot == 0) { g_confBase = clampi(g_confBase + d, 0, 6); g_confSub = 0; }
+    if (g_confRegion == 0 || slot == 0) { g_confBase = clampi(g_confBase + d, 0, 3); g_confSub = 0; }
     else { auto e = confEntries(g_confBase); if (g_confSub < (int)e.size() && e[g_confSub].adj) { e[g_confSub].adj(d); cfgSave(); } }
     dirty();
 }
@@ -932,8 +954,8 @@ void cfPress(int slot) { if (slot == 0) g_confRegion = 0; else if (slot == 3) g_
 void cfDraw()
 {
     Item it[8]; int pages; cfItems(it, pages); titleBar("Config", nullptr); bottom(S_CONF, it, 1, 0, -1);
-    static std::vector<const char*> g; g.clear(); for (int i = 0; i < 7; i++) g.push_back(kGroups[i]);
-    ui::list(R(S_CONF, "configBasemenuListControl"), 7, g.data(), nullptr, g_confBase, 0);
+    static std::vector<const char*> g; g.clear(); for (int i = 0; i < 4; i++) g.push_back(kGroups[i]);
+    ui::list(R(S_CONF, "configBasemenuListControl"), 4, g.data(), nullptr, g_confBase, 0);
     auto e = confEntries(g_confBase); static std::vector<std::string> n, v; static std::vector<const char*> pn, pv; n.clear(); v.clear(); pn.clear(); pv.clear();
     for (auto& x : e) { n.push_back(x.name); v.push_back(x.val); } for (auto& s : n) pn.push_back(s.c_str()); for (auto& s : v) pv.push_back(s.c_str());
     ui::list(R(S_CONF, "configSubmenuListControl"), (int)pn.size(), pn.data(), pv.data(), g_confSub, 0);
@@ -1012,12 +1034,86 @@ void maDraw()
 }
 
 /* ------------------------------------------------------------------ performance, recorder, images */
-void pfItems(Item* it, int& pages) { pages = 1; for (int i = 0; i < 8; i++) { char n[16]; snprintf(n, sizeof n, "Track %d", i + 1); setI(it[i], n, "%s", ""); if (P().mute[i]) snprintf(it[i].val, sizeof it[i].val, "MUTED"); else snprintf(it[i].val, sizeof it[i].val, "Patt: %d", g_pat + 1); } }
-void pfPress(int slot) { P().mute[slot] = !P().mute[slot]; if (P().mute[slot]) audio::noteOff(slot); dirty(); }
+const char* const kPfName[PF_COUNT][2] = { { "", "" }, { "Volume", "vel" }, { "Pan", "" }, { "Tune", "" }, { "LP", "cutoff" }, { "HP", "cutoff" }, { "BP", "cutoff" }, { "Delay", "send" }, { "Reverb", "send" },
+    { "Sample", "start" }, { "Sample", "end" }, { "Play", "dir" }, { "Step", "repeat" }, { "Bit", "depth" }, { "Over", "drive" } };
+const int kPfMin[PF_COUNT] = { 0, -100, -100, -48, -100, -100, -100, -100, -100, -100, -100, 0, 0, -12, -100 };
+const int kPfMax[PF_COUNT] = { 0, 100, 100, 48, 100, 100, 100, 100, 100, 100, 100, 1, 15, 12, 100 };
+const char* const kPfRep[16] = { "---", "16", "12", "8", "6", "4", "3", "2", "1", "1/2", "1/3", "1/4", "1/6", "1/8", "1/12", "1/16" };
+int pfRowVal(int s, int r) { return (r > 0 && r == g_pf.row[s]) ? g_pf.temp[s] : g_pf.val[s][r]; }
+void pfText(int s, int r, char* b, size_t n)
+{
+    const int fx = g_pf.fx[s]; const int v = r == 0 ? 0 : pfRowVal(s, r);
+    if (fx == PF_NONE) snprintf(b, n, "");
+    else if (r == 0) snprintf(b, n, "off");
+    else if (fx == PF_PLAY) snprintf(b, n, "%s", v ? "<<<" : ">>>");
+    else if (fx == PF_REPEAT) snprintf(b, n, "%s", kPfRep[clampi(v, 0, 15)]);
+    else if (v == 0) snprintf(b, n, "---"); else snprintf(b, n, "%+d", v);
+}
+void pfClearSlotFx(int s) { const int fx = g_pf.fx[s]; if (fx) for (int t = 0; t < kTracks; t++) audio::perfClear(t, fx); }
+void pfApplySlot(int s)
+{
+    const int fx = g_pf.fx[s]; if (!fx) return;
+    for (int o = 0; o < 12; o++)   /* one slot per effect; the three filters block each other */
+    {
+        if (o == s) continue; const int ofx = g_pf.fx[o];
+        if (ofx == fx || (fx >= PF_LP && fx <= PF_BP && ofx >= PF_LP && ofx <= PF_BP)) { g_pf.row[o] = 0; g_pf.temp[o] = 0; g_pf.active[o] = false; }
+    }
+    g_pf.temp[s] = g_pf.row[s] > 0 ? g_pf.val[s][g_pf.row[s]] : 0;
+    for (int t = 0; t < kTracks; t++) { if (g_pf.trk[t] && g_pf.temp[s] != 0) audio::perfSet(t, fx, g_pf.temp[s]); else audio::perfClear(t, fx); }
+}
+void pfApplyTrack(int t)
+{
+    for (int s = 0; s < 12; s++) { const int fx = g_pf.fx[s]; if (!fx) continue; if (g_pf.trk[t] && g_pf.row[s] > 0 && g_pf.temp[s] != 0) audio::perfSet(t, fx, g_pf.temp[s]); else audio::perfClear(t, fx); }
+}
+void pfPad(int s, int r, bool down)
+{
+    if (s < 0 || s >= 12) return; dirty();
+    if (down) { g_pf.place = s; g_pf.row[s] = g_pf.fx[s] ? (uint8_t)clampi(r, 0, 3) : 0; g_pf.active[s] = true; pfApplySlot(s); }
+    else { pfApplySlot(s); g_pf.active[s] = false; }
+}
+void pfAdjust(int s, int d, bool coarse, bool store)
+{
+    const int fx = g_pf.fx[s]; if (!fx || s < 0 || s >= 12) return; dirty();
+    if (g_pf.row[s] == 0) g_pf.row[s] = 1;
+    const int r = g_pf.row[s]; const int step = (coarse && kPfMax[fx] - kPfMin[fx] > 30 ? 5 : 1) * d;
+    g_pf.temp[s] = (int16_t)clampi(pfRowVal(s, r) + step, kPfMin[fx], kPfMax[fx]);
+    if (store) { g_pf.val[s][r] = g_pf.temp[s]; cfgSave(); }
+    for (int t = 0; t < kTracks; t++) { if (g_pf.trk[t] && g_pf.temp[s] != 0) audio::perfSet(t, fx, g_pf.temp[s]); else audio::perfClear(t, fx); }
+}
+void pfChangeFx(int s, int d)
+{
+    pfClearSlotFx(s);
+    int fx = (int)g_pf.fx[s] + d; if (fx >= PF_COUNT) fx = 0; if (fx < 0) fx = PF_COUNT - 1;
+    g_pf.fx[s] = (uint8_t)fx; for (int r = 0; r < 4; r++) g_pf.val[s][r] = 0; g_pf.row[s] = 0; g_pf.temp[s] = 0; g_pf.active[s] = false; cfgSave(); dirty();
+}
+void pfWheel(int d, bool coarse)
+{
+    if (g_pf.edit) { pfAdjust(g_pf.place, d, coarse, true); return; }
+    for (int s = 0; s < 12; s++) if (g_pf.active[s]) pfAdjust(s, d, coarse, false);
+}
+void pfTrackTap(int t)
+{
+    dirty();
+    if (g_shift) { P().mute[t] = !P().mute[t]; if (P().mute[t]) audio::noteOff(t); return; }
+    g_pf.trk[t] = !g_pf.trk[t]; pfApplyTrack(t);
+}
+void pfItems(Item* it, int& pages)
+{
+    pages = 1;
+    for (int i = 0; i < 8; i++) { char n[16]; snprintf(n, sizeof n, "Track %d", i + 1); setI(it[i], n, "%s", ""); if (P().mute[i]) snprintf(it[i].val, sizeof it[i].val, "MUTED"); else snprintf(it[i].val, sizeof it[i].val, "Patt: %d", g_pat + 1); it[i].act = g_pf.trk[i]; it[i].off = P().mute[i] != 0; }
+}
+void pfPress(int slot) { pfTrackTap(slot); }
 void pfDraw()
 {
-    Item it[8]; int pages; pfItems(it, pages); titleBar("Performance FX", nullptr); bottom(S_PERF, it, 1, 0, -1);
+    Item it[8]; int pages; pfItems(it, pages); titleBar("Performance FX", g_pf.edit ? "Edit" : nullptr); bottom(S_PERF, it, 1, 0, -1);
     ui::bg(R(S_PERF, "bgLabel"));
+    for (int s = 0; s < 12; s++)
+    {
+        const int fx = g_pf.fx[s];
+        ui::label(R(S_PERF, "fxName[%d]", s), kPfName[fx][0], (g_pf.edit && g_pf.place == s) ? 1 : 0, kPfName[fx][1], 0, 0);
+        static char tx[12][4][12]; const char* p[4]; for (int r = 0; r < 4; r++) { pfText(s, r, tx[s][r], sizeof tx[s][r]); p[r] = tx[s][r]; }
+        ui::list(R(S_PERF, "col[%d]", s), fx ? 4 : 0, p, nullptr, g_pf.row[s], 0);
+    }
 }
 void srDraw()
 {
@@ -1085,17 +1181,31 @@ void cursorMove(int dir)   /* 0 up 1 down 2 left 3 right */
         case S_SPLAY: case S_SEDIT: if (dir < 2) { g_inst = clampi(g_inst + (dir ? 1 : -1), 0, kInstr - 1); g_selA = 0; g_selB = 1; g_slice = 0; g_lastEditInst = g_inst; } else g_focus[g_scr] = clampi(g_focus[g_scr] + (dir == 3 ? 1 : -1), 0, 6); break;
         case S_SONG: if (dir < 2) { g_songSel += dir ? 1 : -1; songClamp(); } else g_focus[S_SONG] = clampi(g_focus[S_SONG] + (dir == 3 ? 1 : -1), 0, 7); break;
         case S_PROJ: if (dir < 2) prAdjust(0, dir ? 1 : -1, false); break;
+        case S_PERF: if (!g_pf.edit) break; if (dir == 2) g_pf.place = std::max(0, g_pf.place - 1); else if (dir == 3) g_pf.place = std::min(11, g_pf.place + 1); else pfChangeFx(g_pf.place, dir == 0 ? 1 : -1); break;
         case S_CONF:
             if (dir == 2) g_confRegion = 0; else if (dir == 3) g_confRegion = 1;
-            else if (g_confRegion == 0) { g_confBase = clampi(g_confBase + (dir ? 1 : -1), 0, 6); g_confSub = 0; }
+            else if (g_confRegion == 0) { g_confBase = clampi(g_confBase + (dir ? 1 : -1), 0, 3); g_confSub = 0; }
             else { const int n = (int)confEntries(g_confBase).size(); g_confSub = clampi(g_confSub + (dir ? 1 : -1), 0, std::max(0, n - 1)); }
             break;
         case S_MASTER: if (dir < 2) g_page[S_MASTER] = ((g_page[S_MASTER] + (dir ? 1 : 5)) % 6); else g_focus[S_MASTER] = clampi(g_focus[S_MASTER] + (dir == 3 ? 1 : -1), 0, 7); break;
     }
 }
+/* screen menu: a tap on the title bar opens a list of all screens (replaces the separate CONTROLS page) */
+const char* const kMenu[12] = { "Pattern", "Instrument", "Sample Load", "Sample Play", "Sample Edit", "Sample Rec", "Song", "Project", "Config", "Master", "Performance", "Images" };
+const int kMenuScr[12] = { S_PAT, S_INSTR, S_SLOAD, S_SPLAY, S_SEDIT, S_SREC, S_SONG, S_PROJ, S_CONF, S_MASTER, S_PERF, S_IMG };
+void menuOpen() { g_menu = true; g_menuSel = 0; for (int i = 0; i < 12; i++) if (kMenuScr[i] == g_scr) g_menuSel = i; g_menuTop = 0; dirty(); }
+void menuMove(int d)
+{
+    g_menuSel = clampi(g_menuSel + d, 0, 11); const int rows = std::max(1, ui::rows(R(0, "popups.popupListControl")));
+    if (g_menuSel < g_menuTop) g_menuTop = g_menuSel; if (g_menuSel >= g_menuTop + rows) g_menuTop = g_menuSel - rows + 1; dirty();
+}
+void menuPick(int i) { if (i < 0 || i > 11) return; g_menu = false; gotoScreen(kMenuScr[i]); dirty(); }
+void menuDraw() { ui::list(R(0, "popups.popupListControl"), 12, kMenu, nullptr, g_menuSel, g_menuTop); }
 void doWheel(int d, bool coarse)
 {
     if (!d) return; dirty();
+    if (g_menu) { menuMove(d); return; }
+    if (g_scr == S_PERF) { pfWheel(d > 0 ? 1 : -1, coarse); return; }
     if (g_scr == S_PAT)
     {
         if (g_patBottom >= 0) { patAdjust(g_patBottom, d, coarse); return; }
@@ -1131,6 +1241,7 @@ void init(const char* root)
     cfgLoad(); g_padOct = g_cfg.padOct; audio::init(); audio::setHostSync(g_cfg.hostSync != 0); audio::setMetronome(g_cfg.metro, g_cfg.metroVol);
     audio::setPreviewVol(g_prevVol); audio::setEditPattern(0);
     xxl::logf("app: init root=%s", g_root.c_str());
+    demoBeat();
     g_inited = true; g_lastScr = -1; dirty();
 }
 void shutdown() { if (!g_inited) return; audio::shutdown(); g_inited = false; }
@@ -1156,41 +1267,107 @@ void padUp(int k)
 void midiNote(int note, int vel, bool on)
 {
     static int n = 0; if (n < 60) { n++; xxl::logf("midi note %d %d %d", note, vel, (int)on); }
+    if (g_scr == S_PERF) { const int idx = note - 48; if (idx >= 0 && idx < 48) pfPad(idx % 12, idx / 12, on && vel > 0); return; }
     if (on && vel > 0) edit_playNote(note, vel); else { const Instr& I = inst(); if (I.kind == 1 || (I.used && I.mode >= PM_FWD && I.mode <= PM_PING)) audio::noteOff(g_trk); }
 }
 void stopButton() { if (audio::playing()) audio::stop(); else { audio::allOff(); g_step = 0; } dirty(); }
 void buttonPress(int n) { if (n == 29) { g_shift = true; dirty(); } }
 void buttonRelease(int n) { if (n == 29) { g_shift = false; dirty(); } }
-void wheel(int c) { doWheel(c > 0 ? 1 : -1, g_shift); if (std::abs(c) > 1) for (int i = 1; i < std::min(std::abs(c), 8); i++) doWheel(c > 0 ? 1 : -1, g_shift); }
-void knob(int c, bool coarse) { for (int i = 0; i < std::min(std::abs(c), 8); i++) doWheel(c > 0 ? 1 : -1, coarse); }
-void buttonTap(int n)
+void wheelTab(int s) { if (s >= 1 && s < S_COUNT && s != g_scr) { g_menu = false; gotoScreen(s); } }
+void wheel(int c) { doWheel(c > 0 ? 1 : -1, g_shift); if (std::abs(c) > 1) for (int i = 1; i < std::min(std::abs(c), 2); i++) doWheel(c > 0 ? 1 : -1, g_shift); }
+void macroLabel(int scr, int idx, char* name, char* val, int len)
 {
-    static int logged = 0; if (logged < 80) { logged++; xxl::logf("btn %d screen %d", n, g_scr); }
+    name[0] = val[0] = 0; if (idx < 0 || idx > 7 || scr < 1 || scr >= S_COUNT) return;
+    const int keep = g_scr; g_scr = scr;
+    struct Restore { int k; ~Restore() { g_scr = k; } } restore{ keep };
+    Item it[8]; int pages = 1; items(it, pages);
+    const char* n = it[idx].blank ? "" : it[idx].name; const char* v = it[idx].blank ? "" : it[idx].val;
+    if (g_scr == S_SLOAD) { if (idx == 0) { n = "Samples"; v = g_br.path.empty() ? "Drives" : (g_br.path.rfind('/') != std::string::npos ? g_br.path.c_str() + g_br.path.rfind('/') + 1 : g_br.path.c_str()); } else if (idx == 1) { static std::string in; in = instName(g_inst); n = "Instruments"; v = in.c_str(); } }
+    else if (g_scr == S_PROJ) { static const char* pn[8] = { "Projects", "New", "Save", "Save As", "Delete", "Open", "", "" }; n = pn[idx]; v = (idx == 0 && !g_projList.empty()) ? g_projList[clampi(g_projSel, 0, (int)g_projList.size() - 1)].c_str() : ""; }
+    else if (g_scr == S_CONF) { if (idx == 0) { n = "Groups"; v = kGroups[std::max(0, std::min(g_confBase, 3))]; } else if (idx == 1) { auto e = confEntries(g_confBase); n = "Setting"; static char sv[40]; snprintf(sv, sizeof sv, "%s", g_confSub < (int)e.size() ? e[g_confSub].name.c_str() : ""); v = sv; } else if (idx == 2) { auto e = confEntries(g_confBase); n = "Value"; static char sv2[40]; snprintf(sv2, sizeof sv2, "%s", g_confSub < (int)e.size() ? e[g_confSub].val.c_str() : ""); v = sv2; } else { n = ""; v = ""; } }
+    else if (g_scr == S_PERF) { static char pv[16], nb[32]; const int fx = g_pf.fx[idx]; if (fx) snprintf(nb, sizeof nb, "%s %s", kPfName[fx][0], kPfName[fx][1]); else nb[0] = 0; n = nb; pfText(idx, std::max(1, (int)g_pf.row[idx]), pv, sizeof pv); v = pv; }
+    else if (g_scr == S_SREC || g_scr == S_IMG) { n = ""; v = ""; }
+    snprintf(name, (size_t)len, "%s", n && *n ? n : "-"); snprintf(val, (size_t)len, "%s", v ? v : "");
+}
+void bottomPress(int n);
+void macro(int b, int c)
+{
+    const int tabScr = b / 8, idx = b % 8;
+    static int logged = 0; if (logged < 200) { logged++; xxl::logf("macro tab %d idx %d %d (screen was %d)", tabScr, idx, c, g_scr); }
+    if (tabScr >= 1 && tabScr < S_COUNT && tabScr != g_scr) { g_menu = false; gotoScreen(tabScr); }
+    const int d = c > 0 ? 1 : -1; const int n = std::min(std::abs(c), 3); if (idx < 0 || idx > 7) return;
     dirty();
-    if (n >= 0 && n < 8)
+    if (!g_menu)
     {
-        if (g_scr == S_PAT) { g_patBottom = n; patPress(n); return; }
-        if (g_scr == S_PERF) { pfPress(n); return; }
-        if (g_scr == S_SREC) { if (n == 7) gotoScreen(S_PAT); return; }
-        g_focus[g_scr] = n;
+        /* a bottom-bar button that is an action (Add slot, Play song, Undo, Apply ...): turning its macro presses it, once per turn */
+        Item itm[8]; int pgs = 1; items(itm, pgs);
+        if (g_scr == S_PROJ) { static const int mp[8] = { -1, 0, 1, 2, 3, 7, -1, -1 }; if (idx > 0 && mp[idx] >= 0) { prPress(mp[idx]); return; } }
+        else if ((g_scr == S_SONG || g_scr == S_SEDIT || g_scr == S_SPLAY || g_scr == S_SLOAD) && !((g_scr == S_SEDIT || g_scr == S_SPLAY) && idx == 6) && !(g_scr == S_SLOAD && (idx == 0 || idx == 1 || idx == 6)) && !itm[idx].blank && itm[idx].act && !itm[idx].val[0]) { bottomPress(idx); return; }
+    }
+    for (int i = 0; i < n; i++)
+    {
+        if (g_menu) { menuMove(d); continue; }
         switch (g_scr)
         {
-            case S_INSTR: instPress(n); break; case S_SLOAD: sloadPress(n); break; case S_SPLAY: spPress(n); break; case S_SEDIT: sePress(n); break;
-            case S_SONG: soPress(n); break; case S_PROJ: prPress(n); break; case S_CONF: cfPress(n); break; case S_MASTER: maPress(n); break;
+            case S_PAT: if (idx == 7) { g_page[S_PAT] = (g_page[S_PAT] + d + 3) % 3; g_patBottom = -1; } else { g_patBottom = idx; patAdjust(idx, d, g_shift); } break;
+            case S_SLOAD: if (idx == 0) { g_sloadRegion = 0; sloadAdjust(0, d, g_shift); } else if (idx == 1) { g_sloadRegion = 1; sloadAdjust(0, d, g_shift); } else if (idx == 6) sloadAdjust(6, d, g_shift); break;
+            case S_SONG: soAdjust(idx, d, g_shift); break;
+            case S_PROJ: prAdjust(0, d, g_shift); break;
+            case S_CONF: if (idx == 0) { g_confRegion = 0; cfAdjust(0, d, g_shift); } else if (idx == 1) { const int ne = (int)confEntries(g_confBase).size(); g_confRegion = 1; g_confSub = clampi(g_confSub + d, 0, std::max(0, ne - 1)); dirty(); } else if (idx == 2) { g_confRegion = 1; cfAdjust(3, d, g_shift); } break;
+            case S_PERF: pfAdjust(idx, d, g_shift, true); g_pf.place = idx; break;
+            case S_SREC: case S_IMG: break;
+            default: g_focus[g_scr] = idx; adjustScr(idx, d, g_shift); break;
         }
-        return;
     }
+}
+void knob(int c, bool coarse) { for (int i = 0; i < std::min(std::abs(c), 3); i++) doWheel(c > 0 ? 1 : -1, coarse); }
+void bottomPress(int n)
+{
+    xxl::logf("bottom %d on screen %d", n, g_scr);
+    if (g_scr == S_PAT) { g_patBottom = n; patPress(n); return; }
+    if (g_scr == S_PERF) { pfPress(n); return; }
+    if (g_scr == S_SREC) { if (n == 7) gotoScreen(S_PAT); return; }
+    g_focus[g_scr] = n;
+    switch (g_scr)
+    {
+        case S_INSTR: instPress(n); break; case S_SLOAD: sloadPress(n); break; case S_SPLAY: spPress(n); break; case S_SEDIT: sePress(n); break;
+        case S_SONG: soPress(n); break; case S_PROJ: prPress(n); break; case S_CONF: cfPress(n); break; case S_MASTER: maPress(n); break;
+    }
+}
+void wheelEnter()
+{
+    dirty();
+    switch (g_scr)
+    {
+        case S_SLOAD: sloadEnterOrLoad(false); break;
+        case S_PROJ: if (!g_projList.empty()) projOpen(g_projList[g_projSel]); break;
+        case S_CONF: cursorMove(3); break;
+        case S_INSTR: case S_SPLAY: case S_SEDIT: case S_SONG: case S_MASTER: cursorMove(3); break;
+        case S_PERF: g_pf.edit = !g_pf.edit; break;
+        case S_PAT: g_edit = !g_edit; g_patBottom = -1; break;
+    }
+}
+void buttonTap(int n)
+{
+    if (n >= 200) { const int s = n - 200; if (s >= 1 && s < S_COUNT && s != g_scr) { g_menu = false; gotoScreen(s); } wheelEnter(); dirty(); return; }
+    if (n >= 100) { const int s = (n - 100) / 8, i = (n - 100) % 8; if (s >= 1 && s < S_COUNT && s != g_scr) { g_menu = false; gotoScreen(s); } if (!g_menu) bottomPress(i); dirty(); return; }
+    static int logged = 0; if (logged < 80) { logged++; xxl::logf("btn %d screen %d", n, g_scr); }
+    dirty();
+    if (n == 33) { if (g_menu) g_menu = false; else menuOpen(); return; }
+    if (n == 34) { wheelEnter(); return; }   /* the data wheel pressed */
+    if (g_menu) { if (n >= 8 && n <= 22) g_menu = false; else if (n == 26) { menuMove(-1); return; } else if (n == 31) { menuMove(1); return; } else if (n == 28 || n == 32 || n == 23) { menuPick(g_menuSel); return; } else if (n == 30) { g_menu = false; return; } else if (n < 8) return; }
+    if (n >= 0 && n < 8) { bottomPress(n); return; }
     switch (n)
     {
         case 8: g_page[S_INSTR] = std::min(1, instPages() - 1); g_focus[S_INSTR] = 0; gotoScreen(S_INSTR, g_page[S_INSTR]); break;
         case 9: gotoScreen(S_PERF); break;
-        case 10: gotoScreen(g_shift ? S_IMG : S_PROJ); break;
+        case 10: gotoScreen(S_PROJ); break;
         case 11: gotoScreen(S_CONF); break;
         case 12: gotoScreen(S_MASTER, 0); break;
         case 13: gotoScreen(S_SLOAD); break;
         case 14: gotoScreen(S_SPLAY); break;
         case 15: gotoScreen(S_SEDIT); break;
-        case 16: gotoScreen(S_SREC); break;
+        case 16: break;   /* the recorder is not part of the plugin */
         case 17: gotoScreen(S_SONG); songClamp(); break;
         case 18: g_par = 0; gotoScreen(S_PAT); g_scr = S_PAT; break;
         case 19: gotoScreen(S_INSTR, 0); break;
@@ -1205,16 +1382,67 @@ void buttonTap(int n)
             if (g_scr == S_PAT) { pushUndo(); Step& s = cur(); if (g_shift) s = Step(); else if (g_par == 0) s.note = N_NONE; else if (g_par == 1) s.instr = 255; else { s.fx[g_par - 2] = 0; s.fv[g_par - 2] = 0; } }
             else if (g_scr == S_SLOAD && g_sloadRegion == 1) { slotClear(g_sloadSel); }
             break;
-        case 28: g_edit = !g_edit; g_patBottom = -1; break;
+        case 28: if (g_scr == S_PERF) g_pf.edit = !g_pf.edit; else { g_edit = !g_edit; g_patBottom = -1; } break;
         case 30: cursorMove(2); break; case 31: cursorMove(1); break; case 32: cursorMove(3); break;
     }
 }
 
+
+/* a tapped list row: select it; a second tap on the selected row opens it */
+void listTap(const char* name, int idx)
+{
+    const std::string n = name; dirty();
+    if (n.rfind("performanceMode.col[", 0) == 0) { const int s = atoi(n.c_str() + 20); gotoScreen(S_PERF); pfPad(s, idx, true); pfPad(s, idx, false); return; }
+    if (n.find(".popups.popupListControl") != std::string::npos)
+    {
+        if (g_menu) { const int i = g_menuTop + idx; if (i == g_menuSel) menuPick(i); else { g_menuSel = clampi(i, 0, 11); } }
+        else if (g_scr == S_SONG) { g_songSel = clampi(g_songTop + idx, 0, P().songLen - 1); }
+        return;
+    }
+    if (n == "sampleImporter.explorerListControl")
+    {
+        const int i = clampi(g_br.top + idx, 0, std::max(0, brCount() - 1)); g_sloadRegion = 0; g_focus[S_SLOAD] = 0;
+        if (i != g_br.sel) { g_br.sel = i; return; }
+        const Entry* e = brEntry(g_br.sel);
+        if (e && e->dir) g_br.enter(); else if (!e && brUp()) g_br.up(); else if (e) sloadEnterOrLoad(false);
+        return;
+    }
+    if (n == "sampleImporter.instrumentListControl") { g_sloadRegion = 1; g_sloadSel = clampi(g_sloadTop + idx, 0, kInstr - 1); g_inst = g_sloadSel; return; }
+    if (n == "projectEditor.fileListControl")
+    {
+        const int i = clampi(g_projTop + idx, 0, std::max(0, (int)g_projList.size() - 1));
+        if (i == g_projSel && !g_projList.empty()) projOpen(g_projList[g_projSel]); else g_projSel = i;
+        return;
+    }
+    if (n == "configEditor.configSubmenuListControl" || n == "configEditor.configListControl")
+    {
+        auto e = confEntries(g_confBase); const int i = clampi(idx, 0, std::max(0, (int)e.size() - 1)); g_confRegion = 1;
+        if (i == g_confSub && i < (int)e.size() && e[i].adj) { if (!e[i].choices.empty()) e[i].adj(e[i].cur ? -1 : 1); else cfAdjust(3, 1, false); cfgSave(); } else g_confSub = i;
+        return;
+    }
+    if (n == "projectEditor.recentListControl") { if (idx >= 0 && idx < (int)g_recent.size()) projOpen(g_recent[idx]); return; }
+    if (n == "samplePlayback.playModeListControl") { P().ins[g_inst].mode = clampi(idx, 0, 7); g_focus[S_SPLAY] = 0; return; }
+    if (n == "sampleEditor.effectList") { g_effect = clampi(idx, 0, 10); return; }
+    if (n == "masterParams.saturationList") { P().master.saturation = clampi(idx, 0, 4); return; }
+    if (n == "masterParams.delayPingpongEnableList") { P().master.delPing = idx == 0; return; }
+    if (n == "masterParams.delaySyncEnableList") { Master& m = P().master; m.delSync = idx == 0; m.delTime = clampi(m.delTime, 0, m.delSync ? 13 : 28); return; }
+    if (n == "masterParams.delaySyncRateList") { P().master.delTime = clampi(idx, 0, 13); return; }
+    if (n == "instrumentEditor.filterModeListControl") { P().ins[g_inst].ftype = clampi(idx, 0, 3); return; }
+    if (n == "instrumentEditor.list1Control")
+    {
+        Instr& I = P().ins[g_inst]; const bool voices = g_focus[S_INSTR] == 0; const int cnt = voices ? tv_voice_count() : audio::patchCount(I.voice);
+        const int rows = ui::rows(ui::row("instrumentEditor.list1Control")); const int sel = voices ? I.voice : I.starter; const int top = std::max(0, std::min(sel - rows / 2, std::max(0, cnt - rows)));
+        const int i = clampi(top + idx, 0, std::max(0, cnt - 1));
+        if (voices) setSynthVoice(I, i); else { I.starter = i; audio::loadPatch(I); audio::refreshInstrument(g_inst); }
+        return;
+    }
+    if (n == "configEditor.configBasemenuListControl") { g_confRegion = 0; g_confBase = clampi(idx, 0, 3); g_confSub = 0; return; }
+}
 void frame()
 {
     if (!g_inited) return;
     /* touch */
-    ui::ListTap lt; while (ui::popListTap(lt)) { (void)lt; }
+    ui::ListTap lt; while (ui::popListTap(lt)) { const int m = ui::module(lt.row); if (m >= 1 && m < S_COUNT && m != g_scr && m != S_PERF) gotoScreen(m); listTap(ui::ctlName(lt.row), lt.index); }
     int ti, tv_; while (ui::popOtherTap(ti, tv_))
     {
         int row, trk, par; grid::View v; v.first = g_trk >= 4 ? 4 : 0;
@@ -1226,17 +1454,27 @@ void frame()
     ui::begin();
     if (g_lastScr != g_scr)
     {
-        if (g_scr != S_PAT) grid::hide();
-        if (!(g_scr == S_SPLAY || g_scr == S_SEDIT)) waveHide();
         g_lastScr = g_scr;
     }
-    switch (g_scr)
+    /* every screen is its own tab: all of them are drawn each frame, the current one last (it owns the shared waveform) */
     {
-        case S_PAT: { Item it[8]; int pages; patItems(it, pages); titleBar((std::string("Pattern ") + std::to_string(g_pat + 1)).c_str(), instName(g_inst).c_str());
-            bottom(S_PAT, it, pages, g_page[S_PAT]); ui::bg(R(S_PAT, "bgLabel")); if (g_patBottom >= 0 && g_patBottom < 7) ui::frame(R(S_PAT, "frameControl"), g_patBottom); patDraw(); break; }
-        case S_INSTR: instDraw(); break; case S_SLOAD: sloadDraw(); break; case S_SPLAY: spDraw(); break; case S_SEDIT: seDraw(); break; case S_SONG: soDraw(); break;
-        case S_PROJ: prDraw(); break; case S_CONF: cfDraw(); break; case S_MASTER: maDraw(); break; case S_PERF: pfDraw(); break; case S_SREC: srDraw(); break; case S_IMG: imDraw(); break;
+        const int cur = g_scr;
+        static const int order[] = { S_INSTR, S_SLOAD, S_SPLAY, S_SEDIT, S_SONG, S_PROJ, S_CONF, S_MASTER, S_PERF, S_PAT };
+        for (int k = 0; k < 11; k++)
+        {
+            const int s = k < 10 ? order[k] : cur; if (k < 10 && s == cur) continue;
+            g_scr = s; g_drawMi = s;
+            switch (s)
+            {
+                case S_PAT: { Item it[8]; int pages; patItems(it, pages); titleBar((std::string("Pattern ") + std::to_string(g_pat + 1)).c_str(), instName(g_inst).c_str());
+                    bottom(S_PAT, it, pages, g_page[S_PAT]); ui::bg(R(S_PAT, "bgLabel")); if (g_patBottom >= 0 && g_patBottom < 7) ui::frame(R(S_PAT, "frameControl"), g_patBottom); patDraw(); break; }
+                case S_INSTR: instDraw(); break; case S_SLOAD: sloadDraw(); break; case S_SPLAY: spDraw(); break; case S_SEDIT: seDraw(); break; case S_SONG: soDraw(); break;
+                case S_PROJ: prDraw(); break; case S_CONF: cfDraw(); break; case S_MASTER: maDraw(); break; case S_PERF: pfDraw(); break;  
+            }
+        }
+        g_scr = cur; g_drawMi = cur;
     }
+    if (g_menu) menuDraw();
     ui::end();
     g_dirty = false;
 }

@@ -57,6 +57,7 @@ const char* const kCtlPad[8][8] = {
     { "scr_srec", "scr_song", "scr_note", "scr_instr", "scr_vol", "scr_fx", "scr_pattern", 0 },
     { "scr_params", "scr_perf", "scr_file", "scr_config", "scr_master", "scr_sload", "scr_splay", "scr_sedit" },
     { "btn1", "btn2", "btn3", "btn4", "btn5", "btn6", "btn7", "btn8" } };
+enum { NCTLS_MAX = 512 };
 int findCtl(const char* key) { for (int i = 0; i < NCTLS; i++) if (!strcmp(CTLS[i].key, key)) return i; return -1; }
 
 void ensure(Inst* in)
@@ -94,15 +95,16 @@ void relative(Inst* in, int i, float v)
     in->acc[i] += delta * (float)c.a; int n = (int)in->acc[i]; in->acc[i] -= (float)n;
     if (v <= 0.001f || v >= 0.999f) { in->last[i] = 0.5f; if (in->nRecentre < NCTLS) in->recentre[in->nRecentre++] = i; }
     if (!n) return;
-    if (c.x == ROLE_FOCUS) { const int btn = n > 0 ? (c.b >> 8) : (c.b & 255); int t = n < 0 ? -n : n; if (t > 8) t = 8; for (int k = 0; k < t; k++) app::buttonTap(btn); }
-    else if (c.x == ROLE_WHEEL) app::wheel(n);
+    if (c.x == ROLE_FOCUS) { const int btn = n > 0 ? (c.b >> 8) : (c.b & 255); int t = n < 0 ? -n : n; if (t > 2) t = 2; for (int k = 0; k < t; k++) app::buttonTap(btn); }
+    else if (c.x == ROLE_WHEEL) { if (c.b > 0) app::wheelTab(c.b); app::wheel(n); }
+    else if (c.x == ROLE_MACRO) app::macro(c.b, n);
     else app::knob(n, c.x == ROLE_VALUE_COARSE);
 }
 void eng_set_param(void* p, const char* key, const char* val)
 {
     Inst* in = (Inst*)p;
-    { static int n = 0; if (n < 30) { n++; xxl::logf("set_param %s=%s", key, val ? val : ""); } }
     if (xxl_scene::set(key, val)) return;
+    { static int n = 0; if (n < 600) { n++; xxl::logf("set_param %s=%s", key, val ? val : ""); } }
     const int i = findCtl(key); if (i < 0) return;
     ensure(in);
     const ctl_t& c = CTLS[i]; const float v = (float)atof(val); const bool hi = v > 0.5f;
@@ -112,7 +114,13 @@ void eng_set_param(void* p, const char* key, const char* val)
         case CT_CLICKS: if (in->owner && hi && !in->on[i]) app::wheel(c.a); in->on[i] = hi; break;
         case CT_BTN:
             if (c.b) { if (in->owner && hi != (bool)in->on[i]) { if (hi) app::buttonPress(c.a); else app::buttonRelease(c.a); } }
-            else if (in->owner && hi && !in->on[i]) app::buttonTap(c.a);
+            else if (in->owner)
+            {
+                /* a touch button is a skin Toggle Switch: if the host never resets it to 0, every second touch arrives as a 1->0 change; the wrapper's own reset arrives within a few ms, a real touch much later */
+                static double lastUp[NCTLS_MAX]; struct timespec ts; clock_gettime(CLOCK_MONOTONIC, &ts); const double now = ts.tv_sec * 1000.0 + ts.tv_nsec / 1e6;
+                if (hi && !in->on[i]) { lastUp[i] = now; app::buttonTap(c.a); }
+                else if (!hi && in->on[i] && now - lastUp[i] > 120.0) app::buttonTap(c.a);
+            }
             in->on[i] = hi; break;
         case CT_VIRT: if (in->owner && hi && !in->on[i] && c.x == VIRT_STOP) app::stopButton(); in->on[i] = hi; break;
         case CT_PAD:
@@ -137,6 +145,14 @@ void eng_set_param(void* p, const char* key, const char* val)
 int eng_get_param(void* p, const char* key, char* buf, int len)
 {
     Inst* in = (Inst*)p;
+    if (key[0] == 'm' && key[1] == 't' && strlen(key) > 7 && key[4] == '_')
+    {
+        const int scr = (key[2] - '0') * 10 + (key[3] - '0'), idx = key[5] - '1';
+        char nm[48], vl[48];
+        if (in->owner && in->started) app::macroLabel(scr, idx, nm, vl, sizeof nm); else { snprintf(nm, sizeof nm, "Macro %c", key[5]); vl[0] = 0; }
+        if (!strcmp(key + 7, "name")) return snprintf(buf, (size_t)len, "%.31s", nm);
+        if (!strcmp(key + 7, "display")) return snprintf(buf, (size_t)len, "%.31s", vl);
+    }
     { const int n = xxl_scene::get(key, buf, len); if (n) return n; }
     const int i = findCtl(key); if (i < 0) return 0;
     if (CTLS[i].type == CT_OPT) return snprintf(buf, (size_t)len, "%d", (int)in->last[i]);

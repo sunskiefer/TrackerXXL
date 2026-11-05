@@ -65,7 +65,7 @@ for f in $PLATFORM_CPP; do
 done
 for f in $SYNTH_CPP; do   # Tracker+ polysynth layer (port/synth)
   o="$here/build/obj/SYN_$(echo "$f" | tr / _).o"; OBJS+=("$o")
-  if [ ! -f "$o" ] || [ -n "$(find "$TXL/port/synth/src" "$TXL/port/synth/include/PolySynth" "$TXL/port/voices/trackerxxl_voices.h" "$here/compile_core.sh" -newer "$o" -print -quit)" ]; then
+  if [ ! -f "$o" ] || [ -n "$(find "$TXL/port/synth/src" "$TXL/port/skin/bridge" "$TXL/port/synth/include/PolySynth" "$TXL/port/voices/trackerxxl_voices.h" "$here/compile_core.sh" -newer "$o" -print -quit)" ]; then
     echo "cpp $TXL/$f $o" >> "$JOBLIST"
   fi
 done
