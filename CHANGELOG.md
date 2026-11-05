@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0 (2026-11-05) - pre-release
+- Complete rewrite with our own code: no Polyend firmware any more. Own sequencer, sample engine, effects and all 12 screens on the Tracker skin; synths from the ZYNTH / BAZZLINE / LXRXXL voice library. Single-threaded engine (UI runs inside the audio calls), which removes the old freeze and load/unload crash causes.
+- Sample loader browses all drives, BACK goes up to the drive list, last folder remembered.
+- Not yet confirmed on a Force. Known gaps: song arrangement grid, recording, text keyboard, full performance FX.
+
 ## 0.1.10 (2026-11-05) - pre-release
 - Opening a screen no longer freezes the Force (user report: stays up). Two causes found by comparing with the working DINXXL/VADER/reMixXXL wrappers: (1) after a screen change the wrapper told MPC about every moved value inside one audio block and took the engine lock about 2000 times; it now walks the table in slices and reports at most 6 moved values per block. (2) the audio thread and touch input waited on the lock the screen builder holds while drawing a frame; they now read a small published copy.
 - 0.1.9: crash recorder (writes a stack trace to trackerxxl.log), screen-change, button-tap and slow-frame logging, four generated demo samples in TrackerXXL/Samples.

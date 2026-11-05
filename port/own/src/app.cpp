@@ -1017,8 +1017,6 @@ void pfPress(int slot) { P().mute[slot] = !P().mute[slot]; if (P().mute[slot]) a
 void pfDraw()
 {
     Item it[8]; int pages; pfItems(it, pages); titleBar("Performance FX", nullptr); bottom(S_PERF, it, 1, 0, -1);
-    static const char* const names[12] = { "Volume/Velocity", "Sample panning", "Tune", "Sample LP cutoff", "Sample HP cutoff", "Sample BP cutoff", "Sample delay send", "Sample reverb snd", "Sample position", "Sample end", "Sample playback", "Volume LFO speed" };
-    for (int i = 0; i < 12; i++) ui::label(R(S_PERF, "textLabel[%d]", i), names[i], 0);
     ui::bg(R(S_PERF, "bgLabel"));
 }
 void srDraw()

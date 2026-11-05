@@ -1,5 +1,5 @@
 { "id": "trackerxxl", "name": "TrackerXXL", "author": "L'Cronx", "repo": "sunskiefer/TrackerXXL",
   "kind": "instrument", "style": "sampler", "tags": ["tracker", "sampler", "sequencer", "lxr", "zynth", "bazzline", "drums", "fm"],
   "license": "LicenseRef-LXR02-Open", "source_available": true,
-  "screenshot": "https://raw.githubusercontent.com/sunskiefer/TrackerXXL/v0.1.4/docs/img/pattern.png",
-  "summary": "A tracker sequencer and sampler for Force and MPC, ported from the open-source Polyend tracker firmware: 16-track pattern editor, song, sample editor, with the 19 LXRXXL ZYNTH voices, BAZZLINE bass sounds and LXRXXL drums as its synths. Data wheel and Q-Links. Not tested on a device yet." }
+  "screenshot": "https://raw.githubusercontent.com/sunskiefer/TrackerXXL/v0.2.0/docs/img/pattern.png",
+  "summary": "A tracker sequencer and sampler for Force and MPC, with our own engine: 8-track pattern editor, song, sample loader and editor, with the 19 LXRXXL ZYNTH voices, BAZZLINE bass sounds and LXRXXL drums as its synths. Data wheel and Q-Links. Not tested on a device yet." }
