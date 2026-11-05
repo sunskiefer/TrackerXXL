@@ -140,10 +140,13 @@ class Generic:
     # ------------------------------------------------------------------ build
     def build(self, art_dir):
         S = self.S
-        for it in self.items:
-            cl = it["cls"]
-            if not cl: continue
-            getattr(self, "b_" + cl.lower())(it)
+        def under(it):   # drawn first: the bottom bar background and the title bar, which must not cover the texts
+            return it["cls"] == "BGL" or (it["scr"] == "global.titleBar" and (it["c"].get("var") or "") == "bar")
+        for first in (True, False):
+            for it in self.items:
+                cl = it["cls"]
+                if not cl or under(it) != first: continue
+                getattr(self, "b_" + cl.lower())(it)
     def reg(self, it, p):
         c = it["c"]
         self.controls.append(Widget(id="%s.%s.%d" % (it["scr"], c["type"], it["n"]), screen=it["scr"], type=c["type"],
@@ -344,6 +347,12 @@ class Generic:
                 if key not in vars_: vars_.append(key)
         vars_ = (vars_ or [tuple(C.ROLES["activeListColors"][i] for i in (3, 4, 5, 0, 1))])[: (1 if self.detail == "low" else 2)]
         it["vars"] = vars_
+        # list background (style Background): static fill gated by the list's own state param
+        if style & C.STYLES["controlStyleBackground"]:
+            for vi, (bgc, *_rest) in enumerate(vars_):
+                n = "lstbg_%dx%d_%s.png" % (C.tw(w), C.th(h), hx(bgc))
+                S.save_png(n, Image.new("RGBA", (C.tw(w), C.th(h)), (*rgb(bgc), 255)))
+                S.image(n, C.tx(x), C.ty(y), C.tw(w), C.th(h), when=S.when("ls%02ds" % k, 1 + mi * 4 + vi), name="list bg")
         rows = it["rows"]
         for r in range(rows):
             ry = y + 4 + r * 27
@@ -363,12 +372,6 @@ class Generic:
                         im = Image.new("RGBA", (C.tw(wb), C.th(27)), (0, 0, 0, 0)); ImageDraw.Draw(im).rectangle([0, 0, im.width - 1, im.height - 1], outline=(*rgb(c0), 255), width=2)
                         S.save_png(n, im)
                         S.image(n, C.tx(x + 3), C.ty(ry), C.tw(wb), C.th(27), when=S.when("ls%02dr%02d" % (k, r), stt), name="list cursor")
-        # list background (style Background): static fill gated by the list's own state param
-        if style & C.STYLES["controlStyleBackground"]:
-            for vi, (bgc, *_rest) in enumerate(vars_):
-                n = "lstbg_%dx%d_%s.png" % (C.tw(w), C.th(h), hx(bgc))
-                S.save_png(n, Image.new("RGBA", (C.tw(w), C.th(h)), (*rgb(bgc), 255)))
-                S.image(n, C.tx(x), C.ty(y), C.tw(w), C.th(h), when=S.when("ls%02ds" % k, 1 + mi * 4 + vi), name="list bg")
         # touch: rows
         for vi in range(len(vars_)):
             S.enum(it["lh"], C.tx(x), C.ty(y + 4), min(C.tw(w), C.CANVAS_W - C.tx(x)), min(C.th(27 * rows), C.CANVAS_H - C.ty(y + 4)), vertical=True, name="list hit",
@@ -385,7 +388,7 @@ class Generic:
              "static const char* const SCN_MODULES[%d] = {%s};" % (len(self.mods), ",".join('"%s"' % m for m in self.mods)),
              "#ifdef SCN_WANT_CTL", "struct ScnCtl { short mi; char cls; short pool; short id; short x, y, w, h; unsigned style; unsigned char nva, nvb, nvars, rows, nplaces;",
              "  unsigned va[3][2]; unsigned vb[3]; unsigned vars[3][5]; unsigned bar[3][5]; };", "#endif"]
-        rows = []; self.handles = []
+        rows = []; self.handles = []; self.own = []; _seen = {}; self.own_places = {}
         OWNER = {"global.titleBar": "titleBar", "global.songTimer": "songTimer", "global.popups": "mtPopups", "global.misc": "mtInterface",
                  "global.menuPopup": "mtMenuPopup"}
         for it in self.items:
@@ -396,6 +399,11 @@ class Generic:
             import re as _re
             self.handles.append("(int)(%s.%s)" % (own, var) if _re.fullmatch(r"[A-Za-z_]\w*(\[\d+\])?", var) else "-1 /* %s.%s: not a plain member: matched by control id + order */" % (own, var))
             c = it["c"]
+            _nm = "%s.%s" % (it["scr"].replace("global.", "g."), var); _k = _seen.get(_nm, 0); _seen[_nm] = _k + 1
+            if _k: _nm += "#%d" % _k
+            self.own.append('{%d,\'%s\',%d,"%s",%d,%d,%d,%d,%d,%d,%d,%d,%d}' % (it["mi"], {"LBL": "L", "BAR": "B", "LST": "S", "BGL": "G", "FRM": "F"}[cl], it["pool"], _nm, c["x"], c["y"], c["w"], c["h"],
+                len(it.get("va", [])[:3]), len(list(it.get("vb", []))[:3]), len(it.get("vars", [])[:3]), it.get("rows", 0), len(it.get("places", []))))
+            if cl == "FRM": self.own_places[it["mi"]] = [list(p) for p in it.get("places", [])]
             va = [list(v) + [0] * (2 - len(v)) for v in it.get("va", [])][:3]
             va = [[a, 0 if b is None else b] for a, b in va]
             vb = list(it.get("vb", []))[:3]
